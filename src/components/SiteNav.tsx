@@ -4,17 +4,20 @@ import { useState } from "react";
 
 import { BrandMarkLink } from "@/components/BrandMark";
 import { siteConfig, whatsappLink } from "@/config/site.config";
+import { blogEnabled, blogPath } from "@/lib/blog";
 
 /**
  * Üst menü. Blog bayrağı kapalı olduğu için blog bağlantısı hiç üretilmez
  * (bkz. siteConfig.features.blog).
  */
-const LINKS = [
+const LINKS: { to: string; label: string }[] = [
   { to: "/", label: "Ana Sayfa" },
   { to: "/hizmetler", label: "Hizmetler" },
   { to: "/hakkimizda", label: "Hakkımızda" },
+  // Blog yalnızca yayındaki yazı varsa menüye girer (bkz. src/lib/blog.ts).
+  ...(blogEnabled ? [{ to: blogPath(), label: "Blog" }] : []),
   { to: "/iletisim", label: "İletişim" },
-] as const;
+];
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronRight, HelpCircle } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
-import { Placeholder } from "@/components/Placeholder";
+import { BrandPanel } from "@/components/BrandPanel";
 import { ServiceImage } from "@/components/ServiceImage";
 import {
   Accordion,
@@ -11,10 +11,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { addressLine, siteConfig, type Service } from "@/config/site.config";
+import { blogPath, formatDate, postsForService } from "@/lib/blog";
 
 /** Hizmet sayfası gövdesi. İçerik tamamen config'teki hizmet kaydından gelir. */
 export function ServicePage({ service }: { service: Service }) {
   const city = siteConfig.address.addressLocality;
+  const relatedPosts = postsForService(service.slug);
   const waMessage = `Merhaba, ${service.navLabel} için bilgi ve randevu almak istiyorum.`;
 
   return (
@@ -52,7 +54,7 @@ export function ServicePage({ service }: { service: Service }) {
                 priority
               />
             ) : (
-              <Placeholder label={service.placeholderLabel} ratio="16/9" />
+              <BrandPanel title={`${service.name} ${city}`} />
             )}
           </div>
 
@@ -121,6 +123,33 @@ export function ServicePage({ service }: { service: Service }) {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+        </section>
+      )}
+
+      {/* İlgili yazılar — eşleşen yazı yoksa bölüm hiç render edilmez. */}
+      {relatedPosts.length > 0 && (
+        <section className="relative border-t border-border/40 py-12 md:py-16">
+          <div className="mx-auto max-w-3xl px-6 lg:px-10">
+            <SectionLabel>İlgili yazılar</SectionLabel>
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+              {relatedPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    to={blogPath(post.slug)}
+                    className="block h-full rounded-sm border border-border/60 bg-card/60 p-5 transition-colors hover:border-primary/50"
+                  >
+                    <h3 className="font-display text-lg leading-snug">{post.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                      {post.description}
+                    </p>
+                    <span className="mt-3 block text-xs text-muted-foreground">
+                      {formatDate(post.date)} · {post.readingMinutes} dakikalık okuma
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}

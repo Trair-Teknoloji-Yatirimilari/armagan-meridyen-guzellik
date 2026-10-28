@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Clock, Instagram, Mail, MapPin, Phone, Star } from "lucide-react";
 
 import { BrandMark } from "@/components/BrandMark";
+import { blogEnabled, blogPath } from "@/lib/blog";
 import {
   addressLine,
   enabledServices,
@@ -138,6 +139,17 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {siteConfig.name}
           </p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-[10px] text-muted-foreground">
+            {blogEnabled && (
+              <>
+                <Link
+                  to={blogPath()}
+                  className="underline underline-offset-2 transition-colors hover:text-primary"
+                >
+                  Blog
+                </Link>
+                <span className="hidden sm:inline">·</span>
+              </>
+            )}
             <Link
               to="/kvkk"
               className="underline underline-offset-2 transition-colors hover:text-primary"

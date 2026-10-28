@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel } from "@/components/Layout";
-import { Placeholder } from "@/components/Placeholder";
+import { BrandPanel } from "@/components/BrandPanel";
 import { ServiceImage } from "@/components/ServiceImage";
 import { enabledServices, servicePath, siteConfig } from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
@@ -59,7 +59,7 @@ function ServicesHubPage() {
                         className="sm:min-h-full"
                       />
                     ) : (
-                      <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                      <BrandPanel title={s.navLabel} />
                     )}
                   </div>
                   <div className="flex flex-col justify-center p-6 sm:py-8 sm:pr-8">

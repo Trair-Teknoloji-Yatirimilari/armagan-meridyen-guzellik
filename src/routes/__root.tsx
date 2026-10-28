@@ -12,7 +12,7 @@ import { beautySalonJsonLd, pageHead } from "@/lib/seo";
 /** Config'teki palet :root değişkenlerine buradan basılır — renk tek yerden değişir. */
 function brandCss(): string {
   const c = siteConfig.colors;
-  return `:root{--background:${c.background};--foreground:${c.foreground};--card:${c.card};--muted:${c.muted};--secondary:${c.muted};--muted-foreground:${c.mutedForeground};--border:${c.border};--primary:${c.primary};--primary-foreground:${c.primaryForeground};--accent:${c.accent};--gradient-brand:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo});}`;
+  return `:root{--background:${c.background};--foreground:${c.foreground};--card:${c.card};--muted:${c.muted};--secondary:${c.muted};--muted-foreground:${c.mutedForeground};--border:${c.border};--primary:${c.primary};--primary-foreground:${c.primaryForeground};--accent:${c.accent};--gold:${c.gold};--gradient-brand:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo});}`;
 }
 
 function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {

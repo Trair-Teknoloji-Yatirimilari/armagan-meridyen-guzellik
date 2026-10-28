@@ -5,6 +5,7 @@
  * (isim, adres, telefon) harfi harfine config'teki hâliyle basılır.
  */
 
+import { blogPath, postLastmod, type BlogPost } from "@/lib/blog";
 import {
   SITE_URL,
   addressLine,
@@ -189,3 +190,80 @@ export function serviceHead(service: Service) {
 
 /** Adresin tek satırlık hâli — footer ve iletişim bölümünde kullanılır. */
 export { addressLine };
+
+/* ---------------- Blog ---------------- */
+
+/** Yazı listesi sayfasının head()'i. */
+export function blogListHead() {
+  return pageHead({
+    title: `Blog | ${siteConfig.name}`,
+    description:
+      "Bakım, uygulama ve randevu öncesi merak edilenler üzerine yazılar. Sarıyer Kilyos Caddesi'ndeki salonumuzdan notlar.",
+    path: blogPath(),
+  });
+}
+
+/** Yazı sayfasının head()'i: BlogPosting + BreadcrumbList (+ varsa FAQPage). */
+export function blogPostHead(post: BlogPost) {
+  const path = blogPath(post.slug);
+  const url = siteUrl(path);
+  const image = post.image ? siteUrl(post.image.src) : OG_IMAGE;
+
+  const head = pageHead({
+    title: post.title.length <= 60 ? post.title : `${post.title.slice(0, 57)}…`,
+    description: post.description,
+    path,
+    image,
+    imageAlt: post.image?.alt ?? post.title,
+  });
+
+  const scripts = [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.description,
+        datePublished: post.date,
+        dateModified: postLastmod(post),
+        image,
+        url,
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        // TODO: kurucu biyografisi teyit edilince author Person'a çevrilecek.
+        author: { "@type": "Organization", name: siteConfig.name },
+        publisher: { "@id": BUSINESS_ID },
+        ...(post.category ? { articleSection: post.category } : {}),
+      }),
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Ana sayfa", item: siteUrl("/") },
+          { "@type": "ListItem", position: 2, name: "Blog", item: siteUrl(blogPath()) },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      }),
+    },
+  ];
+
+  if (post.faq.length) {
+    scripts.push({
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faq.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }),
+    });
+  }
+
+  return { ...head, scripts };
+}

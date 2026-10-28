@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { enabledServices, servicePath, siteUrl } from "@/config/site.config";
+import { blogPath, postLastmod, publishedPosts } from "@/lib/blog";
 
 /**
  * Sitemap config'ten otomatik üretilir. Adresler her zaman config.domain'den
@@ -22,19 +23,34 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: () => {
-        const entries = [
+        const entries: {
+          path: string;
+          changefreq: string;
+          priority: string;
+          lastmod?: string;
+        }[] = [
           ...STATIC_PAGES,
           ...enabledServices.map((s) => ({
             path: servicePath(s.slug),
             changefreq: "monthly",
             priority: "0.8",
           })),
+          // Blog yalnızca yayındaki yazı varsa sitemap'e girer.
+          ...(publishedPosts.length
+            ? [{ path: blogPath(), changefreq: "weekly", priority: "0.7" }]
+            : []),
+          ...publishedPosts.map((p) => ({
+            path: blogPath(p.slug),
+            changefreq: "monthly",
+            priority: "0.6",
+            lastmod: postLastmod(p),
+          })),
         ];
 
         const urls = entries
           .map(
             (p) =>
-              `  <url><loc>${siteUrl(p.path)}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
+              `  <url><loc>${siteUrl(p.path)}</loc>${p.lastmod ? `<lastmod>${p.lastmod}</lastmod>` : ""}<changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
           )
           .join("\n");
 

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { CtaRow, PageShell, SectionLabel } from "@/components/Layout";
-import { Placeholder } from "@/components/Placeholder";
+import { BrandPanel } from "@/components/BrandPanel";
 import { siteConfig } from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
 
@@ -30,7 +30,7 @@ function AboutPage() {
           <div className="hairline mt-7 max-w-xs" />
 
           <div className="mt-10 aspect-16/9 overflow-hidden rounded-sm shadow-elegant">
-            <Placeholder label="Salon içi geniş açı fotoğrafı gelecek" ratio="16/9" />
+            <BrandPanel brand />
           </div>
         </div>
       </section>
@@ -92,7 +92,7 @@ function AboutPage() {
           <SectionLabel>Kurucumuz</SectionLabel>
           <div className="mt-8 grid gap-8 sm:grid-cols-[200px_1fr] sm:items-start">
             <div className="aspect-3/4 overflow-hidden rounded-sm border border-border/60">
-              <Placeholder label={founder.photoPlaceholder} ratio="3/4" size="sm" />
+              <BrandPanel title={founder.name} subtitle={founder.jobTitle} />
             </div>
             <div>
               <h2 className="font-display text-2xl leading-snug">{founder.name}</h2>

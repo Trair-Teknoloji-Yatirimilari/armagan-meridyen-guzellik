@@ -34,8 +34,6 @@ export type Service = {
   description: string;
   /** Kart ve hero altı kısa tanım */
   summary: string;
-  /** Yer tutucu görselin üstündeki etiket — görsel yoksa bu basılır */
-  placeholderLabel: string;
   /** Kartlarda ve sayfa başında kullanılan temsili görsel (stok). null ise yer tutucu. */
   image?: ServiceImageRef | null;
   /** Sayfa içinde ikinci bir temsili görsel. */
@@ -94,6 +92,8 @@ export const siteConfig = {
     primary: "oklch(0.52 0.028 70)",
     primaryForeground: "oklch(0.985 0.003 85)",
     accent: "oklch(0.66 0.035 70)",
+    /** Markalı panellerin çerçeve ve doku rengi */
+    gold: "oklch(0.74 0.06 82)",
     /** Başlık vurgularında kullanılan degrade */
     gradientFrom: "oklch(0.58 0.032 72)",
     gradientTo: "oklch(0.40 0.024 68)",
@@ -156,7 +156,6 @@ export const siteConfig = {
   founder: {
     name: "Armağan Baysal",
     jobTitle: "Kurucu",
-    photoPlaceholder: "Kurucu portre fotoğrafı gelecek",
   },
 
   /* ---------------- Footer künyesi ---------------- */
@@ -221,14 +220,9 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde tırnak bakımı ve protez tırnak. Form, boy ve dolum planı için WhatsApp'tan ön görüşme yapabilirsiniz.",
     summary:
       "Tırnağın kendi yapısına bakıp, günlük hayatınıza uyan bir boy ve forma birlikte karar veriyoruz.",
-    placeholderLabel: "Protez tırnak fotoğrafı gelecek",
     image: {
-      base: "/images/hizmetler/protez-tirnak-sariyer",
-      alt: "Tırnak bakımı ve protez tırnak uygulaması – örnek görsel",
-    },
-    secondaryImage: {
       base: "/images/hizmetler/tirnak-uygulamasi-sariyer",
-      alt: "Tırnak uygulaması – örnek görsel",
+      alt: "Tırnak bakımı ve protez tırnak uygulaması – örnek görsel",
     },
     blocks: [
       {
@@ -284,7 +278,6 @@ export const services: Service[] = [
     description:
       "Sarıyer'de manikür ve pedikür randevusu. El ve ayak bakımı, tırnak eti düzeni ve nemlendirme için WhatsApp'tan yazabilirsiniz.",
     summary: "El ve ayağın bakımını acele etmeden yapan, klasik ve sade bir randevu.",
-    placeholderLabel: "Manikür ve pedikür alanı fotoğrafı gelecek",
     image: { base: "/images/hizmetler/manikur-sariyer", alt: "Manikür uygulaması – örnek görsel" },
     secondaryImage: {
       base: "/images/hizmetler/pedikur-sariyer",
@@ -340,7 +333,6 @@ export const services: Service[] = [
     description:
       "Sarıyer'de kirpik lifting uygulaması. Kendi kirpiğinizin duruşunu değiştiren işlem için randevu ve bilgi WhatsApp üzerinden alınabilir.",
     summary: "Yeni kirpik eklemeden, kendi kirpiğinizin duruşunu değiştiren sade bir uygulama.",
-    placeholderLabel: "Kirpik lifting fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/ipek-kirpik-sariyer",
       alt: "Kirpik lifting uygulaması – örnek görsel",
@@ -399,7 +391,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde ipek kirpik uygulaması. Yoğunluk ve boy tercihini konuşmak için WhatsApp'tan ön görüşme yapabilirsiniz.",
     summary: "Kirpiklere tek tek eklenen tellerle, istediğiniz yoğunlukta bir bakış.",
-    placeholderLabel: "İpek kirpik uygulaması fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/kirpik-lifting-sariyer",
       alt: "İpek kirpik uygulaması – örnek görsel",
@@ -458,7 +449,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde kaş laminasyonu. Kaş kıllarının yönünü toparlayan uygulama için randevu WhatsApp'tan alınabilir.",
     summary: "Dağınık uzayan kaş kıllarını tek yöne toplayan, dolgun bir görünüm veren uygulama.",
-    placeholderLabel: "Kaş laminasyonu fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/kas-laminasyonu-sariyer",
       alt: "Kaş laminasyonu uygulaması – örnek görsel",
@@ -516,7 +506,6 @@ export const services: Service[] = [
     description:
       "Sarıyer'de cilt bakımı randevusu. Cildinizi dinleyerek planlanan temizlik ve bakım adımları için WhatsApp'tan yazabilirsiniz.",
     summary: "Cildinize zaman ayırmak: temizlik, nemlendirme ve size uygun bir ev rutini.",
-    placeholderLabel: "Cilt bakımı odası fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/cilt-bakimi-sariyer",
       alt: "Cilt bakımı uygulaması – örnek görsel",
@@ -577,7 +566,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde kafa masajı. Saçlı deri ve ense bölgesine uygulanan rahatlatıcı seans için WhatsApp'tan randevu alabilirsiniz.",
     summary: "Saçlı deri, ense ve omuz hattına uygulanan, rahatlamaya yönelik bir seans.",
-    placeholderLabel: "Kafa masajı alanı fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/kafa-masaji-sariyer",
       alt: "Kafa masajı uygulaması – örnek görsel",
@@ -638,7 +626,6 @@ export const services: Service[] = [
       "Sarıyer'de meridyen masajı. Geleneksel meridyen hatları boyunca ilerleyen rahatlatıcı seans için WhatsApp'tan randevu alabilirsiniz.",
     summary:
       "Geleneksel meridyen hatları boyunca ilerleyen, baştan sona rahatlamaya yönelik bir seans.",
-    placeholderLabel: "Meridyen masajı odası fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/meridyen-masaji-sariyer",
       alt: "Meridyen masajı uygulaması – örnek görsel",
@@ -697,7 +684,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde solaryum. Seans süresi uzman tarafından belirlenir, koruyucu gözlük zorunludur. Bilgi için WhatsApp.",
     summary: "Seans süresinin uzman tarafından belirlendiği, kurallı bir kullanım.",
-    placeholderLabel: "Solaryum kabini fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/solaryum-sariyer",
       alt: "Solaryum uygulaması – örnek görsel",
@@ -753,10 +739,8 @@ export const services: Service[] = [
     description:
       "Sarıyer'de EMS seansı. Uygunluk ön görüşmede değerlendirilir. Bilgi ve randevu için WhatsApp'tan yazabilirsiniz.",
     summary: "Uygunluğun ön görüşmede değerlendirildiği, kurallı bir seans.",
-    placeholderLabel: "EMS seans alanı fotoğrafı gelecek",
-    // İndirilen ems-sariyer görseli EMS değil, başka bir vücut cihazı başlığı
-    // gösteriyor; yer tutucuda bırakıldı. Doğru görsel gelince:
-    // image: { base: "/images/hizmetler/ems-sariyer", alt: "EMS uygulaması – örnek görsel" },
+    // Elinizdeki stok görsel EMS cihazını göstermiyor; salondan gerçek fotoğraf
+    // gelene kadar markalı panel gösteriliyor (bkz. docs/IMAGE-CREDITS.md).
     image: null,
     blocks: [
       {
@@ -808,7 +792,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde kalıcı makyaj. Uygunluk ön görüşmede değerlendirilir. Bilgi ve randevu için WhatsApp.",
     summary: "Ön görüşmeyle başlayan, adım adım ilerleyen bir uygulama.",
-    placeholderLabel: "Kalıcı makyaj uygulama alanı fotoğrafı gelecek",
     image: {
       base: "/images/hizmetler/kalici-makyaj-sariyer",
       alt: "Kalıcı makyaj uygulaması – örnek görsel",
@@ -867,11 +850,10 @@ export const services: Service[] = [
     description:
       "Sarıyer'de microblading. Kaş formu çizilerek onayınızla ilerler, uygunluk ön görüşmede değerlendirilir. Bilgi için WhatsApp.",
     summary: "Kaş formunu önce çizip onayınızı aldıktan sonra ilerleyen bir uygulama.",
-    placeholderLabel: "Microblading uygulaması fotoğrafı gelecek",
-    // İndirilen microblading-sariyer görseli kirpik uygulaması gösteriyor;
-    // sayfayı yanıltmaması için yer tutucuda bırakıldı. Doğru görsel gelince:
-    // image: { base: "/images/hizmetler/microblading-sariyer", alt: "Microblading uygulaması – örnek görsel" },
-    image: null,
+    image: {
+      base: "/images/hizmetler/microblading-sariyer",
+      alt: "Microblading uygulaması – örnek görsel",
+    },
     blocks: [
       {
         t: "p",
@@ -927,7 +909,6 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde saç spa. Saçlı deri temizliği, bakım ve rahatlatıcı masajla ilerleyen seans için WhatsApp.",
     summary: "Saçlı deri temizliği, bakım maskesi ve rahatlatıcı bir masajla ilerleyen seans.",
-    placeholderLabel: "Saç spa alanı fotoğrafı gelecek",
     image: { base: "/images/hizmetler/sac-spa-sariyer", alt: "Saç spa uygulaması – örnek görsel" },
     blocks: [
       {
@@ -979,11 +960,10 @@ export const services: Service[] = [
     description:
       "Sarıyer'de epilasyon randevusu. Bölge seçimi, hijyen ve işlem sonrası bakım için WhatsApp'tan bilgi alabilirsiniz.",
     summary: "Bölge seçiminden işlem sonrası bakıma kadar baştan konuşulan bir randevu.",
-    placeholderLabel: "Epilasyon odası fotoğrafı gelecek",
-    // İndirilen epilasyon-sariyer görseli lazer cihazı gösteriyor; lazer
-    // epilasyon teyit edilmiş bir hizmet olmadığı için yer tutucuda bırakıldı:
-    // image: { base: "/images/hizmetler/epilasyon-sariyer", alt: "Epilasyon uygulaması – örnek görsel" },
-    image: null,
+    image: {
+      base: "/images/hizmetler/epilasyon-sariyer",
+      alt: "Epilasyon uygulaması – örnek görsel",
+    },
     blocks: [
       {
         t: "p",

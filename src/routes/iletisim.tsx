@@ -3,7 +3,7 @@ import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Star } from "luci
 
 import { ContactForm } from "@/components/ContactForm";
 import { PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
-import { Placeholder } from "@/components/Placeholder";
+import { BrandPanel } from "@/components/BrandPanel";
 import {
   addressLine,
   instagramHandle,
@@ -191,7 +191,7 @@ function ContactPage() {
                 />
               ) : (
                 // Harita gömme adresi config'te doldurulunca burası kendiliğinden haritaya döner.
-                <Placeholder label="Harita gömme bağlantısı eklenecek" ratio="16/9" />
+                <BrandPanel brand subtitle={addressLine()} />
               )}
             </div>
           </div>

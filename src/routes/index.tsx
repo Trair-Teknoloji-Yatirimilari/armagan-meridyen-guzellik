@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Clock, HelpCircle, MapPin, Phone, Star } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
-import { Placeholder } from "@/components/Placeholder";
+import { BrandPanel } from "@/components/BrandPanel";
 import { ServiceImage } from "@/components/ServiceImage";
 import {
   Accordion,
@@ -117,7 +117,7 @@ function HomePage() {
           </div>
 
           <div className="hero-reveal aspect-4/3 min-w-0 overflow-hidden rounded-sm shadow-elegant lg:aspect-3/4">
-            <Placeholder label="Dış cephe fotoğrafı gelecek" ratio="3/4" />
+            <BrandPanel brand />
           </div>
         </div>
       </section>
@@ -147,7 +147,7 @@ function HomePage() {
                     {s.image ? (
                       <ServiceImage image={s.image} sizes="(min-width: 768px) 50vw, 100vw" />
                     ) : (
-                      <Placeholder label={s.placeholderLabel} ratio="16/9" />
+                      <BrandPanel title={s.navLabel} />
                     )}
                   </div>
                   <div className="flex flex-1 flex-col p-7">
@@ -172,7 +172,7 @@ function HomePage() {
       <section id="salon" className="relative py-20 md:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
           <div className="aspect-4/3 overflow-hidden rounded-sm">
-            <Placeholder label="Salon içi fotoğrafı gelecek" ratio="4/3" />
+            <BrandPanel brand />
           </div>
           <div>
             <SectionLabel>Salon</SectionLabel>
@@ -228,7 +228,7 @@ function HomePage() {
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                     />
                   ) : (
-                    <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                    <BrandPanel title={s.navLabel} />
                   )}
                 </div>
                 <div className="flex flex-1 flex-col p-6">
@@ -399,7 +399,7 @@ function HomePage() {
           </div>
 
           <div className="aspect-4/3 overflow-hidden rounded-sm border border-border/60">
-            <Placeholder label="Salonun sokaktan görünüşü — fotoğraf gelecek" ratio="4/3" />
+            <BrandPanel brand subtitle={addressLine()} />
           </div>
         </div>
       </section>

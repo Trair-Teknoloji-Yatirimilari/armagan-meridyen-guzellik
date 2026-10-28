@@ -103,6 +103,21 @@ export function ContactForm() {
         WhatsApp'ta devam et
       </button>
 
+      <p className="text-sm leading-relaxed text-foreground/70">
+        Yazmak yerine konuşmayı tercih ederseniz{" "}
+        <a href={siteConfig.phone.href} className="text-primary underline underline-offset-4">
+          {siteConfig.phone.display}
+        </a>{" "}
+        numarasını arayabilir, e-posta için{" "}
+        <a
+          href={`mailto:${siteConfig.email}`}
+          className="break-all text-primary underline underline-offset-4"
+        >
+          {siteConfig.email}
+        </a>{" "}
+        adresine yazabilirsiniz.
+      </p>
+
       <p className="text-xs leading-relaxed text-muted-foreground">
         Bu form bilgilerinizi hiçbir sunucuya göndermez; yazdıklarınızı {siteConfig.phone.display}{" "}
         numaralı WhatsApp hattımıza mesaj taslağı olarak taşır. Göndermeden önce mesajı kendiniz
