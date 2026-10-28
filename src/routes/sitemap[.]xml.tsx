@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { enabledServices, servicePath } from "@/config/site.config";
-import { baseUrlFor } from "@/lib/base-url";
+import { enabledServices, servicePath, siteUrl } from "@/config/site.config";
 
 /**
- * Sitemap config'ten otomatik üretilir.
+ * Sitemap config'ten otomatik üretilir. Adresler her zaman config.domain'den
+ * gelir — isteğin host başlığına bakılmaz, böylece yerel önizlemede de
+ * üretimdeki kanonik adresler yazılır.
+ *
  * Yalnızca açık (enabled) hizmetler listelenir; blog modülü kapalı olduğu
  * için blog adresi hiç üretilmez ve hiçbir veritabanı sorgusu yapılmaz.
  */
@@ -19,9 +21,7 @@ const STATIC_PAGES = [
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: ({ request }) => {
-        const base = baseUrlFor(request);
-
+      GET: () => {
         const entries = [
           ...STATIC_PAGES,
           ...enabledServices.map((s) => ({
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const urls = entries
           .map(
             (p) =>
-              `  <url><loc>${base}${p.path === "/" ? "/" : p.path}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
+              `  <url><loc>${siteUrl(p.path)}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
           )
           .join("\n");
 

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Clock, HelpCircle, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Clock, HelpCircle, MapPin, Phone, Star } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
 import { Placeholder } from "@/components/Placeholder";
@@ -13,7 +13,9 @@ import {
   addressLine,
   enabledServices,
   mapsSearchLink,
+  reviewUrl,
   servicePath,
+  signatureServices,
   siteConfig,
 } from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
@@ -21,19 +23,19 @@ import { pageHead } from "@/lib/seo";
 const HOME_FAQ = [
   {
     q: "Randevusuz gelebilir miyim?",
-    a: "Boş saatimiz varsa elbette ağırlarız, ama salon küçük olduğu için çoğu gün program dolu oluyor. Gelmeden önce WhatsApp'tan yazarsanız boşa yol yürümemiş olursunuz.",
+    a: "Uğrayabilirsiniz, ama uygulamaların çoğu için size ayrı zaman ayırmamız gerekiyor. Gelmeden önce WhatsApp'tan yazarsanız o günün uygun saatlerini paylaşır, boşa yol yürümemiş olursunuz.",
+  },
+  {
+    q: "Hangi günler açıksınız?",
+    a: `Her gün açığız: ${siteConfig.hours.displayShort}. Hafta sonu dahil, aynı saatlerde salondayız. Size uyan saati WhatsApp'tan birlikte seçiyoruz.`,
   },
   {
     q: "Kilyos Caddesi'nde tam olarak neredesiniz?",
     a: `${siteConfig.address.streetAddress} adresindeyiz. Cadde üzerinde, ${siteConfig.address.addressLocality} tarafında. Yol tarifi için haritaya dokunmanız yeterli.`,
   },
   {
-    q: "Pazar günü açık mısınız?",
-    a: "Evet, pazar günleri açığız. Kapalı olduğumuz tek gün pazartesi. Diğer günlerde 09:00 ile 20:00 arasında salondayız.",
-  },
-  {
     q: "Fiyatları neden sitede yazmıyorsunuz?",
-    a: "Çünkü aynı işlem herkeste aynı sürmüyor. Ne istediğinizi konuşmadan rakam söylemek doğru gelmiyor; WhatsApp'tan yazdığınızda net bilgi veriyoruz.",
+    a: "Çünkü aynı uygulama herkeste aynı sürmüyor; boy, form ve cilt durumu değişince süre de değişiyor. Ne istediğinizi konuşmadan rakam söylemek yerine, WhatsApp'tan yazdığınızda net bilgi veriyoruz.",
   },
 ];
 
@@ -44,15 +46,15 @@ const STEPS = [
   },
   {
     title: "Saati birlikte seçelim",
-    text: "O haftanın boş saatlerini paylaşıyoruz. İşten çıkış ya da okul saati, size uyanı birlikte buluyoruz.",
+    text: "O haftanın uygun saatlerini paylaşıyoruz. İşten çıkış ya da okul saati, size uyanı birlikte buluyoruz.",
   },
   {
-    title: "Acelesiz uygulama",
-    text: "Randevular üst üste bindirilmiyor. Salonda aynı anda sıra bekleyen kalabalık olmuyor.",
+    title: "Kişiye göre planlama",
+    text: "Uygulamaya başlamadan önce beklentinizi konuşuyoruz. Uygun görmediğimiz bir şeyi önermiyoruz.",
   },
   {
-    title: "Sonrası",
-    text: "Evde nelere dikkat edeceğinizi anlatıyoruz. Bir sorunuz olursa aradan WhatsApp'tan yazabilirsiniz.",
+    title: "İşlem sonrası bakım",
+    text: "Evde nelere dikkat edeceğinizi anlatıyoruz. Sorunuz olursa aradan WhatsApp'tan yazabilirsiniz.",
   },
 ];
 
@@ -61,13 +63,15 @@ export const Route = createFileRoute("/")({
     pageHead({
       title: `${siteConfig.name} | Sarıyer Güzellik Salonu`,
       description:
-        "Sarıyer Kilyos Caddesi'nde mahalle salonu: tırnak bakımı, protez tırnak, kirpik lifting, kaş laminasyonu ve cilt bakımı. Randevu için WhatsApp.",
+        "Sarıyer Kilyos Caddesi'nde güzellik salonu: tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 09:00–20:00. Randevu için WhatsApp.",
       path: "/",
     }),
   component: HomePage,
 });
 
 function HomePage() {
+  const review = reviewUrl();
+
   return (
     <PageShell>
       {/* HERO */}
@@ -83,7 +87,7 @@ function HomePage() {
             >
               Mahallenizin içinde,
               <br />
-              <span className="text-brand-gradient">acelesiz bir salon</span>
+              <span className="text-brand-gradient">size göre planlanan bakım</span>
             </h1>
             <div
               className="hero-line mt-8 max-w-sm"
@@ -93,9 +97,9 @@ function HomePage() {
               className="hero-reveal mt-7 max-w-xl text-lg leading-relaxed text-foreground/75"
               style={{ "--hero-delay": "180ms" } as React.CSSProperties}
             >
-              Armağan Egemen Güzellik, Kilyos Caddesi üzerinde küçük bir salon. Tırnaktan kirpiğe,
-              kaştan cilde kadar yaptığımız her iş tek tek planlanıyor; randevular üst üste
-              bindirilmiyor. Buraya gelen çoğu kişi, yürüme mesafesindeki komşumuz.
+              Armağan Meridyen Güzellik, Kilyos Caddesi üzerinde bir salon. Tırnaktan kirpiğe,
+              kaştan cilde ve masaja kadar her uygulamaya kısa bir ön görüşmeyle başlıyoruz; hijyene
+              ve işlem sonrası bakıma aynı özeni gösteriyoruz.
             </p>
             <div
               className="hero-reveal mt-10"
@@ -107,7 +111,7 @@ function HomePage() {
               className="hero-reveal mt-6 text-sm text-muted-foreground"
               style={{ "--hero-delay": "320ms" } as React.CSSProperties}
             >
-              Pazartesi kapalıyız · Salı'dan pazara 09:00 – 20:00
+              {siteConfig.hours.displayShort} · haftanın yedi günü
             </p>
           </div>
 
@@ -117,27 +121,68 @@ function HomePage() {
         </div>
       </section>
 
+      {/* İMZA UYGULAMALAR */}
+      {signatureServices.length > 0 && (
+        <section id="imza" className="relative border-y border-border/40 bg-card/40 py-20 md:py-28">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <SectionLabel>İmza uygulamalarımız</SectionLabel>
+            <h2 className="max-w-2xl font-display text-3xl leading-tight md:text-4xl">
+              Adımızdaki <span className="text-brand-gradient">Meridyen</span> buradan geliyor
+            </h2>
+            <p className="mt-5 max-w-2xl leading-relaxed text-foreground/75">
+              Salonun adını, en çok önem verdiğimiz iki uygulamadan aldık. Kafa masajı ve meridyen
+              masajı için randevuları ayrı planlıyor, seansın temposunu ve baskısını baştan sona
+              size göre ayarlıyoruz.
+            </p>
+
+            <div className="mt-12 grid gap-8 md:grid-cols-2">
+              {signatureServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={servicePath(s.slug)}
+                  className="group flex flex-col overflow-hidden rounded-sm border border-border/60 bg-background/60 transition-colors hover:border-primary/50"
+                >
+                  <div className="aspect-16/9 overflow-hidden">
+                    <Placeholder label={s.placeholderLabel} ratio="16/9" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-7">
+                    <h3 className="font-display text-2xl leading-snug">{s.navLabel}</h3>
+                    <p className="mt-3 flex-1 leading-relaxed text-foreground/70">{s.summary}</p>
+                    <span className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-primary">
+                      Seansı tanıyın
+                      <ArrowUpRight
+                        className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* SALON */}
-      <section id="salon" className="relative border-y border-border/40 bg-card/40 py-20 md:py-28">
+      <section id="salon" className="relative py-20 md:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
           <div className="aspect-4/3 overflow-hidden rounded-sm">
             <Placeholder label="Salon içi fotoğrafı gelecek" ratio="4/3" />
           </div>
           <div>
             <SectionLabel>Salon</SectionLabel>
-            <h2 className="font-display text-3xl leading-tight md:text-4xl">
-              Küçük olması tercihimiz
-            </h2>
+            <h2 className="font-display text-3xl leading-tight md:text-4xl">Nasıl çalışıyoruz</h2>
             <div className="page-content mt-6 max-w-xl">
               <p>
-                Büyük bir merkez kurmak yerine, aynı anda tek kişiye düzgün vakit ayırabileceğimiz
-                bir yer açmayı seçtik. Böylece kapıdan girdiğinizde sıra beklemiyorsunuz; işlem
-                arasında telefona koşulmuyor.
+                Her uygulamaya kısa bir ön görüşmeyle başlıyoruz: ne istediğinizi, günlük
+                hayatınızda ellerinizi ya da cildinizi nasıl kullandığınızı konuşuyoruz. Neyin
+                gerçekçi olduğunu baştan söylüyor, uygun görmediğimiz bir uygulamayı yapmıyoruz.
               </p>
               <p>
-                Sarıyer'in bu tarafında herkes birbirini tanır. Komşunuzun tırnağını yaptıysak siz
-                de gelip sorarsınız, biz de size ne yapıp ne yapamayacağımızı dürüstçe söyleriz.
-                Yapmamamız gereken bir uygulama varsa onu da açıkça konuşuruz.
+                Hijyen konusunda net bir düzenimiz var: kullanılan uçlar ve aletler her müşteriden
+                önce temizleniyor, tek kullanımlık malzemeler tek seferlik kalıyor. Randevu
+                bittiğinde evde nelere dikkat edeceğinizi anlatıyor, gerekirse WhatsApp'tan yazılı
+                olarak da gönderiyoruz.
               </p>
             </div>
             <Link
@@ -151,15 +196,18 @@ function HomePage() {
       </section>
 
       {/* HİZMETLER */}
-      <section id="hizmetler" className="relative py-20 md:py-28">
+      <section
+        id="hizmetler"
+        className="relative border-y border-border/40 bg-card/40 py-20 md:py-28"
+      >
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionLabel>Hizmetler</SectionLabel>
           <h2 className="max-w-2xl font-display text-3xl leading-tight md:text-4xl">
-            Az sayıda iş, düzgün yapılmış hâli
+            Salonda yapılan uygulamalar
           </h2>
           <p className="mt-5 max-w-2xl leading-relaxed text-foreground/75">
-            Her şeyi yapıyoruz demiyoruz. Aşağıdaki uygulamalarda yıllardır çalışıyoruz; listede
-            olmayan bir şey sorduğunuzda da size güvendiğimiz bir adres tarif ediyoruz.
+            Tırnak ve cilt bakımından masaja, kalıcı makyajdan saç spaya kadar her uygulamanın kendi
+            sayfası var. Hangisinin size uyduğundan emin değilseniz yazın, konuşarak karar verelim.
           </p>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -167,7 +215,7 @@ function HomePage() {
               <Link
                 key={s.slug}
                 to={servicePath(s.slug)}
-                className="group flex flex-col overflow-hidden rounded-sm border border-border/60 bg-card/60 transition-colors hover:border-primary/50"
+                className="group flex flex-col overflow-hidden rounded-sm border border-border/60 bg-background/60 transition-colors hover:border-primary/50"
               >
                 <div className="aspect-4/3 overflow-hidden">
                   <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
@@ -201,7 +249,7 @@ function HomePage() {
       </section>
 
       {/* NASIL İLERLİYOR */}
-      <section id="nasil" className="relative border-y border-border/40 bg-card/40 py-20 md:py-28">
+      <section id="nasil" className="relative py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionLabel>Nasıl ilerliyor</SectionLabel>
           <h2 className="max-w-2xl font-display text-3xl leading-tight md:text-4xl">
@@ -220,7 +268,7 @@ function HomePage() {
       </section>
 
       {/* SSS */}
-      <section id="sss" className="relative py-20 md:py-28">
+      <section id="sss" className="relative border-t border-border/40 py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-6 lg:px-10">
           <SectionLabel>Sık sorulanlar</SectionLabel>
           <h2 className="font-display text-3xl leading-tight md:text-4xl">Merak edilenler</h2>
@@ -306,6 +354,26 @@ function HomePage() {
                   ))}
                 </dd>
               </div>
+              {review && (
+                <div className="flex items-start gap-3">
+                  <dt className="sr-only">Google yorumu</dt>
+                  <Star
+                    className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                  />
+                  <dd>
+                    <a
+                      href={review}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground/85 underline-offset-4 hover:underline"
+                    >
+                      Google'da yorum bırakın
+                    </a>
+                  </dd>
+                </div>
+              )}
             </dl>
             <div className="mt-10">
               <WhatsAppCta label="WhatsApp'tan yazın" />

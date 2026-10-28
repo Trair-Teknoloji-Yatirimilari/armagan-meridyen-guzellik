@@ -1,5 +1,7 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
+import { NotFoundPage, notFoundHead } from "@/components/NotFound";
+import { markNotFoundResponse } from "@/lib/not-found-status";
 import { ServicePage } from "@/components/ServicePage";
 import { serviceBySlug } from "@/config/site.config";
 import { serviceHead } from "@/lib/seo";
@@ -10,16 +12,21 @@ import { serviceHead } from "@/lib/seo";
  * açık hizmetlere bakar), dolayısıyla kapalı hizmetin sayfası yoktur.
  */
 export const Route = createFileRoute("/hizmetler_/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const service = serviceBySlug(params.slug);
-    if (!service) throw notFound();
+    if (!service) {
+      markNotFoundResponse();
+      return { service: null };
+    }
     return { service };
   },
-  head: ({ loaderData }) => (loaderData ? serviceHead(loaderData.service) : {}),
+  head: ({ loaderData }) =>
+    loaderData?.service ? serviceHead(loaderData.service) : notFoundHead(),
   component: ServiceRoute,
 });
 
 function ServiceRoute() {
   const { service } = Route.useLoaderData();
+  if (!service) return <NotFoundPage />;
   return <ServicePage service={service} />;
 }

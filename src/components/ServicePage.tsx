@@ -69,6 +69,13 @@ export function ServicePage({ service }: { service: Service }) {
               return <p key={i}>{b.text}</p>;
             })}
           </div>
+
+          {/* Sorumlu kullanım / uygunluk notu — config'te note alanı varsa basılır. */}
+          {service.note && (
+            <p className="mt-8 rounded-sm border border-border/60 bg-muted/40 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+              {service.note}
+            </p>
+          )}
         </div>
       </section>
 

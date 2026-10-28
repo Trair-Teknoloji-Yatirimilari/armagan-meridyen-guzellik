@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Star } from "lucide-react";
 
 import { ContactForm } from "@/components/ContactForm";
 import { PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
 import { Placeholder } from "@/components/Placeholder";
-import { addressLine, instagramUrl, mapsSearchLink, siteConfig } from "@/config/site.config";
+import {
+  addressLine,
+  instagramHandle,
+  instagramUrl,
+  mapsSearchLink,
+  reviewUrl,
+  siteConfig,
+} from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/iletisim")({
@@ -12,7 +19,7 @@ export const Route = createFileRoute("/iletisim")({
     pageHead({
       title: `İletişim | ${siteConfig.name} Sarıyer`,
       description:
-        "Maden Mah. Kilyos Cd. No:151/A Sarıyer. Telefon, WhatsApp, çalışma saatleri ve yol tarifi. Pazartesi kapalı, salı–pazar 09:00–20:00.",
+        "Maden Mah. Kilyos Cd. No:151/A Sarıyer. Telefon, WhatsApp, e-posta ve yol tarifi. Her gün 09:00–20:00 açığız.",
       path: "/iletisim",
     }),
   component: ContactPage,
@@ -20,6 +27,8 @@ export const Route = createFileRoute("/iletisim")({
 
 function ContactPage() {
   const instagram = instagramUrl();
+  const handle = instagramHandle();
+  const review = reviewUrl();
 
   return (
     <PageShell>
@@ -29,8 +38,8 @@ function ContactPage() {
           <h1 className="max-w-3xl font-display text-4xl leading-tight md:text-6xl">Bize ulaşın</h1>
           <div className="hairline mt-7 max-w-xs" />
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/75">
-            En hızlı yol WhatsApp. Yazdığınızda o haftanın boş saatlerini paylaşıyor, aklınızdaki
-            uygulamayı birlikte netleştiriyoruz.
+            En hızlı yol WhatsApp. Yazdığınızda o haftanın uygun saatlerini paylaşıyor, aklınızdaki
+            uygulamayı birlikte netleştiriyoruz. Her gün aynı saatlerde salondayız.
           </p>
           <div className="mt-8">
             <WhatsAppCta label="WhatsApp'tan yazın" />
@@ -53,7 +62,8 @@ function ContactPage() {
                 <dd className="text-foreground/85">
                   {siteConfig.address.streetAddress}
                   <br />
-                  {siteConfig.address.addressLocality} / {siteConfig.address.addressRegion}
+                  {siteConfig.address.postalCode} {siteConfig.address.addressLocality} /{" "}
+                  {siteConfig.address.addressRegion}
                 </dd>
               </div>
               <div className="flex items-start gap-3">
@@ -84,6 +94,22 @@ function ContactPage() {
                 </dd>
               </div>
               <div className="flex items-start gap-3">
+                <dt className="sr-only">E-posta</dt>
+                <Mail
+                  className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                />
+                <dd>
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="break-all text-foreground/85 underline-offset-4 hover:underline"
+                  >
+                    {siteConfig.email}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex items-start gap-3">
                 <dt className="sr-only">Çalışma saatleri</dt>
                 <Clock
                   className="mt-0.5 h-5 w-5 shrink-0 text-primary"
@@ -98,7 +124,7 @@ function ContactPage() {
                   ))}
                 </dd>
               </div>
-              {instagram && (
+              {instagram && handle && (
                 <div className="flex items-start gap-3">
                   <dt className="sr-only">Instagram</dt>
                   <Instagram
@@ -113,8 +139,31 @@ function ContactPage() {
                       rel="noopener noreferrer"
                       className="text-foreground/85 underline-offset-4 hover:underline"
                     >
-                      @{siteConfig.instagram}
+                      @{handle}
                     </a>
+                  </dd>
+                </div>
+              )}
+              {review && (
+                <div className="flex items-start gap-3">
+                  <dt className="sr-only">Google yorumu</dt>
+                  <Star
+                    className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                  />
+                  <dd>
+                    <a
+                      href={review}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground/85 underline-offset-4 hover:underline"
+                    >
+                      Google'da yorum bırakın
+                    </a>
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      Yorumlar gönüllüdür; karşılığında indirim ya da hediye verilmez.
+                    </span>
                   </dd>
                 </div>
               )}
@@ -122,9 +171,9 @@ function ContactPage() {
 
             <h2 className="mt-12 font-display text-2xl">Yol tarifi</h2>
             <p className="mt-4 leading-relaxed text-foreground/75">
-              Kilyos Caddesi üzerindeyiz, sokak numarası 151/A. Cadde üzerinde yürürken kapı
-              numarasını takip ederseniz kaçırmazsınız. Aşağıdaki bağlantı sizi doğrudan haritada
-              adrese götürür.
+              Kilyos Caddesi üzerindeyiz, kapı numarası 151/A. Cadde boyunca yürürken numaraları
+              takip ederseniz kaçırmazsınız. Aşağıdaki bağlantı sizi doğrudan haritada adrese
+              götürür.
             </p>
             <a
               href={mapsSearchLink()}

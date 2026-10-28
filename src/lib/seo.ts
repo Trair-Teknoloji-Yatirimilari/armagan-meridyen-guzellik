@@ -12,6 +12,7 @@ import {
   isFilled,
   services,
   servicePath,
+  serviceTitle,
   siteConfig,
   siteUrl,
   type Service,
@@ -79,9 +80,16 @@ export function beautySalonJsonLd() {
     "@type": "BeautySalon",
     "@id": BUSINESS_ID,
     name: siteConfig.name,
+    legalName: siteConfig.legalName,
     url: SITE_URL,
     image: OG_IMAGE,
     telephone: siteConfig.phone.display,
+    email: siteConfig.email,
+    founder: {
+      "@type": "Person",
+      name: siteConfig.founder.name,
+      jobTitle: siteConfig.founder.jobTitle,
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: a.streetAddress,
@@ -127,7 +135,7 @@ export function serviceHead(service: Service) {
   const path = servicePath(service.slug);
   const url = siteUrl(path);
   const head = pageHead({
-    title: service.title,
+    title: serviceTitle(service),
     description: service.description,
     path,
     imageAlt: `${service.name} — ${siteConfig.name}`,

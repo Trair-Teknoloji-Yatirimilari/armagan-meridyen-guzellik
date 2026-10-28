@@ -29,9 +29,10 @@ function ServicesHubPage() {
           <div className="hairline mt-7 max-w-xs" />
           <div className="page-content mt-6 max-w-2xl">
             <p>
-              Listemiz kısa, çünkü her işi yapmaya çalışmıyoruz. Aşağıdaki uygulamalarda yıllardır
-              çalışıyoruz ve her birine randevuda yeterli süre ayırıyoruz. Hangisinin size uygun
-              olduğundan emin değilseniz yazın, konuşarak karar verelim.
+              Her uygulamanın kendi sayfası var: nasıl ilerlediğini, kimler için uygun olduğunu ve
+              sık sorulanları orada anlattık. Uygulamaya başlamadan önce kısa bir ön görüşme
+              yapıyor, beklentinizi birlikte netleştiriyoruz. Hangisinin size uyduğundan emin
+              değilseniz WhatsApp'tan yazın, konuşarak karar verelim.
             </p>
           </div>
           <div className="mt-10">
@@ -71,8 +72,8 @@ function ServicesHubPage() {
           </ul>
 
           <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
-            Aradığınız uygulama listede yoksa yine de yazabilirsiniz. Yapmıyorsak açıkça söyler,
-            mümkünse güvendiğimiz bir yer tarif ederiz.
+            Aradığınız uygulama listede yoksa yine de yazabilirsiniz. Yapıp yapmadığımızı açıkça
+            söyler, yapmıyorsak bunu baştan belirtiriz.
           </p>
         </div>
       </section>

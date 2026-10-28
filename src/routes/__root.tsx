@@ -1,15 +1,9 @@
-import {
-  createRootRoute,
-  HeadContent,
-  Link,
-  Outlet,
-  Scripts,
-  useRouter,
-} from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Outlet, Scripts, useRouter } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Analytics } from "@/components/Analytics";
+import { NotFoundPage } from "@/components/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { siteConfig } from "@/config/site.config";
@@ -19,35 +13,6 @@ import { beautySalonJsonLd, pageHead } from "@/lib/seo";
 function brandCss(): string {
   const c = siteConfig.colors;
   return `:root{--background:${c.background};--foreground:${c.foreground};--card:${c.card};--muted:${c.muted};--secondary:${c.muted};--muted-foreground:${c.mutedForeground};--border:${c.border};--primary:${c.primary};--primary-foreground:${c.primaryForeground};--accent:${c.accent};--gradient-brand:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo});}`;
-}
-
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-6">
-      <div className="max-w-md text-center">
-        <p className="font-display text-7xl text-brand-gradient">404</p>
-        <h1 className="mt-4 font-display text-2xl text-foreground">Bu sayfa yerinde değil</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Aradığınız sayfanın adresi değişmiş ya da hiç var olmamış olabilir. Hizmetlere göz
-          atabilir ya da doğrudan bize yazabilirsiniz.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Ana sayfa
-          </Link>
-          <Link
-            to="/hizmetler"
-            className="inline-flex items-center justify-center rounded-full border border-primary/60 px-6 py-2.5 text-sm text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
-          >
-            Hizmetler
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
@@ -86,7 +51,7 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
 const defaultHead = pageHead({
   title: `${siteConfig.name} | Sarıyer Güzellik Salonu`,
   description:
-    "Sarıyer Kilyos Caddesi'nde tırnak bakımı, kirpik lifting, kaş laminasyonu ve cilt bakımı. Randevu için WhatsApp'tan yazabilirsiniz.",
+    "Sarıyer Kilyos Caddesi'nde güzellik salonu: tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 09:00–20:00.",
   path: "/",
 });
 
@@ -112,7 +77,7 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootShell,
   component: RootComponent,
-  notFoundComponent: NotFoundComponent,
+  notFoundComponent: NotFoundPage,
   errorComponent: ErrorComponent,
 });
 

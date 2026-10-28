@@ -1,18 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Instagram, MapPin, Phone } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, Phone, Star } from "lucide-react";
 
 import { BrandMark } from "@/components/BrandMark";
 import {
   addressLine,
   enabledServices,
+  instagramHandle,
   instagramUrl,
   mapsSearchLink,
+  reviewUrl,
   servicePath,
   siteConfig,
 } from "@/config/site.config";
 
 export function SiteFooter() {
   const instagram = instagramUrl();
+  const handle = instagramHandle();
+  const review = reviewUrl();
 
   return (
     <footer className="relative border-t border-border/40 py-12 md:py-16">
@@ -21,8 +25,8 @@ export function SiteFooter() {
           <div>
             <BrandMark size="lg" />
             <p className="mt-5 max-w-[22rem] text-sm leading-relaxed text-muted-foreground">
-              Kilyos Caddesi üzerinde, mahallenin içinde küçük bir salon. Randevular tek tek
-              planlanıyor, acele edilmiyor.
+              Kilyos Caddesi üzerinde, mahallenin içinde bir salon. Randevular kişiye göre
+              planlanıyor, işlem sonrası bakım anlatılıyor.
             </p>
           </div>
 
@@ -64,13 +68,24 @@ export function SiteFooter() {
               {siteConfig.phone.display}
             </a>
             <a
+              href={`mailto:${siteConfig.email}`}
+              className="flex items-center gap-3 break-all text-sm text-foreground/80 transition-colors hover:text-primary"
+            >
+              <Mail
+                className="h-4 w-4 shrink-0 text-primary"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+              {siteConfig.email}
+            </a>
+            <a
               href={mapsSearchLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-start gap-3 text-sm text-foreground/80 transition-colors hover:text-primary"
             >
               <MapPin
-                className="mt-0.5 h-4 w-4 text-primary"
+                className="mt-0.5 h-4 w-4 shrink-0 text-primary"
                 strokeWidth={1.5}
                 aria-hidden="true"
               />
@@ -88,23 +103,32 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="md:text-right">
-            <h2 className="mb-4 text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
-              Takip
-            </h2>
-            {instagram ? (
+          <div className="space-y-4 md:text-right">
+            <h2 className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">Takip</h2>
+            {instagram && handle && (
               <a
                 href={instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-foreground/80 transition-colors hover:text-primary"
+                className="inline-flex items-center gap-2 text-sm text-foreground/80 transition-colors hover:text-primary md:justify-end"
               >
-                <Instagram className="h-4 w-4" aria-hidden="true" />@{siteConfig.instagram}
+                <Instagram className="h-4 w-4" aria-hidden="true" />@{handle}
               </a>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Instagram hesabı yakında burada olacak.
-              </p>
+            )}
+            {review && (
+              <a
+                href={review}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-foreground/80 transition-colors hover:text-primary md:justify-end"
+              >
+                <Star
+                  className="h-4 w-4 shrink-0 text-primary"
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                />
+                Google'da yorum bırakın
+              </a>
             )}
           </div>
         </div>
@@ -131,6 +155,18 @@ export function SiteFooter() {
           <p className="mx-auto mt-4 max-w-2xl text-center text-[10px] leading-relaxed text-muted-foreground">
             Sitedeki uygulamalar kişisel bakım hizmetidir. Uygulama süreleri ve sonuçları kişiden
             kişiye değişir.
+          </p>
+          <p className="mt-6 text-center text-[11px] text-muted-foreground">
+            {siteConfig.name}, {siteConfig.partner.name} partneridir
+            <span className="mx-2">·</span>
+            Web tasarım &amp; geliştirme:{" "}
+            <a
+              href={siteConfig.credit.url}
+              rel="noopener"
+              className="font-medium transition-colors hover:text-foreground"
+            >
+              {siteConfig.credit.name}
+            </a>
           </p>
         </div>
       </div>

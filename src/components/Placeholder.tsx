@@ -15,6 +15,25 @@ const RATIOS = {
 
 export type PlaceholderRatio = keyof typeof RATIOS;
 
+/** Etiketi en fazla üç satıra böler; sığmayan kuyruk kırpılır. */
+function wrapLabel(label: string, maxChars: number): string[] {
+  const words = label.split(/\s+/);
+  const lines: string[] = [];
+  let current = "";
+
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length <= maxChars || !current) {
+      current = candidate;
+    } else {
+      lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+  return lines.slice(0, 3);
+}
+
 export function Placeholder({
   label,
   ratio = "16/9",
@@ -31,6 +50,8 @@ export function Placeholder({
   const patternId = `ph-hatch-${w}x${h}-${size}`;
   const fontSize = Math.round(w / (size === "sm" ? 16 : 32));
   const iconScale = (fontSize * 1.7) / 32;
+  // SVG metni kendiliğinden sarmaz; etiket viewBox'a sığacak şekilde elle bölünür.
+  const lines = wrapLabel(label, Math.floor((w * 0.86) / (fontSize * 0.55)));
 
   return (
     <svg
@@ -90,7 +111,11 @@ export function Placeholder({
         fontFamily="ui-sans-serif, system-ui, sans-serif"
         letterSpacing="0.5"
       >
-        {label}
+        {lines.map((line, i) => (
+          <tspan key={line} x={w / 2} dy={i === 0 ? 0 : fontSize * 1.25}>
+            {line}
+          </tspan>
+        ))}
       </text>
     </svg>
   );

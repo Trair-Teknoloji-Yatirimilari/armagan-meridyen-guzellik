@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { baseUrlFor } from "@/lib/base-url";
+import { SITE_URL } from "@/config/site.config";
 
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
-      GET: ({ request }) => {
-        const base = baseUrlFor(request);
+      GET: () => {
         // /og-card yalnızca paylaşım görselini üretmek için var; indekslenmesine
         // gerek yok. Sitenin hiçbir sayfasında meta robots etiketi bulunmaz.
         const body = [
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/robots.txt")({
           "Allow: /",
           "Disallow: /og-card",
           "",
-          `Sitemap: ${base}/sitemap.xml`,
+          `Sitemap: ${SITE_URL}/sitemap.xml`,
           "",
         ].join("\n");
 

@@ -1,4 +1,4 @@
-# Armağan Egemen Güzellik
+# Armağan Meridyen Güzellik
 
 Sarıyer / Kilyos Caddesi'ndeki güzellik salonunun tanıtım sitesi.
 
@@ -62,7 +62,12 @@ npm run lint
 
 ## Açık kalan TODO'lar
 
-`src/config/site.config.ts` içinde `TODO_` ile işaretli alanlar: alan adı,
-ticari unvan (KVKK), posta kodu, Instagram kullanıcı adı, koordinatlar, logo
-görseli ve marka paleti. Ayrıca gerçek fotoğraflar — sitedeki her yer tutucu,
-oraya hangi fotoğrafın geleceğini yazar.
+`src/config/site.config.ts` içinde doldurulmayı bekleyenler: `geo`
+(koordinatlar), `mapEmbedUrl` (harita gömme adresi), `logo.src` (görsel logo) ve
+`colors` (şu an nötr bir başlangıç paleti).
+
+Hakkımızda sayfasındaki kurucu biyografisinde `[YIL]` ve `[DENEYİM]` yer
+tutucuları bilgi teyit edilince doldurulacak.
+
+Ayrıca gerçek fotoğraflar — sitedeki her yer tutucu, oraya hangi fotoğrafın
+geleceğini yazar.
