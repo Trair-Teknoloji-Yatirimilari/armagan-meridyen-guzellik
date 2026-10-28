@@ -41,8 +41,8 @@ function AboutPage() {
             <p>
               Armağan Meridyen Güzellik, {siteConfig.address.addressLocality} tarafında, Kilyos
               Caddesi üzerinde. Tırnak ve cilt bakımından masaja, kalıcı makyajdan saç spaya kadar
-              birkaç farklı uygulamayı bir arada sunuyoruz. Salonun adını, en çok önem verdiğimiz
-              iki uygulamadan — kafa masajı ve meridyen masajından — aldık.
+              birkaç farklı uygulamayı bir arada sunuyoruz. İmza uygulamalarımız kafa masajı ve
+              meridyen masajı.
             </p>
 
             <h2>Neden randevuyla çalışıyoruz</h2>
@@ -63,10 +63,9 @@ function AboutPage() {
 
             <h2>Hijyen düzenimiz</h2>
             <p>
-              Kullanılan uçlar ve aletler her müşteriden önce temizleniyor; tek kullanımlık
-              malzemeler tek seferlik kalıyor. Çalışma alanı randevular arasında toparlanıyor. Bu
-              konuda merak ettiğiniz bir şey olursa randevu sırasında sormaktan çekinmeyin, nasıl
-              çalıştığımızı göstermekten memnun oluruz.
+              Hijyene özen gösteriyor, her randevuya hazırlanmış bir alanla başlıyoruz. Bu konuda
+              merak ettiğiniz bir şey olursa randevu sırasında sormaktan çekinmeyin, nasıl
+              çalıştığımızı anlatmaktan memnun oluruz.
             </p>
 
             <h2>İşlem sonrası bakım</h2>
@@ -107,9 +106,8 @@ function AboutPage() {
                   başlamadan önce konuşmak, neyin gerçekçi olduğunu olduğu gibi söylemek.
                 </p>
                 <p>
-                  Kafa masajı ve meridyen masajı, onun salonda en çok önem verdiği iki uygulama;
-                  salonun adı da buradan geliyor. Randevu öncesi sorularınızı doğrudan WhatsApp
-                  hattımızdan iletebilirsiniz.
+                  Kafa masajı ve meridyen masajı, onun salonda en çok önem verdiği iki uygulama.
+                  Randevu öncesi sorularınızı doğrudan WhatsApp hattımızdan iletebilirsiniz.
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Köşeli parantezli alanlar, bilgi teyit edildiğinde doldurulacak yer tutuculardır.

@@ -8,9 +8,9 @@ export const Route = createFileRoute("/favicon.svg")({
     handlers: {
       GET: () => {
         const c = siteConfig.colors;
-        const initials = siteConfig.logo.text
+        const initials = siteConfig.logo.primaryLine
           .split(/\s+/)
-          .map((w) => w[0])
+          .map((w: string) => w[0])
           .join("")
           .slice(0, 2)
           .toLocaleUpperCase("tr-TR");

@@ -61,7 +61,7 @@ export function Placeholder({
       role="img"
       aria-label={label}
       preserveAspectRatio="xMidYMid slice"
-      className={`h-full w-full ${className}`}
+      className={`h-full w-full min-w-0 ${className}`}
     >
       <defs>
         <pattern

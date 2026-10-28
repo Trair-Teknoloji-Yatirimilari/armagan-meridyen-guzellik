@@ -154,7 +154,7 @@ export function SiteFooter() {
           </div>
           <p className="mx-auto mt-4 max-w-2xl text-center text-[10px] leading-relaxed text-muted-foreground">
             Sitedeki uygulamalar kişisel bakım hizmetidir. Uygulama süreleri ve sonuçları kişiden
-            kişiye değişir.
+            kişiye değişir. Hizmet sayfalarındaki görseller temsilidir.
           </p>
           <p className="mt-6 text-center text-[11px] text-muted-foreground">
             {siteConfig.name}, {siteConfig.partner.name} partneridir

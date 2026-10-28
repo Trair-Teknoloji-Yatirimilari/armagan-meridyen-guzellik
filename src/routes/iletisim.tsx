@@ -59,12 +59,7 @@ function ContactPage() {
                   strokeWidth={1.5}
                   aria-hidden="true"
                 />
-                <dd className="text-foreground/85">
-                  {siteConfig.address.streetAddress}
-                  <br />
-                  {siteConfig.address.postalCode} {siteConfig.address.addressLocality} /{" "}
-                  {siteConfig.address.addressRegion}
-                </dd>
+                <dd className="text-foreground/85">{addressLine()}</dd>
               </div>
               <div className="flex items-start gap-3">
                 <dt className="sr-only">Telefon</dt>

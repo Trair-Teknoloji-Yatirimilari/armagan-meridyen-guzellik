@@ -3,6 +3,7 @@ import { ArrowUpRight, Clock, HelpCircle, MapPin, Phone, Star } from "lucide-rea
 
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
 import { Placeholder } from "@/components/Placeholder";
+import { ServiceImage } from "@/components/ServiceImage";
 import {
   Accordion,
   AccordionContent,
@@ -27,7 +28,7 @@ const HOME_FAQ = [
   },
   {
     q: "Hangi günler açıksınız?",
-    a: `Her gün açığız: ${siteConfig.hours.displayShort}. Hafta sonu dahil, aynı saatlerde salondayız. Size uyan saati WhatsApp'tan birlikte seçiyoruz.`,
+    a: "Her gün 09:00–20:00 arası açığız, hafta sonu dahil. Size uyan saati WhatsApp'tan birlikte seçiyoruz.",
   },
   {
     q: "Kilyos Caddesi'nde tam olarak neredesiniz?",
@@ -77,9 +78,9 @@ function HomePage() {
       {/* HERO */}
       <section className="relative overflow-hidden pb-16 pt-28 md:pb-24 md:pt-36">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
-          <div>
+          <div className="min-w-0">
             <p className="hero-reveal text-xs uppercase tracking-[0.35em] text-primary">
-              {siteConfig.address.addressLocality} · Kilyos Caddesi
+              {siteConfig.tagline}
             </p>
             <h1
               className="hero-reveal mt-6 font-display text-4xl leading-[1.1] md:text-6xl"
@@ -111,11 +112,11 @@ function HomePage() {
               className="hero-reveal mt-6 text-sm text-muted-foreground"
               style={{ "--hero-delay": "320ms" } as React.CSSProperties}
             >
-              {siteConfig.hours.displayShort} · haftanın yedi günü
+              {siteConfig.hours.displayShort}
             </p>
           </div>
 
-          <div className="hero-reveal aspect-4/3 overflow-hidden rounded-sm shadow-elegant lg:aspect-3/4">
+          <div className="hero-reveal aspect-4/3 min-w-0 overflow-hidden rounded-sm shadow-elegant lg:aspect-3/4">
             <Placeholder label="Dış cephe fotoğrafı gelecek" ratio="3/4" />
           </div>
         </div>
@@ -127,12 +128,12 @@ function HomePage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <SectionLabel>İmza uygulamalarımız</SectionLabel>
             <h2 className="max-w-2xl font-display text-3xl leading-tight md:text-4xl">
-              Adımızdaki <span className="text-brand-gradient">Meridyen</span> buradan geliyor
+              İmza uygulamalarımız:{" "}
+              <span className="text-brand-gradient">kafa ve meridyen masajı</span>
             </h2>
             <p className="mt-5 max-w-2xl leading-relaxed text-foreground/75">
-              Salonun adını, en çok önem verdiğimiz iki uygulamadan aldık. Kafa masajı ve meridyen
-              masajı için randevuları ayrı planlıyor, seansın temposunu ve baskısını baştan sona
-              size göre ayarlıyoruz.
+              Bu iki seansa ayrı bir önem veriyoruz. Randevularını ayrı planlıyor, seansın temposunu
+              ve baskısını baştan sona size göre ayarlıyoruz.
             </p>
 
             <div className="mt-12 grid gap-8 md:grid-cols-2">
@@ -143,7 +144,11 @@ function HomePage() {
                   className="group flex flex-col overflow-hidden rounded-sm border border-border/60 bg-background/60 transition-colors hover:border-primary/50"
                 >
                   <div className="aspect-16/9 overflow-hidden">
-                    <Placeholder label={s.placeholderLabel} ratio="16/9" />
+                    {s.image ? (
+                      <ServiceImage image={s.image} sizes="(min-width: 768px) 50vw, 100vw" />
+                    ) : (
+                      <Placeholder label={s.placeholderLabel} ratio="16/9" />
+                    )}
                   </div>
                   <div className="flex flex-1 flex-col p-7">
                     <h3 className="font-display text-2xl leading-snug">{s.navLabel}</h3>
@@ -179,8 +184,7 @@ function HomePage() {
                 gerçekçi olduğunu baştan söylüyor, uygun görmediğimiz bir uygulamayı yapmıyoruz.
               </p>
               <p>
-                Hijyen konusunda net bir düzenimiz var: kullanılan uçlar ve aletler her müşteriden
-                önce temizleniyor, tek kullanımlık malzemeler tek seferlik kalıyor. Randevu
+                Hijyene özen gösteriyor, her randevuya hazırlanmış bir alanla başlıyoruz. Randevu
                 bittiğinde evde nelere dikkat edeceğinizi anlatıyor, gerekirse WhatsApp'tan yazılı
                 olarak da gönderiyoruz.
               </p>
@@ -218,7 +222,14 @@ function HomePage() {
                 className="group flex flex-col overflow-hidden rounded-sm border border-border/60 bg-background/60 transition-colors hover:border-primary/50"
               >
                 <div className="aspect-4/3 overflow-hidden">
-                  <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                  {s.image ? (
+                    <ServiceImage
+                      image={s.image}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  ) : (
+                    <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                  )}
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="font-display text-xl leading-snug">{s.navLabel}</h3>

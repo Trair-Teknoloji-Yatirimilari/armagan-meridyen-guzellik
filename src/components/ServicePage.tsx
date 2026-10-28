@@ -3,6 +3,7 @@ import { ChevronRight, HelpCircle } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
 import { Placeholder } from "@/components/Placeholder";
+import { ServiceImage } from "@/components/ServiceImage";
 import {
   Accordion,
   AccordionContent,
@@ -44,7 +45,15 @@ export function ServicePage({ service }: { service: Service }) {
           </p>
 
           <div className="mt-10 aspect-16/9 overflow-hidden rounded-sm">
-            <Placeholder label={service.placeholderLabel} ratio="16/9" />
+            {service.image ? (
+              <ServiceImage
+                image={service.image}
+                sizes="(min-width: 1024px) 64rem, 100vw"
+                priority
+              />
+            ) : (
+              <Placeholder label={service.placeholderLabel} ratio="16/9" />
+            )}
           </div>
 
           <div className="mt-10">
@@ -69,6 +78,15 @@ export function ServicePage({ service }: { service: Service }) {
               return <p key={i}>{b.text}</p>;
             })}
           </div>
+
+          {service.secondaryImage && (
+            <figure className="mt-10 aspect-16/9 overflow-hidden rounded-sm">
+              <ServiceImage
+                image={service.secondaryImage}
+                sizes="(min-width: 768px) 48rem, 100vw"
+              />
+            </figure>
+          )}
 
           {/* Sorumlu kullanım / uygunluk notu — config'te note alanı varsa basılır. */}
           {service.note && (

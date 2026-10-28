@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { CtaRow, PageShell, SectionLabel } from "@/components/Layout";
 import { Placeholder } from "@/components/Placeholder";
+import { ServiceImage } from "@/components/ServiceImage";
 import { enabledServices, servicePath, siteConfig } from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
 
@@ -51,7 +52,15 @@ function ServicesHubPage() {
                   className="group grid gap-6 overflow-hidden rounded-sm border border-border/60 bg-card/60 transition-colors hover:border-primary/50 sm:grid-cols-[260px_1fr]"
                 >
                   <div className="aspect-4/3 overflow-hidden sm:aspect-auto sm:h-full">
-                    <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                    {s.image ? (
+                      <ServiceImage
+                        image={s.image}
+                        sizes="(min-width: 640px) 260px, 100vw"
+                        className="sm:min-h-full"
+                      />
+                    ) : (
+                      <Placeholder label={s.placeholderLabel} ratio="4/3" size="sm" />
+                    )}
                   </div>
                   <div className="flex flex-col justify-center p-6 sm:py-8 sm:pr-8">
                     <h2 className="font-display text-2xl leading-snug">

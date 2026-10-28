@@ -60,6 +60,15 @@ npm run check:duplicate  # 8+ kelimelik birebir metin tekrarı var mı
 npm run lint
 ```
 
+## Görseller
+
+Hizmet sayfalarındaki fotoğraflar Unsplash'ten alınan **temsili** stok
+görsellerdir (`public/images/hizmetler`, 1600w + 800w WebP, EXIF temiz).
+Kaynak listesi ve konu uyuşmazlıkları: [docs/IMAGE-CREDITS.md](docs/IMAGE-CREDITS.md).
+
+Dış cephe, salon içi ve kurucu fotoğrafları bilinçli olarak yer tutucuda —
+bunlar işletmenin kendi fotoğrafları olmalı.
+
 ## Açık kalan TODO'lar
 
 `src/config/site.config.ts` içinde doldurulmayı bekleyenler: `geo`
@@ -68,6 +77,13 @@ npm run lint
 
 Hakkımızda sayfasındaki kurucu biyografisinde `[YIL]` ve `[DENEYİM]` yer
 tutucuları bilgi teyit edilince doldurulacak.
+
+**Hijyen süreci teyidi:** metinlerde yalnızca "hijyene özen gösteriyoruz"
+deniyor. Alet temizliği, sterilizasyon ve tek kullanımlık malzeme gibi süreç
+ayrıntıları, salon doğrulayana kadar bilinçli olarak yazılmadı.
+
+**Görsel teyidi:** microblading, EMS ve epilasyon sayfaları yer tutucuda —
+indirilen görseller konuyla uyuşmadı (bkz. IMAGE-CREDITS).
 
 Ayrıca gerçek fotoğraflar — sitedeki her yer tutucu, oraya hangi fotoğrafın
 geleceğini yazar.

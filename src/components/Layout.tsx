@@ -38,7 +38,7 @@ export function WhatsAppCta({
       href={whatsappLink(message)}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex items-center gap-3 rounded-full bg-primary px-8 py-3.5 text-sm uppercase tracking-widest text-primary-foreground transition-all hover:bg-primary/90 glow-soft"
+      className="group inline-flex w-full max-w-full items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-center text-xs uppercase tracking-[0.12em] text-primary-foreground transition-all hover:bg-primary/90 glow-soft sm:w-auto sm:px-8 sm:text-sm sm:tracking-widest"
     >
       {label}
       <ArrowUpRight
@@ -53,7 +53,7 @@ export function PhoneCta({ label = "Telefonla arayın" }: { label?: string }) {
   return (
     <a
       href={siteConfig.phone.href}
-      className="inline-flex items-center gap-3 rounded-full border border-primary/60 px-8 py-3.5 text-sm uppercase tracking-widest text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+      className="inline-flex w-full max-w-full items-center justify-center gap-3 rounded-full border border-primary/60 px-6 py-3.5 text-center text-xs uppercase tracking-[0.12em] text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground sm:w-auto sm:px-8 sm:text-sm sm:tracking-widest"
     >
       <Phone className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
       {label}
@@ -64,7 +64,7 @@ export function PhoneCta({ label = "Telefonla arayın" }: { label?: string }) {
 /** WhatsApp + telefon ikilisi. */
 export function CtaRow({ message, whatsappLabel }: { message?: string; whatsappLabel?: string }) {
   return (
-    <div className="flex flex-col flex-wrap items-center gap-4 sm:flex-row">
+    <div className="flex w-full min-w-0 flex-col flex-wrap items-stretch gap-4 sm:w-auto sm:flex-row sm:items-center">
       <WhatsAppCta message={message} label={whatsappLabel} />
       <PhoneCta />
     </div>

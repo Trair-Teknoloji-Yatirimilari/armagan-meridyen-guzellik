@@ -20,9 +20,9 @@ export const Route = createFileRoute("/og-card")({
         const icon = url.searchParams.get("format") === "icon";
         const c = siteConfig.colors;
 
-        const initials = siteConfig.logo.text
+        const initials = siteConfig.logo.primaryLine
           .split(/\s+/)
-          .map((w) => w[0])
+          .map((w: string) => w[0])
           .join("")
           .slice(0, 2)
           .toLocaleUpperCase("tr-TR");
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/og-card")({
           ? `<div class="icon"><span>${initials}</span></div>`
           : `<div class="card">
       <div class="rule"></div>
-      <p class="kicker">${siteConfig.address.addressLocality} · Kilyos Caddesi</p>
+      <p class="kicker">${siteConfig.tagline}</p>
       <h1>${siteConfig.name}</h1>
       <p class="meta">${addressLine()}</p>
       <p class="meta">${siteConfig.phone.display}</p>
