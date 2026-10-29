@@ -54,7 +54,6 @@ const PAGES = [
   // Sunucu rotaları da düz dosya olarak diske yazılır.
   "/robots.txt",
   "/sitemap.xml",
-  "/favicon.svg",
 ];
 
 export default defineConfig({

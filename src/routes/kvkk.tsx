@@ -64,17 +64,28 @@ function KvkkPage() {
               </li>
             </ul>
 
-            <h2>Bu site üzerinden veri toplanmıyor</h2>
+            <h2>Sitenin kendisi ziyaretçi takibi yapmıyor</h2>
             <p>
-              Sitede ziyaretçi takibi, reklam pikseli veya analiz aracı bulunmuyor; tarayıcınıza
-              takip çerezi yerleştirilmiyor. Sitedeki iletişim formu da bilgilerinizi herhangi bir
-              sunucuya göndermez — doldurduğunuz alanlar yalnızca tarayıcınızda bir WhatsApp mesajı
-              taslağına dönüştürülür. Mesajı göndermeden önce içeriğini görür ve dilerseniz
-              değiştirirsiniz.
+              Sitede reklam pikseli veya ziyaretçi analiz aracı bulunmuyor; tarafımızdan
+              tarayıcınıza takip çerezi yerleştirilmiyor. Sitedeki iletişim formu da bilgilerinizi
+              herhangi bir sunucuya göndermez — doldurduğunuz alanlar yalnızca tarayıcınızda bir
+              WhatsApp mesajı taslağına dönüştürülür. Mesajı göndermeden önce içeriğini görür ve
+              dilerseniz değiştirirsiniz.
+            </p>
+            <p>
+              Tek istisna aşağıda anlatılan canlı destek sohbetidir: o bölüm üçüncü taraf bir hizmet
+              tarafından sağlanır ve kendi teknik gereksinimleri olabilir.
             </p>
             <p>
               WhatsApp üzerinden yazdığınızda mesajlaşma, ilgili uygulamanın kendi koşullarına tabi
               olur. Bu hizmet salonumuza ait değildir.
+            </p>
+
+            <h2>Canlı destek sohbeti</h2>
+            <p>
+              Sitedeki canlı destek sohbeti WellnessAllClub altyapısıyla sağlanır; sohbette
+              paylaştığınız ad, iletişim ve talep bilgileri veri sorumlusu Armağan Meridyen Güzellik
+              tarafından, talebinize dönüş amacıyla işlenir.
             </p>
 
             <h2>İşleme amacı ve hukuki sebep</h2>

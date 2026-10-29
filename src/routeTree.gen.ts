@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as BlogRouteImport } from './routes/blog'
-import { Route as FaviconDotsvgRouteImport } from './routes/favicon[.]svg'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
 import { Route as HizmetlerRouteImport } from './routes/hizmetler'
 import { Route as IletisimRouteImport } from './routes/iletisim'
@@ -42,11 +41,6 @@ const R404Route = R404RouteImport.update({
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
   path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaviconDotsvgRoute = FaviconDotsvgRouteImport.update({
-  id: '/favicon.svg',
-  path: '/favicon.svg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HakkimizdaRoute = HakkimizdaRouteImport.update({
@@ -100,7 +94,6 @@ export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
   '/blog': typeof BlogRoute
-  '/favicon.svg': typeof FaviconDotsvgRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/hizmetler': typeof HizmetlerRoute
   '/iletisim': typeof IletisimRoute
@@ -116,7 +109,6 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
   '/blog': typeof BlogRoute
-  '/favicon.svg': typeof FaviconDotsvgRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/hizmetler': typeof HizmetlerRoute
   '/iletisim': typeof IletisimRoute
@@ -133,7 +125,6 @@ export interface FileRoutesById {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
   '/blog': typeof BlogRoute
-  '/favicon.svg': typeof FaviconDotsvgRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/hizmetler': typeof HizmetlerRoute
   '/iletisim': typeof IletisimRoute
@@ -151,7 +142,6 @@ export interface FileRouteTypes {
     | '/$'
     | '/404'
     | '/blog'
-    | '/favicon.svg'
     | '/hakkimizda'
     | '/hizmetler'
     | '/iletisim'
@@ -167,7 +157,6 @@ export interface FileRouteTypes {
     | '/$'
     | '/404'
     | '/blog'
-    | '/favicon.svg'
     | '/hakkimizda'
     | '/hizmetler'
     | '/iletisim'
@@ -183,7 +172,6 @@ export interface FileRouteTypes {
     | '/$'
     | '/404'
     | '/blog'
-    | '/favicon.svg'
     | '/hakkimizda'
     | '/hizmetler'
     | '/iletisim'
@@ -200,7 +188,6 @@ export interface RootRouteChildren {
   SplatRoute: typeof SplatRoute
   R404Route: typeof R404Route
   BlogRoute: typeof BlogRoute
-  FaviconDotsvgRoute: typeof FaviconDotsvgRoute
   HakkimizdaRoute: typeof HakkimizdaRoute
   HizmetlerRoute: typeof HizmetlerRoute
   IletisimRoute: typeof IletisimRoute
@@ -240,13 +227,6 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog'
       preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favicon.svg': {
-      id: '/favicon.svg'
-      path: '/favicon.svg'
-      fullPath: '/favicon.svg'
-      preLoaderRoute: typeof FaviconDotsvgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hakkimizda': {
@@ -320,7 +300,6 @@ const rootRouteChildren: RootRouteChildren = {
   SplatRoute: SplatRoute,
   R404Route: R404Route,
   BlogRoute: BlogRoute,
-  FaviconDotsvgRoute: FaviconDotsvgRoute,
   HakkimizdaRoute: HakkimizdaRoute,
   HizmetlerRoute: HizmetlerRoute,
   IletisimRoute: IletisimRoute,

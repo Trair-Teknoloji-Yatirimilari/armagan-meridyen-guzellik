@@ -6,8 +6,9 @@ Sarıyer / Kilyos Caddesi'ndeki güzellik salonunun tanıtım sitesi.
 - **Tamamen statik.** Derleme sırasında her sayfa HTML'e dönüşür; sunucuda
   node süreci çalışmaz, nginx dosyaları servis eder.
 - **Veritabanı yok.** Blog içeriği `content/blog` altındaki markdown dosyaları.
-- **Üçüncü taraf istek yok.** Ölçümleme kimlikleri boş olduğu sürece sayfa
-  hiçbir dış sunucuya istek atmaz; yazı tipleri sistem fontlarıdır.
+- **Ölçümleme yok.** GA4/GTM/pixel kimlikleri boş; yazı tipleri sistem
+  fontlarıdır. Tek üçüncü taraf istek, `</body>` öncesine `defer` ile eklenen
+  WellnessAllClub canlı destek widget'ıdır (`site.config.ts` → `widget`).
 
 ## Build
 
@@ -90,21 +91,23 @@ OG görseli ve simge, config'teki renk ve isimden üretilir:
 
 ```sh
 npm run dev
-npm run brand:assets -- http://localhost:3000
+npm run brand:assets -- http://localhost:8080
 ```
 
-Kaynak sayfa: `/og-card` (robots.txt üzerinden taramaya kapatılmıştır).
-Favicon `/favicon.svg` olarak config'ten üretilir.
+Kaynak sayfa: `/og-card` (robots.txt üzerinden taramaya kapatılmıştır) — krem
+zemin üstünde ortalanmış gerçek logo. Favicon ve uygulama ikonları
+`armagan-ikon-512.png`'den üretildi; `brand:assets` onları **ezmez**.
 
 ## Görseller
 
-Hizmet sayfalarındaki fotoğraflar Unsplash'ten alınan **temsili** stok
-görsellerdir (`public/images/hizmetler`, 1600w + 800w WebP, EXIF temiz).
-Kaynak listesi ve konu uyuşmazlıkları: [docs/IMAGE-CREDITS.md](docs/IMAGE-CREDITS.md).
+İki kaynak var: **işletmenin kendi tanıtım videosundan alınan kareler**
+(WebP 720/1080, büyütme yok) ve kalan birkaç **Unsplash stok görseli**
+(WebP 800/1600). Tam liste: [docs/IMAGE-CREDITS.md](docs/IMAGE-CREDITS.md).
 
-Fotoğrafı olmayan yerlerde (dış cephe, salon içi, kurucu portresi, EMS) markalı
-panel gösterilir. Config'te ilgili `image` alanı doldurulduğu anda sayfa
-kendiliğinden fotoğrafa geçer.
+Stok görsellerin alt metni salonun kendi işi gibi sunulmaz; footer'da
+"Hizmet sayfalarındaki görseller temsilidir" notu bulunur. Config'te bir
+hizmetin `image` alanı değiştirildiği anda sayfa yeni görsele geçer; `image`
+yoksa markalı panel gösterilir.
 
 ## Kontroller
 
@@ -116,15 +119,19 @@ npm run lint
 
 ## Açık kalan TODO'lar
 
-**Fotoğraf (işletmeden gelecek):** dış cephe, salon içi, kurucu portresi,
-solaryum kabini, EMS cihazı.
+**Fotoğraf:** dış cephe, salon içi, kurucu portresi, solaryum, EMS, tırnak,
+manikür-pedikür, cilt bakımı, kafa ve meridyen masajı — hepsi **işletmenin kendi
+tanıtım videosundan** alındı (29 Eki 2026). Kirpik lifting, ipek kirpik, kaş
+laminasyonu, saç spa, kuaför ve epilasyon sayfalarında hâlâ stok görsel var;
+gerçek kare geldiğinde `site.config.ts` içindeki `image` alanını değiştirmek
+yeterli.
 
 **Config:** `geo` (koordinatlar), `mapEmbedUrl` (harita gömme adresi),
-`logo.src` (görsel logo), `colors` (şu an nötr bir başlangıç paleti).
+`colors` (şu an nötr palet — logo renkleriyle uyumlanması ayrı karar).
 
-**Hakkımızda:** kurucu biyografisindeki `[YIL]` ve `[DENEYİM]` yer tutucuları.
-Bilgi teyit edilince blog yazılarındaki JSON-LD `author` alanı da Organization
-yerine Person olacak.
+**Kurucu biyografisi:** sayfada yalnızca ad ve unvan var — doğrulanmamış bilgi
+yazılmadı. Bilgi teyit edilince hem biyografi eklenebilir hem de blog
+yazılarındaki JSON-LD `author` alanı Organization yerine Person olur.
 
 **Hijyen süreci teyidi:** metinlerde yalnızca "hijyene özen gösteriyoruz"
 deniyor. Alet temizliği, sterilizasyon ve tek kullanımlık malzeme gibi süreç

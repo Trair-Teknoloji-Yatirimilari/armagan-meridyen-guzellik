@@ -19,7 +19,7 @@ export const Route = createFileRoute("/iletisim")({
     pageHead({
       title: `İletişim | ${siteConfig.name} Sarıyer`,
       description:
-        "Maden Mah. Kilyos Cd. No:151/A Sarıyer. Telefon, WhatsApp, e-posta ve yol tarifi. Her gün 09:00–20:00 açığız.",
+        "Maden Mah. Kilyos Cd. No:151/A Sarıyer. Telefon, WhatsApp, e-posta ve yol tarifi. Her gün 10:00–19:00 açığız.",
       path: "/iletisim",
     }),
   component: ContactPage,

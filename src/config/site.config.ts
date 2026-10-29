@@ -14,9 +14,16 @@ export type ServiceBlock =
   { t: "h2"; text: string } | { t: "p"; text: string } | { t: "ul"; items: string[] };
 
 export type ServiceImageRef = {
-  /** public altındaki yol, boy eki olmadan: "-800.webp" / "-1600.webp" eklenir */
+  /** public altındaki yol, boy eki olmadan — "-<genişlik>.webp" eklenir */
   base: string;
   alt: string;
+  /** Üretilmiş genişlikler (srcset bundan kurulur). Kaynaktan büyütme yapılmaz. */
+  widths: number[];
+  /** En büyük sürümün gerçek piksel ölçüsü — düzen kaymasını (CLS) önler */
+  width: number;
+  height: number;
+  /** Kırpma odağı, örn. kare görsel 16:9 kutuda gösterilirken */
+  objectPosition?: string;
 };
 
 export type Service = {
@@ -66,14 +73,18 @@ export const siteConfig = {
    * src dolduğunda SiteNav ve footer otomatik olarak görsele geçer.
    */
   logo: {
-    type: "text" as "text" | "image",
+    type: "image" as "text" | "image",
     /** Metin logonun üst satırı — favicon baş harfleri de buradan türer */
     primaryLine: "Armağan Meridyen",
     /** Metin logonun alt satırı (iki yanında dekoratif çizgi) */
     secondaryLine: "Güzellik",
-    /** örn. "/logo.svg" — doldurulana kadar null */
-    src: null as string | null,
-    alt: "Armağan Meridyen Güzellik",
+    /** Gerçek logo — saydam PNG'den üretilmiş WebP, 1x ve 2x */
+    src: "/logo/armagan-logo-240.webp" as string | null,
+    src2x: "/logo/armagan-logo-480.webp",
+    /** Gerçek piksel ölçüsü (saydam kenar boşluğu kırpılmış hâli) */
+    width: 240,
+    height: 221,
+    alt: "Armağan Meridyen Güzellik logosu",
   },
 
   /* ---------------- Renkler ----------------
@@ -142,20 +153,22 @@ export const siteConfig = {
    * ikisi birbirinden ayrılamaz. Salon haftanın yedi günü açık.
    */
   hours: {
-    opens: "09:00",
-    closes: "20:00",
+    opens: "10:00",
+    closes: "19:00",
     /** Açık günler (schema.org gün adları) */
     openDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     /** Ekranda görünen satırlar */
-    displayLines: ["Her gün 09:00–20:00"],
+    displayLines: ["Her gün 10:00–19:00"],
     /** Kısa, cümle içinde kullanılan biçim */
-    displayShort: "Her gün 09:00–20:00",
+    displayShort: "Her gün 10:00–19:00",
   },
 
   /* ---------------- Kurucu ---------------- */
   founder: {
     name: "Armağan Baysal",
     jobTitle: "Kurucu",
+    /** Portre — 4:5 kırpım, WebP 480/800 */
+    image: "/images/kurucu/armagan-baysal-800.webp",
   },
 
   /* ---------------- Footer künyesi ---------------- */
@@ -189,9 +202,15 @@ export const siteConfig = {
 
   /** Canlı destek widget'ı. Anahtar boşken widget yüklenmez. */
   widget: {
-    trairxTenantKey: "",
+    /** WellnessAllClub canlı destek kiracı anahtarı */
+    trairxTenantKey: "1fc74e56-47e8-491c-bb2c-61c2ad30070a",
     scriptSrc: "https://www.wellnessallclub.com/widget.js",
     title: "Canlı Destek",
+    /** KVKK metnindeki veri sorumlusu adı widget'a bu alandan geçer */
+    business: "Armağan Meridyen Güzellik",
+    /** Sağ alttaki sabit WhatsApp butonuyla çakışmasın diye balon yukarı alınır */
+    offset: "88",
+    color: "#586060",
   },
 
   /* ---------------- Özellik bayrakları ---------------- */
@@ -221,9 +240,13 @@ export const services: Service[] = [
     summary:
       "Tırnağın kendi yapısına bakıp, günlük hayatınıza uyan bir boy ve forma birlikte karar veriyoruz.",
     image: {
-      base: "/images/hizmetler/tirnak-uygulamasi-sariyer",
-      alt: "Tırnak bakımı ve protez tırnak uygulaması – örnek görsel",
+      base: "/images/hizmetler/tirnak-uygulamasi-gercek",
+      alt: "Armağan Meridyen Güzellik'te tırnak uygulaması",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -278,11 +301,14 @@ export const services: Service[] = [
     description:
       "Sarıyer'de manikür ve pedikür randevusu. El ve ayak bakımı, tırnak eti düzeni ve nemlendirme için WhatsApp'tan yazabilirsiniz.",
     summary: "El ve ayağın bakımını acele etmeden yapan, klasik ve sade bir randevu.",
-    image: { base: "/images/hizmetler/manikur-sariyer", alt: "Manikür uygulaması – örnek görsel" },
-    secondaryImage: {
-      base: "/images/hizmetler/pedikur-sariyer",
-      alt: "Pedikür uygulaması – örnek görsel",
+    image: {
+      base: "/images/hizmetler/manikur-pedikur-gercek",
+      alt: "Armağan Meridyen Güzellik'te manikür ve pedikür istasyonu",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -336,6 +362,9 @@ export const services: Service[] = [
     image: {
       base: "/images/hizmetler/ipek-kirpik-sariyer",
       alt: "Kirpik lifting uygulaması – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
     },
     blocks: [
       {
@@ -394,6 +423,9 @@ export const services: Service[] = [
     image: {
       base: "/images/hizmetler/kirpik-lifting-sariyer",
       alt: "İpek kirpik uygulaması – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
     },
     blocks: [
       {
@@ -452,6 +484,9 @@ export const services: Service[] = [
     image: {
       base: "/images/hizmetler/kas-laminasyonu-sariyer",
       alt: "Kaş laminasyonu uygulaması – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
     },
     blocks: [
       {
@@ -507,9 +542,13 @@ export const services: Service[] = [
       "Sarıyer'de cilt bakımı randevusu. Cildinizi dinleyerek planlanan temizlik ve bakım adımları için WhatsApp'tan yazabilirsiniz.",
     summary: "Cildinize zaman ayırmak: temizlik, nemlendirme ve size uygun bir ev rutini.",
     image: {
-      base: "/images/hizmetler/cilt-bakimi-sariyer",
-      alt: "Cilt bakımı uygulaması – örnek görsel",
+      base: "/images/hizmetler/cilt-bakimi-gercek",
+      alt: "Armağan Meridyen Güzellik'te cilt bakımı cihazı",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -567,9 +606,13 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde kafa masajı. Saçlı deri ve ense bölgesine uygulanan rahatlatıcı seans için WhatsApp'tan randevu alabilirsiniz.",
     summary: "Saçlı deri, ense ve omuz hattına uygulanan, rahatlamaya yönelik bir seans.",
     image: {
-      base: "/images/hizmetler/kafa-masaji-sariyer",
-      alt: "Kafa masajı uygulaması – örnek görsel",
+      base: "/images/hizmetler/kafa-masaji-gercek",
+      alt: "Armağan Meridyen Güzellik'te kafa masajı (head spa)",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -584,6 +627,10 @@ export const services: Service[] = [
           "<strong>Uygulama.</strong> Saçlı deri, ense ve omuz hattı sırayla çalışılıyor; baskı seans boyunca size göre ayarlanıyor.",
           "<strong>Kapanış.</strong> Seans yavaşlayarak bitiyor; isterseniz birkaç dakika daha dinlenebiliyorsunuz.",
         ],
+      },
+      {
+        t: "p",
+        text: 'Aynı gün saçınızla da ilgilenmek isterseniz <a href="/hizmetler/kuafor">kuaför</a> ya da <a href="/hizmetler/sac-spa">saç spa</a> randevusunu arka arkaya planlayabiliyoruz.',
       },
       { t: "h2", text: "Kimler için uygun?" },
       {
@@ -627,9 +674,13 @@ export const services: Service[] = [
     summary:
       "Geleneksel meridyen hatları boyunca ilerleyen, baştan sona rahatlamaya yönelik bir seans.",
     image: {
-      base: "/images/hizmetler/meridyen-masaji-sariyer",
-      alt: "Meridyen masajı uygulaması – örnek görsel",
+      base: "/images/hizmetler/meridyen-masaji-gercek",
+      alt: "Armağan Meridyen Güzellik'te meridyen masajı",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -685,9 +736,13 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde solaryum. Seans süresi uzman tarafından belirlenir, koruyucu gözlük zorunludur. Bilgi için WhatsApp.",
     summary: "Seans süresinin uzman tarafından belirlendiği, kurallı bir kullanım.",
     image: {
-      base: "/images/hizmetler/solaryum-sariyer",
-      alt: "Solaryum uygulaması – örnek görsel",
+      base: "/images/hizmetler/solaryum-gercek",
+      alt: "Armağan Meridyen Güzellik'te solaryum kabini",
+      widths: [720, 1080],
+      width: 1080,
+      height: 607,
     },
+
     blocks: [
       {
         t: "p",
@@ -740,12 +795,19 @@ export const services: Service[] = [
       "Sarıyer'de EMS seansı. Uygunluk ön görüşmede değerlendirilir. Bilgi ve randevu için WhatsApp'tan yazabilirsiniz.",
     summary: "Uygunluğun ön görüşmede değerlendirildiği, kurallı bir seans.",
     // Elinizdeki stok görsel EMS cihazını göstermiyor; salondan gerçek fotoğraf
-    // gelene kadar markalı panel gösteriliyor (bkz. docs/IMAGE-CREDITS.md).
-    image: null,
+    image: {
+      base: "/images/hizmetler/ems-gercek",
+      alt: "Armağan Meridyen Güzellik'te EMS Five Star cihazı",
+      widths: [720, 1080],
+      width: 1080,
+      height: 1080,
+      objectPosition: "center",
+    },
+
     blocks: [
       {
         t: "p",
-        text: "EMS seansına başlamadan önce bir ön görüşme yapıyoruz. Bu görüşmede sağlık geçmişinizi ve varsa bilinen rahatsızlıklarınızı soruyoruz; uygunluk bu görüşmede değerlendiriliyor. Sonuç vaat etmiyoruz, seansın nasıl ilerleyeceğini anlatıyoruz.",
+        text: "Salonumuzda EMS Five Star cihazıyla uygulama yapıyoruz. EMS seansına başlamadan önce bir ön görüşme yapıyoruz. Bu görüşmede sağlık geçmişinizi ve varsa bilinen rahatsızlıklarınızı soruyoruz; uygunluk bu görüşmede değerlendiriliyor. Sonuç vaat etmiyoruz, seansın nasıl ilerleyeceğini anlatıyoruz.",
       },
       { t: "h2", text: "Seans nasıl ilerliyor?" },
       {
@@ -785,119 +847,76 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: "kalici-makyaj",
-    navLabel: "Kalıcı Makyaj",
-    name: "Kalıcı Makyaj",
+    slug: "kuafor",
+    navLabel: "Kuaför",
+    name: "Kuaför",
     enabled: true,
     description:
-      "Sarıyer Kilyos Caddesi'nde kalıcı makyaj. Uygunluk ön görüşmede değerlendirilir. Bilgi ve randevu için WhatsApp.",
-    summary: "Ön görüşmeyle başlayan, adım adım ilerleyen bir uygulama.",
+      "Zekeriyaköy, Sarıyer'de kuaför: saç kesimi, fön, boya, röfle ve balyaj, keratin bakımı, özel gün saçı. Randevu için WhatsApp.",
+    summary: "Kesimden föne, boyadan özel gün saçına kadar saçla ilgili her işin tek adresi.",
     image: {
-      base: "/images/hizmetler/kalici-makyaj-sariyer",
-      alt: "Kalıcı makyaj uygulaması – örnek görsel",
+      base: "/images/hizmetler/kuafor-sariyer",
+      alt: "Kuaförde fırçayla saç şekillendirme – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
     },
     blocks: [
       {
         t: "p",
-        text: "Kalıcı makyajda aceleci davranmıyoruz. Önce bir ön görüşme yapıyor, beklentinizi ve cilt yapınızı konuşuyoruz. Uygunluk bu görüşmede değerlendiriliyor; uygun görmezsek uygulamayı yapmıyoruz.",
+        text: "Kuaför bölümünde saçla ilgili işlerin tamamını bir arada yapıyoruz: kesim, fön ve şekillendirme, boya, röfle ve balyaj, keratin ve bakım uygulamaları, özel günler için topuz ve maşa. Hepsinde aynı sırayı izliyoruz — önce konuşuyor, sonra başlıyoruz.",
       },
-      { t: "h2", text: "Uygulama nasıl ilerliyor?" },
+      { t: "h2", text: "Hizmetler" },
       {
         t: "ul",
         items: [
-          "<strong>Ön görüşme.</strong> Beklentiniz, cilt yapınız ve sağlık geçmişiniz konuşuluyor; uygunluk burada değerlendiriliyor.",
-          "<strong>Çizim.</strong> Form ve hat, uygulamaya geçmeden önce çizilerek size gösteriliyor; onaylamadan ilerlemiyoruz.",
-          "<strong>Uygulama.</strong> Belirlenen form üzerinde, adım adım çalışılıyor.",
-          "<strong>Bakım anlatımı.</strong> İyileşme sürecinde nelere dikkat edeceğiniz tek tek anlatılıyor.",
-          "<strong>Kontrol randevusu.</strong> Süreç tamamlandıktan sonra birlikte değerlendiriyoruz.",
+          "<strong>Saç kesimi</strong> — saç tipinize ve günlük bakım alışkanlığınıza göre",
+          "<strong>Fön ve şekillendirme</strong> — günlük kullanım ya da özel bir program için",
+          "<strong>Saç boyama</strong> — dip boyası ya da baştan renk değişimi",
+          "<strong>Röfle / balyaj</strong> — saç boyunca ton geçişi",
+          "<strong>Keratin ve saç bakımı</strong> — saçın o günkü durumuna göre seçilen bakım",
+          "<strong>Özel gün saçı</strong> — topuz, maşa ve toplama modeller",
         ],
       },
-      { t: "h2", text: "Kimler için uygun?" },
+      { t: "h2", text: "Nasıl ilerler?" },
       {
         t: "ul",
         items: [
-          "Her sabah kaş ya da göz makyajına ayırdığı süreyi azaltmak isteyenler",
-          "Daha derli toplu bir hat arayanlar",
-          "Ön görüşmede uygulamaya uygun bulunanlar",
+          "<strong>Ön görüşme.</strong> Saç tipinizi, saçınıza daha önce uygulanmış işlemleri ve istediğiniz görünümü konuşuyoruz. Varsa referans fotoğrafınıza birlikte bakıyoruz.",
+          "<strong>Ne gerçekçi, onu söylüyoruz.</strong> Saçınızın mevcut rengi ve yapısı, istenen sonucun tek seansta mümkün olup olmadığını belirler; bunu baştan açıkça konuşuyoruz.",
+          "<strong>Hazırlık ve uygulama.</strong> Seçilen işlem adım adım uygulanıyor; kimyasal işlemlerde bekleme süreleri takip ediliyor.",
+          "<strong>Kapanış.</strong> Fön ve şekillendirmeyle bitiriyor, evde saçı nasıl taşıyacağınızı anlatıyoruz.",
         ],
       },
-    ],
-    note: "Uygunluk ön görüşmede değerlendirilir. Bu uygulama tıbbi bir işlem değildir; sağlıkla ilgili bir fayda ya da kalıcı bir sonuç vaat edilmez. Sonucun görünümü ve süresi kişiye göre değişir. Doktor takibindeyseniz veya bir cilt rahatsızlığınız varsa önce hekiminize danışın.",
-    faqs: [
+      { t: "h2", text: "Bilmeniz gerekenler" },
       {
-        q: "Uygulamadan önce formu görebiliyor muyum?",
-        a: "Evet. Uygulamaya geçmeden önce form ve hat çizilerek size gösteriliyor. Onaylamadığınız bir çizimle ilerlemiyoruz; istediğiniz kadar düzeltme yapıyoruz. Bu aşamayı acele etmiyoruz, çünkü sonucu en çok belirleyen kısım burası. Karar sizin, biz yalnızca ne gerçekçi olduğunu söylüyoruz. Çizim aşamasını randevunun en önemli bölümü olarak görüyoruz.",
+        t: "ul",
+        items: [
+          "Boya, röfle, balyaj ve keratin gibi kimyasal işlemlerden önce hassasiyetinizi sormamız gerekiyor; daha önce bir tepki yaşadıysanız mutlaka söyleyin.",
+          "Bu işlemlerden önce <strong>tutam testi</strong> önerilir. İsterseniz işlemi ayrı bir güne alıp önce testi yapıyoruz.",
+          "Saçlı deride yara, tahriş ya da yeni yapılmış bir işlem varsa randevuyu erteleyebiliriz.",
+          "Sonuç; saçın mevcut rengine, yapısına ve geçmiş işlemlere göre kişiden kişiye değişir. Belirli bir ton ya da kalıcılık garantisi vermiyoruz.",
+        ],
       },
-      {
-        q: "Sonuç ne kadar kalıcı?",
-        a: "Görünümün ne kadar süreceği cilt yapısına, bakıma ve günlük alışkanlıklara göre kişiden kişiye değişiyor. Bu yüzden belirli bir süre ya da kalıcılık vaat etmiyoruz. Ön görüşmede sizin cildiniz için neyin gerçekçi olduğunu konuşuyor, abartılı bir beklenti oluşturmaktan kaçınıyoruz. Kontrol randevusunda sonucu birlikte değerlendiriyoruz.",
-      },
-      {
-        q: "Uygulamadan sonra nelere dikkat etmeliyim?",
-        a: "İyileşme sürecinde uygulanan bölgeyi kurcalamamak, su ve güneş temasında dikkatli olmak gerekiyor. Randevu sonunda bakım adımlarını tek tek anlatıyor, yazılı olarak da paylaşıyoruz. Süreç içinde aklınıza takılan bir şey olursa WhatsApp'tan fotoğrafla yazabilirsiniz. Süreç boyunca aklınıza takılanı sormaktan çekinmeyin, yanıtlamak için buradayız.",
-      },
-      {
-        q: "Bana uygun olmadığına karar verirseniz ne olur?",
-        a: "Uygun görmediğimiz durumda uygulamayı yapmıyor ve bunu sebebiyle birlikte açıkça söylüyoruz. Bu kararı ön görüşmede, siz randevuya bağlanmadan veriyoruz. Mümkünse bunun yerine ne yapılabileceğini de konuşuyoruz; ama gerçekçi olmayan bir şeyi denemeyi önermiyoruz. Randevu ücretine bağlamadan, en baştan açık konuşmayı tercih ediyoruz.",
-      },
-    ],
-  },
-  {
-    slug: "microblading",
-    navLabel: "Microblading",
-    name: "Microblading",
-    enabled: true,
-    description:
-      "Sarıyer'de microblading. Kaş formu çizilerek onayınızla ilerler, uygunluk ön görüşmede değerlendirilir. Bilgi için WhatsApp.",
-    summary: "Kaş formunu önce çizip onayınızı aldıktan sonra ilerleyen bir uygulama.",
-    image: {
-      base: "/images/hizmetler/microblading-sariyer",
-      alt: "Microblading uygulaması – örnek görsel",
-    },
-    blocks: [
+      { t: "h2", text: "Saç bakımıyla birlikte" },
       {
         t: "p",
-        text: "Microblading'de en önemli adım, uygulamadan önceki çizim. Kaş formunu yüz hatlarınıza göre çiziyor ve size gösteriyoruz; onaylamadan uygulamaya geçmiyoruz. Uygunluk ise bundan önce, ön görüşmede değerlendiriliyor.",
-      },
-      { t: "h2", text: "Uygulama nasıl ilerliyor?" },
-      {
-        t: "ul",
-        items: [
-          "<strong>Ön görüşme.</strong> Cilt yapınız, beklentiniz ve sağlık geçmişiniz konuşuluyor; uygunluk burada değerlendiriliyor.",
-          "<strong>Form çizimi.</strong> Kaş formu çizilip size gösteriliyor; onayınız olmadan ilerlemiyoruz.",
-          "<strong>Uygulama.</strong> Onaylanan form üzerinde, kıl kıl çalışılıyor.",
-          "<strong>İyileşme anlatımı.</strong> Sürecin nasıl ilerleyeceği ve bakımın nasıl yapılacağı anlatılıyor.",
-          "<strong>Kontrol.</strong> Süreç tamamlandıktan sonra sonucu birlikte değerlendiriyoruz.",
-        ],
-      },
-      { t: "h2", text: "Kimler için uygun?" },
-      {
-        t: "ul",
-        items: [
-          "Kaşında boşluk olduğunu düşünenler",
-          "Her gün kaş kalemi kullanmaktan vazgeçmek isteyenler",
-          "Daha belirgin bir kaş hattı arayanlar",
-          "Ön görüşmede uygulamaya uygun bulunanlar",
-        ],
+        text: 'Saçlı deriyi dinlendirmek isterseniz kuaför randevusunu <a href="/hizmetler/sac-spa">saç spa</a> ile birleştirebiliriz. Ense ve omuz hattında gerginlik varsa <a href="/hizmetler/kafa-masaji">kafa masajı</a> aynı güne eklenebilir; ikisini birden düşünüyorsanız randevuyu önceden planlamamız gerekiyor.',
       },
     ],
-    note: "Uygunluk ön görüşmede değerlendirilir. Bu uygulama tıbbi bir işlem değildir; sağlıkla ilgili bir fayda ya da kalıcı bir sonuç vaat edilmez. Görünümün süresi ve iyileşme kişiye göre değişir. Cilt rahatsızlığınız varsa ya da doktor takibindeyseniz önce hekiminize danışın.",
+    note: "Kimyasal işlemler kozmetik uygulamalardır. Saç ya da saçlı deriyle ilgili tıbbi bir şikâyetiniz varsa önce bir hekime danışmanızı öneriyoruz.",
     faqs: [
       {
-        q: "Kaş formuna kim karar veriyor?",
-        a: "Forma birlikte karar veriyoruz. Yüz hatlarınıza göre bir çizim yapıyor, size gösteriyor ve istediğiniz düzeltmeleri uyguluyoruz. Onaylamadığınız bir formla uygulamaya geçmiyoruz. Bizim işimiz, hangi formun sizin kaşınızda gerçekçi duracağını açıkça söylemek; son söz sizin. Çizimi beğenmezseniz uygulamaya hiç başlamıyoruz, bu konuda tamamen rahat olun.",
+        q: "Boya için önce test yapılması şart mı?",
+        a: "Zorunlu tutmuyoruz ama öneriyoruz, özellikle daha önce boya ya da keratin sonrası bir tepki yaşadıysanız. Test için işlemi ayrı bir güne alıyoruz; küçük bir tutamda deneyip sonucu birlikte değerlendiriyoruz. Hassasiyetinizi randevu alırken söylemeniz, günü ona göre planlamamız için yeterli.",
       },
       {
-        q: "Sonuç kalıcı mı?",
-        a: "Görünümün ne kadar süreceği cilt yapınıza, bakımınıza ve günlük alışkanlıklarınıza göre değişiyor. Bu yüzden kalıcılık ya da belirli bir süre vaat etmiyoruz. Ön görüşmede sizin cildiniz için neyin gerçekçi olduğunu konuşuyoruz. Abartılı bir beklentiyle başlamanızı istemiyoruz. Gerçekçi olanı söylemek, memnun kalmanız için en doğru yol.",
+        q: "İstediğim rengi tek seansta alabilir miyim?",
+        a: "Saçınızın mevcut rengi, yapısı ve geçmiş işlemleri bunu belirliyor; koyudan açığa geçişlerde çoğu zaman birden fazla seans gerekiyor. Ön görüşmede saçınıza bakıp neyin gerçekçi olduğunu açıkça söylüyoruz. Tek seansta mümkün değilse zorlamıyor, kaç adımda gidilebileceğini anlatıyoruz.",
       },
       {
-        q: "Microblading mi, kalıcı makyaj mı?",
-        a: "İkisi farklı tekniklerle farklı görünümler veriyor; hangisinin size uyacağı kaş yapınıza ve beklentinize bağlı. Ön görüşmede ikisini de anlatıyor, farkını örnekliyoruz. Kararsızsanız WhatsApp'tan yazın; uygulamadan önce bu farkı konuşmak için ayrı bir görüşme de yapabiliyoruz. Bu görüşme için ayrıca ücret talep etmiyoruz.",
-      },
-      {
-        q: "İyileşme sürecinde ne olur?",
-        a: "İlk günlerde kaşın görünümü değişiyor ve bu süreç kişiye göre farklı ilerliyor. Ne bekleyeceğinizi randevu sonunda tek tek anlatıyor, yazılı bakım notu veriyoruz. Süreçte aklınıza takılan olursa fotoğraf gönderebilirsiniz; kontrol randevusunda sonucu birlikte değerlendiriyoruz. İyileşme süresi için kesin bir gün sayısı vermiyoruz.",
+        q: "Özel gün saçı için ne kadar önceden randevu almalıyım?",
+        a: "Topuz ve toplama modeller için randevuyu mümkün olduğunca erken almanızı öneriyoruz; düğün ve nişan dönemlerinde saatler hızlı doluyor. Provalı çalışmak isterseniz bunu da baştan söyleyin, iki ayrı randevu planlıyoruz. WhatsApp'tan yazdığınızda o haftanın boş saatlerini paylaşıyoruz.",
       },
     ],
   },
@@ -909,7 +928,13 @@ export const services: Service[] = [
     description:
       "Sarıyer Kilyos Caddesi'nde saç spa. Saçlı deri temizliği, bakım ve rahatlatıcı masajla ilerleyen seans için WhatsApp.",
     summary: "Saçlı deri temizliği, bakım maskesi ve rahatlatıcı bir masajla ilerleyen seans.",
-    image: { base: "/images/hizmetler/sac-spa-sariyer", alt: "Saç spa uygulaması – örnek görsel" },
+    image: {
+      base: "/images/hizmetler/sac-spa-sariyer",
+      alt: "Saç spa uygulaması – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
+    },
     blocks: [
       {
         t: "p",
@@ -925,6 +950,10 @@ export const services: Service[] = [
           "<strong>Masaj.</strong> Saçlı deri ve ense bölgesine rahatlatıcı bir masaj yapılıyor.",
           "<strong>Kapanış.</strong> Saç durulanıp kurutuluyor; evde sürdürebileceğiniz sade bir bakım önerisi paylaşılıyor.",
         ],
+      },
+      {
+        t: "p",
+        text: 'Kesim, boya ya da fön de düşünüyorsanız seansı <a href="/hizmetler/kuafor">kuaför</a> randevusuyla aynı güne alabiliriz; hangisinin önce yapılacağını birlikte kararlaştırıyoruz.',
       },
       { t: "h2", text: "Kimler için uygun?" },
       {
@@ -963,6 +992,9 @@ export const services: Service[] = [
     image: {
       base: "/images/hizmetler/epilasyon-sariyer",
       alt: "Epilasyon uygulaması – örnek görsel",
+      widths: [800, 1600],
+      width: 1600,
+      height: 900,
     },
     blocks: [
       {

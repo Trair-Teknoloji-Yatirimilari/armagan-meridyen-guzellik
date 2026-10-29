@@ -5,9 +5,9 @@ import { addressLine, siteConfig } from "@/config/site.config";
 /**
  * Paylaşım görselinin (public/og-image.png) kaynağı.
  *
- * Bu adres, config'teki renk ve isimle 1200x630'luk kartı HTML olarak üretir;
- * `npm run brand:assets` komutu sayfanın ekran görüntüsünü alıp PNG'ye çevirir.
- * Böylece OG görseli ayrı bir tasarım dosyasına değil, doğrudan config'e bağlı.
+ * Krem zemin üzerinde ortalanmış gerçek logo + adres satırı. Renkler, logo ve
+ * metin config'ten gelir; `npm run brand:assets` bu sayfanın 1200x630 ekran
+ * görüntüsünü alıp PNG'ye çevirir.
  *
  * Arama motorlarına robots.txt üzerindeki Disallow ile kapatılmıştır;
  * sayfaya meta robots etiketi eklenmez.
@@ -19,22 +19,14 @@ export const Route = createFileRoute("/og-card")({
         const url = new URL(request.url);
         const icon = url.searchParams.get("format") === "icon";
         const c = siteConfig.colors;
-
-        const initials = siteConfig.logo.primaryLine
-          .split(/\s+/)
-          .map((w: string) => w[0])
-          .join("")
-          .slice(0, 2)
-          .toLocaleUpperCase("tr-TR");
+        const logo = siteConfig.logo.src2x ?? siteConfig.logo.src ?? "";
 
         const body = icon
-          ? `<div class="icon"><span>${initials}</span></div>`
+          ? `<div class="icon"><img src="${logo}" alt=""></div>`
           : `<div class="card">
-      <div class="rule"></div>
-      <p class="kicker">${siteConfig.tagline}</p>
-      <h1>${siteConfig.name}</h1>
+      <img class="logo" src="${logo}" alt="">
       <p class="meta">${addressLine()}</p>
-      <p class="meta">${siteConfig.phone.display}</p>
+      <p class="meta">${siteConfig.tagline} &middot; ${siteConfig.phone.display}</p>
     </div>`;
 
         const html = `<!doctype html>
@@ -46,21 +38,17 @@ export const Route = createFileRoute("/og-card")({
   *{margin:0;padding:0;box-sizing:border-box}
   body{
     width:${icon ? 180 : 1200}px;height:${icon ? 180 : 630}px;
-    display:flex;align-items:center;justify-content:${icon ? "center" : "flex-start"};
+    display:flex;align-items:center;justify-content:center;
     background:linear-gradient(135deg, ${c.background} 0%, ${c.muted} 100%);
     color:${c.foreground};
     font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   }
-  .card{padding:0 96px;max-width:1000px}
-  .rule{width:120px;height:3px;background:linear-gradient(90deg, ${c.gradientFrom}, ${c.gradientTo});margin-bottom:40px}
-  .kicker{font-size:24px;letter-spacing:.32em;text-transform:uppercase;color:${c.mutedForeground};margin-bottom:28px}
-  h1{font-family:ui-serif,Georgia,serif;font-size:92px;font-weight:400;line-height:1.05;letter-spacing:-.02em;
-     background:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo});-webkit-background-clip:text;background-clip:text;color:transparent}
-  .meta{margin-top:24px;font-size:28px;color:${c.mutedForeground}}
-  .meta + .meta{margin-top:8px}
+  .card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+  .logo{width:340px;height:auto;display:block}
+  .meta{font-size:26px;color:${c.mutedForeground}}
   .icon{width:180px;height:180px;display:flex;align-items:center;justify-content:center;
-        background:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo})}
-  .icon span{font-family:ui-serif,Georgia,serif;font-size:86px;color:${c.primaryForeground};letter-spacing:.02em}
+        background:${c.background}}
+  .icon img{width:150px;height:auto}
 </style>
 </head>
 <body>${body}</body>

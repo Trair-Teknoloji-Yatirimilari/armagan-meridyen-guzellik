@@ -84,12 +84,14 @@ export function beautySalonJsonLd() {
     legalName: siteConfig.legalName,
     url: SITE_URL,
     image: OG_IMAGE,
+    logo: siteUrl(siteConfig.logo.src ?? "/og-image.png"),
     telephone: siteConfig.phone.display,
     email: siteConfig.email,
     founder: {
       "@type": "Person",
       name: siteConfig.founder.name,
       jobTitle: siteConfig.founder.jobTitle,
+      image: siteUrl(siteConfig.founder.image),
     },
     address: {
       "@type": "PostalAddress",
@@ -117,7 +119,12 @@ export function beautySalonJsonLd() {
       },
     ],
     ...(sameAs.length ? { sameAs } : {}),
-    areaServed: { "@type": "City", name: siteConfig.address.addressRegion },
+    // Zekeriyaköy mahalle ölçeğinde; il bilgisi de korunuyor.
+    areaServed: [
+      { "@type": "City", name: siteConfig.address.addressRegion },
+      { "@type": "Place", name: siteConfig.address.addressLocality },
+      { "@type": "Place", name: "Zekeriyaköy" },
+    ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Hizmetler",

@@ -49,9 +49,9 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
 }
 
 const defaultHead = pageHead({
-  title: `${siteConfig.name} | Sarıyer Güzellik Salonu`,
+  title: `${siteConfig.name} | Zekeriyaköy Sarıyer`,
   description:
-    "Sarıyer Kilyos Caddesi'nde güzellik salonu: tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 09:00–20:00.",
+    "Zekeriyaköy, Sarıyer'de 360 derece güzellik merkezi: kuaför, tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 10:00–19:00.",
   path: "/",
 });
 
@@ -65,8 +65,12 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      // Gerçek marka ikonu (armagan-ikon-512.png'den üretildi)
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/icon-192.png", type: "image/png", sizes: "192x192" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
     scripts: [
       {

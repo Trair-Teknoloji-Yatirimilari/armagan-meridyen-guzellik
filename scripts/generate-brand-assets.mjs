@@ -5,11 +5,10 @@
  * Kaynak: çalışan sitedeki /og-card adresi (renkler ve isim config'ten gelir).
  * Çıktı:
  *   public/og-image.png        1200x630 paylaşım görseli
- *   public/apple-touch-icon.png  180x180 simge
  *
  * Kullanım:
  *   1) Siteyi çalıştırın:   npm run dev     (ya da build + preview)
- *   2) Bu komutu çalıştırın: npm run brand:assets -- http://localhost:3000
+ *   2) Bu komutu çalıştırın: npm run brand:assets -- http://localhost:8080
  *
  * Gereksinim: Google Chrome (headless ekran görüntüsü için).
  */
@@ -21,7 +20,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const PUBLIC_DIR = join(ROOT, "public");
-const BASE = process.argv[2] ?? process.env.PREVIEW_URL ?? "http://localhost:3000";
+const BASE = process.argv[2] ?? process.env.PREVIEW_URL ?? "http://localhost:8080";
 
 const CHROME_CANDIDATES = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -38,10 +37,9 @@ if (!chrome) {
 
 if (!existsSync(PUBLIC_DIR)) mkdirSync(PUBLIC_DIR, { recursive: true });
 
-const SHOTS = [
-  { url: `${BASE}/og-card`, size: "1200,630", out: "og-image.png" },
-  { url: `${BASE}/og-card?format=icon`, size: "180,180", out: "apple-touch-icon.png" },
-];
+// Yalnızca OG görseli üretilir. Favicon/apple-touch-icon artık gerçek marka
+// ikonundan (armagan-ikon-512.png) üretiliyor; ekran görüntüsüyle EZİLMEMELİ.
+const SHOTS = [{ url: `${BASE}/og-card`, size: "1200,630", out: "og-image.png" }];
 
 for (const shot of SHOTS) {
   const tmpDir = join(ROOT, ".brand-assets-tmp");

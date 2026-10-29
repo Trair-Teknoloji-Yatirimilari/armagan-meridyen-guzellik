@@ -72,4 +72,4 @@ Uygun görmediğimiz bir durumda seansı yapmıyor ya da şeklini değiştiriyor
 
 ## Sarıyer'de kafa masajı
 
-Armağan Meridyen Güzellik, Sarıyer Maden Mahallesi'nde, Kilyos Caddesi üzerinde. Her gün 09:00–20:00 arası açığız. Uygun saati birlikte seçmek ve aklınızdaki soruları sormak için WhatsApp'tan yazabilir ya da 0532 470 09 84'ü arayabilirsiniz.
+Armağan Meridyen Güzellik, Sarıyer Maden Mahallesi'nde, Kilyos Caddesi üzerinde. Her gün 10:00–19:00 arası açığız. Uygun saati birlikte seçmek ve aklınızdaki soruları sormak için WhatsApp'tan yazabilir ya da 0532 470 09 84'ü arayabilirsiniz.

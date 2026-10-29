@@ -84,4 +84,4 @@ Hâlâ kararsızsanız, kirpiklerinizin net göründüğü bir fotoğrafı Whats
 
 ## Sarıyer'de kirpik lifting ve ipek kirpik
 
-Armağan Meridyen Güzellik'te iki uygulamaya da kısa bir ön görüşmeyle başlıyoruz; kirpiklerinizin yapısına bakıp size gerçekçi olanı söylüyoruz. Salonumuz Sarıyer Maden Mahallesi'nde, Kilyos Caddesi üzerinde; her gün 09:00–20:00 arası açığız. Randevu ve fiyat bilgisi için WhatsApp'tan yazabilir ya da 0532 470 09 84'ü arayabilirsiniz.
+Armağan Meridyen Güzellik'te iki uygulamaya da kısa bir ön görüşmeyle başlıyoruz; kirpiklerinizin yapısına bakıp size gerçekçi olanı söylüyoruz. Salonumuz Sarıyer Maden Mahallesi'nde, Kilyos Caddesi üzerinde; her gün 10:00–19:00 arası açığız. Randevu ve fiyat bilgisi için WhatsApp'tan yazabilir ya da 0532 470 09 84'ü arayabilirsiniz.

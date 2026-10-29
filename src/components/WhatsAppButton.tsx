@@ -1,16 +1,17 @@
 import { useRouterState } from "@tanstack/react-router";
 
-import { isFilled, siteConfig, whatsappLink } from "@/config/site.config";
+import { siteConfig, whatsappLink } from "@/config/site.config";
 
 /**
  * Sağ altta sabit duran WhatsApp butonu.
  *
- * Canlı destek widget'ı açıkken onun launcher'ının üstüne, kapalıyken
- * köşeye oturur. Konum config'teki widget durumundan türetilir.
+ * KONUM: her zaman köşede (bottom-5). Canlı destek widget'ı açıkken ÜSTE
+ * ÇIKAN taraf widget'tır — `data-offset="88"` onun balonunu yukarı alır.
+ * İkisini birden yukarı almak üst üste bindiriyordu (390px'te ölçüldü).
+ * 20px + 56px buton yüksekliği = 76px; widget 88px'te, arada 12px boşluk var.
  */
 export function WhatsAppButton() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const widgetOn = isFilled(siteConfig.widget.trairxTenantKey);
   const label = `WhatsApp'tan yazın: ${siteConfig.name}`;
 
   // Paylaşım görseli üretilirken sayfada görünmesin.
@@ -23,9 +24,7 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       aria-label={label}
       title={label}
-      className={`fixed right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:scale-100 ${
-        widgetOn ? "bottom-[92px]" : "bottom-5"
-      }`}
+      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:scale-100"
     >
       <svg
         viewBox="0 0 24 24"

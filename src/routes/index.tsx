@@ -4,6 +4,7 @@ import { ArrowUpRight, Clock, HelpCircle, MapPin, Phone, Star } from "lucide-rea
 import { CtaRow, PageShell, SectionLabel, WhatsAppCta } from "@/components/Layout";
 import { BrandPanel } from "@/components/BrandPanel";
 import { ServiceImage } from "@/components/ServiceImage";
+import { TanitimVideosu } from "@/components/TanitimVideosu";
 import {
   Accordion,
   AccordionContent,
@@ -19,6 +20,7 @@ import {
   signatureServices,
   siteConfig,
 } from "@/config/site.config";
+import { videoJsonLd } from "@/components/TanitimVideosu";
 import { pageHead } from "@/lib/seo";
 
 const HOME_FAQ = [
@@ -28,7 +30,7 @@ const HOME_FAQ = [
   },
   {
     q: "Hangi günler açıksınız?",
-    a: "Her gün 09:00–20:00 arası açığız, hafta sonu dahil. Size uyan saati WhatsApp'tan birlikte seçiyoruz.",
+    a: "Her gün 10:00–19:00 arası açığız, hafta sonu dahil. Size uyan saati WhatsApp'tan birlikte seçiyoruz.",
   },
   {
     q: "Kilyos Caddesi'nde tam olarak neredesiniz?",
@@ -60,13 +62,29 @@ const STEPS = [
 ];
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    pageHead({
-      title: `${siteConfig.name} | Sarıyer Güzellik Salonu`,
+  head: () => ({
+    ...pageHead({
+      title: `${siteConfig.name} | Zekeriyaköy Sarıyer`,
       description:
-        "Sarıyer Kilyos Caddesi'nde güzellik salonu: tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 09:00–20:00. Randevu için WhatsApp.",
+        "Zekeriyaköy, Sarıyer'de 360 derece güzellik merkezi: kuaför, tırnak, kirpik, kaş, cilt bakımı, kafa ve meridyen masajı. Her gün 10:00–19:00.",
       path: "/",
     }),
+    // Hero görseli mobilde LCP ögesi; önceden bildirerek keşif gecikmesi sıfırlanır.
+    links: [
+      ...pageHead({ title: "", description: "", path: "/" }).links,
+      {
+        rel: "preload",
+        as: "image",
+        href: "/images/salon/dis-cephe-1080.webp",
+        imageSrcSet:
+          "/images/salon/dis-cephe-720.webp 720w, /images/salon/dis-cephe-1080.webp 1080w",
+        imageSizes: "(min-width: 1024px) 40vw, 100vw",
+        fetchPriority: "high",
+      },
+    ],
+    // Sayfada gömülü tanıtım videosu için VideoObject
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(videoJsonLd()) }],
+  }),
   component: HomePage,
 });
 
@@ -80,15 +98,14 @@ function HomePage() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
           <div className="min-w-0">
             <p className="hero-reveal text-xs uppercase tracking-[0.35em] text-primary">
-              {siteConfig.tagline}
+              ZEKERİYAKÖY · SARIYER
             </p>
             <h1
               className="hero-reveal mt-6 font-display text-4xl leading-[1.1] md:text-6xl"
               style={{ "--hero-delay": "80ms" } as React.CSSProperties}
             >
-              Mahallenizin içinde,
-              <br />
-              <span className="text-brand-gradient">size göre planlanan bakım</span>
+              Zekeriyaköy, Sarıyer bölgesinde{" "}
+              <span className="text-brand-gradient">360 derece hizmet alacağınız merkez</span>
             </h1>
             <div
               className="hero-line mt-8 max-w-sm"
@@ -116,8 +133,18 @@ function HomePage() {
             </p>
           </div>
 
-          <div className="hero-reveal aspect-4/3 min-w-0 overflow-hidden rounded-sm shadow-elegant lg:aspect-3/4">
-            <BrandPanel brand />
+          <div className="hero-reveal aspect-4/3 min-w-0 overflow-hidden rounded-sm shadow-elegant lg:aspect-4/5">
+            <ServiceImage
+              image={{
+                base: "/images/salon/dis-cephe",
+                alt: "Armağan Meridyen Güzellik salonunun dış cephesi ve vitrini",
+                widths: [720, 1080],
+                width: 1080,
+                height: 1350,
+              }}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              priority
+            />
           </div>
         </div>
       </section>
@@ -171,8 +198,17 @@ function HomePage() {
       {/* SALON */}
       <section id="salon" className="relative py-20 md:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
-          <div className="aspect-4/3 overflow-hidden rounded-sm">
-            <BrandPanel brand />
+          <div className="aspect-16/9 overflow-hidden rounded-sm">
+            <ServiceImage
+              image={{
+                base: "/images/salon/salon-ici",
+                alt: "Armağan Meridyen Güzellik salonunun içi",
+                widths: [720, 1080],
+                width: 1080,
+                height: 607,
+              }}
+              sizes="(min-width: 1024px) 45vw, 100vw"
+            />
           </div>
           <div>
             <SectionLabel>Salon</SectionLabel>
@@ -210,7 +246,7 @@ function HomePage() {
             Salonda yapılan uygulamalar
           </h2>
           <p className="mt-5 max-w-2xl leading-relaxed text-foreground/75">
-            Tırnak ve cilt bakımından masaja, kalıcı makyajdan saç spaya kadar her uygulamanın kendi
+            Kuaförden tırnak ve cilt bakımına, masajdan solaryuma kadar her uygulamanın kendi
             sayfası var. Hangisinin size uyduğundan emin değilseniz yazın, konuşarak karar verelim.
           </p>
 
@@ -256,6 +292,13 @@ function HomePage() {
               Tüm hizmetler <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* TANITIM VİDEOSU */}
+      <section id="video" className="relative py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <TanitimVideosu />
         </div>
       </section>
 

@@ -1,14 +1,14 @@
 import type { ServiceImageRef } from "@/config/site.config";
 
 /**
- * Hizmet görselleri için duyarlı <img>.
+ * Duyarlı <img>.
  *
- * Her görselin 1600w ve 800w WebP sürümü var (bkz. public/images/hizmetler).
- * Hero dışındaki tüm kullanımlar tembel yüklenir; width/height sabit olduğu
- * için yüklenirken düzen kaymıyor (CLS 0).
+ * Genişlikler config'teki `widths` listesinden gelir — kaynak dosyadan büyütme
+ * YAPILMADIĞI için her görselin kendi listesi var (işletmenin kendi kareleri
+ * 720/1080, stok görseller 800/1600).
  *
- * Görseller stok fotoğraftır, salonun kendi çalışması değildir — footer'daki
- * "görseller temsilidir" notu bunu açıkça söyler.
+ * width/height gerçek piksel ölçüsüdür; yüklenirken düzen kaymaz (CLS 0).
+ * Hero dışındaki tüm kullanımlar tembel yüklenir.
  */
 export function ServiceImage({
   image,
@@ -23,17 +23,21 @@ export function ServiceImage({
   priority?: boolean;
   className?: string;
 }) {
+  const widths = [...image.widths].sort((a, b) => a - b);
+  const srcSet = widths.map((w) => `${image.base}-${w}.webp ${w}w`).join(", ");
+
   return (
     <img
-      src={`${image.base}-800.webp`}
-      srcSet={`${image.base}-800.webp 800w, ${image.base}-1600.webp 1600w`}
+      src={`${image.base}-${widths[0]}.webp`}
+      srcSet={srcSet}
       sizes={sizes}
       alt={image.alt}
-      width={1600}
-      height={900}
+      width={image.width}
+      height={image.height}
       loading={priority ? "eager" : "lazy"}
       decoding={priority ? "sync" : "async"}
       fetchPriority={priority ? "high" : "auto"}
+      style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
       className={`h-full w-full min-w-0 object-cover ${className}`}
     />
   );

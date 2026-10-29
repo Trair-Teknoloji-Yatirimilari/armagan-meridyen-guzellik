@@ -77,7 +77,9 @@ export function ServicePage({ service }: { service: Service }) {
                     ))}
                   </ul>
                 );
-              return <p key={i}>{b.text}</p>;
+              // ul maddeleri gibi p blokları da HTML taşıyabilir (iç bağlantılar için).
+              // İçerik config'te bizim yazdığımız metin; dışarıdan girdi yok.
+              return <p key={i} dangerouslySetInnerHTML={{ __html: b.text }} />;
             })}
           </div>
 

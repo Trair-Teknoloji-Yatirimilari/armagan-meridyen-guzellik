@@ -2,17 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { CtaRow, PageShell, SectionLabel } from "@/components/Layout";
 import { BrandPanel } from "@/components/BrandPanel";
+import { ServiceImage } from "@/components/ServiceImage";
+import { TanitimVideosu } from "@/components/TanitimVideosu";
 import { siteConfig } from "@/config/site.config";
+import { videoJsonLd } from "@/components/TanitimVideosu";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/hakkimizda")({
-  head: () =>
-    pageHead({
+  head: () => ({
+    ...pageHead({
       title: `Hakkımızda | ${siteConfig.name} Sarıyer`,
       description:
         "Sarıyer Kilyos Caddesi'ndeki salonumuz, kurucumuz ve nasıl çalıştığımız: ön görüşme, hijyen düzeni ve işlem sonrası bakım.",
       path: "/hakkimizda",
     }),
+    // Sayfada gömülü tanıtım videosu için VideoObject
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(videoJsonLd()) }],
+  }),
   component: AboutPage,
 });
 
@@ -30,7 +36,17 @@ function AboutPage() {
           <div className="hairline mt-7 max-w-xs" />
 
           <div className="mt-10 aspect-16/9 overflow-hidden rounded-sm shadow-elegant">
-            <BrandPanel brand />
+            <ServiceImage
+              image={{
+                base: "/images/salon/salon-ici",
+                alt: "Armağan Meridyen Güzellik salonunun içi",
+                widths: [720, 1080],
+                width: 1080,
+                height: 607,
+              }}
+              sizes="(min-width: 1024px) 64rem, 100vw"
+              priority
+            />
           </div>
         </div>
       </section>
@@ -40,9 +56,9 @@ function AboutPage() {
           <div className="page-content">
             <p>
               Armağan Meridyen Güzellik, {siteConfig.address.addressLocality} tarafında, Kilyos
-              Caddesi üzerinde. Tırnak ve cilt bakımından masaja, kalıcı makyajdan saç spaya kadar
-              birkaç farklı uygulamayı bir arada sunuyoruz. İmza uygulamalarımız kafa masajı ve
-              meridyen masajı.
+              Caddesi üzerinde. Kuaförden tırnak ve cilt bakımına, masajdan solaryuma kadar birkaç
+              farklı uygulamayı bir arada sunuyoruz. İmza uygulamalarımız kafa masajı ve meridyen
+              masajı.
             </p>
 
             <h2>Neden randevuyla çalışıyoruz</h2>
@@ -91,9 +107,24 @@ function AboutPage() {
         <div className="mx-auto max-w-3xl px-6 lg:px-10">
           <SectionLabel>Kurucumuz</SectionLabel>
           <div className="mt-8 grid gap-8 sm:grid-cols-[200px_1fr] sm:items-start">
-            <div className="aspect-3/4 overflow-hidden rounded-sm border border-border/60">
-              <BrandPanel title={founder.name} subtitle={founder.jobTitle} />
-            </div>
+            <figure className="m-0">
+              <div className="aspect-4/5 overflow-hidden rounded-sm border border-border/60">
+                <img
+                  src="/images/kurucu/armagan-baysal-480.webp"
+                  srcSet="/images/kurucu/armagan-baysal-480.webp 480w, /images/kurucu/armagan-baysal-800.webp 800w"
+                  sizes="(min-width: 640px) 200px, 100vw"
+                  alt={`${founder.name} — ${founder.jobTitle}`}
+                  width={800}
+                  height={1000}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full min-w-0 object-cover"
+                />
+              </div>
+              <figcaption className="mt-2 text-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                {founder.name} · {founder.jobTitle}
+              </figcaption>
+            </figure>
             <div>
               <h2 className="font-display text-2xl leading-snug">{founder.name}</h2>
               <p className="mt-1 text-xs uppercase tracking-[0.28em] text-muted-foreground">
@@ -101,16 +132,8 @@ function AboutPage() {
               </p>
               <div className="page-content mt-5">
                 <p>
-                  {founder.name}, salonu [YIL] yılında Kilyos Caddesi'nde açtı. Güzellik
-                  sektöründeki [DENEYİM] boyunca edindiği alışkanlığı buraya da taşıdı: uygulamaya
-                  başlamadan önce konuşmak, neyin gerçekçi olduğunu olduğu gibi söylemek.
-                </p>
-                <p>
-                  Kafa masajı ve meridyen masajı, onun salonda en çok önem verdiği iki uygulama.
-                  Randevu öncesi sorularınızı doğrudan WhatsApp hattımızdan iletebilirsiniz.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Köşeli parantezli alanlar, bilgi teyit edildiğinde doldurulacak yer tutuculardır.
+                  Salonun kurucusu. Randevu öncesi sorularınızı doğrudan WhatsApp hattımızdan
+                  iletebilirsiniz.
                 </p>
               </div>
             </div>
@@ -119,6 +142,12 @@ function AboutPage() {
       </section>
 
       <section className="relative py-16 md:py-20">
+        <div className="mx-auto max-w-3xl px-6 lg:px-10">
+          <TanitimVideosu />
+        </div>
+      </section>
+
+      <section className="relative pb-16 md:pb-20">
         <div className="mx-auto max-w-3xl px-6 lg:px-10">
           <CtaRow />
         </div>

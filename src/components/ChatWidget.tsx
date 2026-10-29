@@ -1,16 +1,36 @@
-/**
- * Canlı destek widget'ı.
- *
- * Yalnızca config'te bu siteye ait bir tenant anahtarı tanımlıysa yüklenir.
- * Anahtar boşken hiçbir betik eklenmez — başka bir müşterinin anahtarı
- * kazara buraya taşınmasın diye değer kodda değil, config'te tutulur.
- */
-
 import { isFilled, siteConfig } from "@/config/site.config";
 
+/**
+ * WellnessAllClub canlı destek widget'ı.
+ *
+ * Yalnızca config'te bir kiracı anahtarı tanımlıysa yüklenir; anahtar boşken
+ * hiçbir betik eklenmez.
+ *
+ * NEDEN BÖYLE YAZILDI — widget.js `document.currentScript` okuyor:
+ *   - `defer` ZORUNLU, `async` DEĞİL. React'in script hoisting'i (React 19
+ *     `<script src>` etiketlerini head'e taşıyıp `async` ekleyebiliyor)
+ *     currentScript'i bozar; bu yüzden etiket React öğesi olarak değil,
+ *     doğrudan HTML metni olarak basılıyor.
+ *   - `dangerouslySetInnerHTML` ile basılan `<script>` etiketi SSR çıktısında
+ *     olduğu gibi kalır ve hidrasyonda yeniden eklenmez — böylece sayfa başına
+ *     TEK kez çalışır.
+ *
+ * Konum: `</body>` öncesi. data-offset, sağ alttaki sabit WhatsApp butonuyla
+ * çakışmasın diye sohbet balonunu yukarı alır.
+ */
 export function ChatWidget() {
-  const { trairxTenantKey, scriptSrc, title } = siteConfig.widget;
+  const { trairxTenantKey, scriptSrc, title, business, offset, color } = siteConfig.widget;
   if (!isFilled(trairxTenantKey)) return null;
 
-  return <script src={scriptSrc} data-key={trairxTenantKey} data-title={title} />;
+  const attrs = [
+    `src="${scriptSrc}"`,
+    `data-key="${trairxTenantKey}"`,
+    `data-business="${business}"`,
+    `data-title="${title}"`,
+    `data-offset="${offset}"`,
+    `data-color="${color}"`,
+    "defer",
+  ].join("\n    ");
+
+  return <div dangerouslySetInnerHTML={{ __html: `<script\n    ${attrs}\n  ></script>` }} />;
 }
