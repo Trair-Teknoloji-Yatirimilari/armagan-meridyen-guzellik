@@ -13,11 +13,39 @@ export function BrandMark({ size = "md" }: { size?: "md" | "lg" }) {
   const { logo } = siteConfig;
 
   if (logo.type === "image" && logo.src) {
-    // Kare orana yakın bir logo; yükseklikle ölçekleniyor, genişlik otomatik.
-    const heightClass = size === "lg" ? "h-20 md:h-24" : "h-11 md:h-14";
-    // Header (md) ilk ekranda; footer (lg) ekranın çok altında — onu eager
-    // çekmek LCP ile bant genişliği yarışına giriyordu.
-    const ustte = size !== "lg";
+    // Header (md) yatay kilidi, footer (lg) kare logoyu kullanır. Footer
+    // ekranın çok altında — onu eager çekmek LCP ile bant genişliği yarışına
+    // giriyordu.
+    if (size !== "lg") {
+      const { yatay, isaret } = logo;
+      // 380 px altında yatay kilit menü butonuyla aynı satıra sığmıyor; orada
+      // yalnız işaret çıkar. <picture> kullanılıyor çünkü display:none olan bir
+      // <img> yine de indirilir — böylece ekran başına tek dosya iniyor.
+      return (
+        <picture>
+          <source
+            media="(max-width: 379px)"
+            srcSet={`${isaret.src} 1x, ${isaret.src2x} 2x`}
+            width={isaret.width}
+            height={isaret.height}
+          />
+          <img
+            src={yatay.src}
+            srcSet={`${yatay.src} 1x, ${yatay.src2x} 2x`}
+            alt={logo.alt}
+            width={yatay.width}
+            height={yatay.height}
+            // 48 px mobil / 56 px masaüstü: "MERİDYEN & GÜZELLİK" satırı
+            // 56 px'te okunuyor (ölçüldü: ikinci satır ~8,4 px).
+            className="h-12 w-auto max-[379px]:h-11 md:h-14"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
+      );
+    }
+
     return (
       <img
         src={logo.src}
@@ -25,10 +53,9 @@ export function BrandMark({ size = "md" }: { size?: "md" | "lg" }) {
         alt={logo.alt}
         width={logo.width}
         height={logo.height}
-        className={`${heightClass} w-auto`}
-        loading={ustte ? "eager" : "lazy"}
+        className="h-20 w-auto md:h-24"
+        loading="lazy"
         decoding="async"
-        fetchPriority={ustte ? "high" : "auto"}
       />
     );
   }

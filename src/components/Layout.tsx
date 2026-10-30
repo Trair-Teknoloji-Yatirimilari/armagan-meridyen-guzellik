@@ -20,8 +20,10 @@ export function PageShell({ children }: { children: ReactNode }) {
 export function SectionLabel({ children }: { children: ReactNode }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="h-px w-10 bg-primary" aria-hidden="true" />
-      <span className="text-xs uppercase tracking-[0.35em] text-primary">{children}</span>
+      {/* Şeftali ailesinin metin tonu (accent-strong) — ham #FABB98 metinde
+          kullanılmaz, krem zeminde 1.5:1 kalıyor. */}
+      <span className="h-px w-10 bg-accent-strong" aria-hidden="true" />
+      <span className="text-xs uppercase tracking-[0.35em] text-accent-strong">{children}</span>
     </div>
   );
 }
@@ -38,7 +40,7 @@ export function WhatsAppCta({
       href={whatsappLink(message)}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex w-full max-w-full items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-center text-xs uppercase tracking-[0.12em] text-primary-foreground transition-all hover:bg-primary/90 glow-soft sm:w-auto sm:px-8 sm:text-sm sm:tracking-widest"
+      className="group inline-flex w-full max-w-full items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-center text-xs uppercase tracking-[0.12em] text-primary-foreground transition-all hover:bg-primary-hover glow-soft sm:w-auto sm:px-8 sm:text-sm sm:tracking-widest"
     >
       {label}
       <ArrowUpRight

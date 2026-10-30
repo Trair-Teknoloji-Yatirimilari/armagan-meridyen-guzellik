@@ -98,7 +98,7 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center rounded-full bg-primary px-8 py-3.5 text-sm uppercase tracking-widest text-primary-foreground transition-colors hover:bg-primary/90 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-full bg-primary px-8 py-3.5 text-sm uppercase tracking-widest text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
       >
         WhatsApp'ta devam et
       </button>

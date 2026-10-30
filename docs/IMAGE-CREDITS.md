@@ -35,9 +35,21 @@ Kaynak kareler 1080 piksel genişliğinde olduğu için **büyütme yapılmadı*
 
 | Dosya | Kaynak | Not |
 | --- | --- | --- |
-| `logo/armagan-logo-240.webp` · `-480.webp` · `-480.png` | `armagan-logo-1024-seffaf.png` | Saydam kenar boşluğu kırpıldı (887x816). Header 1x/2x, footer |
+| `logo/armagan-logo-yatay.svg` | `armaganlogo.pdf` (vektör) | Yatay kilit — `pdftocairo -svg` ile açıldı, işaret ve yazı ayrı gruplara bölünüp işaret sol / yazı sağ olarak yeniden dizildi. Harfler orijinal çizimin eğrileri; font kullanılmadı |
+| `logo/armagan-logo-yatay-268.webp` · `-536.webp` | yukarıdaki SVG | Header 1x/2x (56 px yükseklik) |
+| `logo/armagan-isaret.svg` · `armagan-isaret-56.webp` · `-111.webp` | aynı PDF, yalnız işaret yolları | 380 px altı ekranlarda header |
+| `logo/armagan-logo-240.webp` · `-480.webp` · `-480.png` | `armagan-logo-1024-seffaf.png` | Saydam kenar boşluğu kırpıldı (887x816). Footer ve JSON-LD `logo` alanı — kareye yakın oran Google için bilinçli tercih |
 | `favicon.ico` · `favicon-32.png` · `apple-touch-icon.png` · `icon-192.png` · `icon-512.png` | `armagan-ikon-512.png` | `site.webmanifest` bunları kullanır |
 | `og-image.png` | `/og-card` ekran görüntüsü | Krem zemin üstünde ortalanmış logo |
+
+**Yatay kilitte tek sapma — işaret/yazı oranı.** Orijinal dikey çizimde yazı
+bloğu işaretin altında ve ona göre çok küçük. Bu oran yatayda korunsaydı 56 px
+yükseklikte "MERİDYEN & GÜZELLİK" satırı ~4 px'e düşüyordu, yani okunmuyordu.
+Yazı bloğu işarete göre **2,6 kat** büyütüldü. Harf biçimleri, harf aralığı,
+blok içi oranlar ve renkler değişmedi — değişen tek şey işaret ile yazı
+arasındaki ölçek ilişkisi. Aradaki boşluk işaret genişliğinin %25'i, yazı
+dikeyde ortalanmış. Kaynak PDF: Adobe Illustrator 28.2, 595x595 pt, 37 yol,
+gömülü font ya da raster yok.
 
 > `armagan-logo-1024-beyaz.png` **kullanılmadı**: beyaz *yazı* değil, beyaz
 > *zeminli* bir karo. Sitede koyu yüzey olmadığı için gerekmedi.

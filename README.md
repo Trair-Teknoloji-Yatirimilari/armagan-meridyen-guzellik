@@ -46,13 +46,33 @@ isim, adres, telefon, renk veya ölçüm kimliği yok.
 | Alan | Ne işe yarar |
 | --- | --- |
 | `domain` | canonical, sitemap, OG ve JSON-LD adresleri (build zamanında dosyaya yazılır) |
-| `colors` | `:root` değişkenleri, markalı paneller ve OG görseli |
+| `colors` | `:root` değişkenleri, markalı paneller, `theme-color` ve OG görseli |
 | `address`, `phone`, `email`, `whatsapp`, `hours` | görünür metinler **ve** BeautySalon şeması (NAP birebir aynı) |
 | `analytics.*`, `widget.trairxTenantKey` | boşken ilgili etiket/betik **hiç render edilmez** |
 | `services[]` | hizmet sayfaları, menü, sitemap ve kartlar bu listeden üretilir |
 
 Prerender edilecek yolların listesi de `vite.config.ts` içinde aynı config'ten
 ve `content/blog` klasöründen türetilir — elle tutulan ikinci bir liste yok.
+
+## Palet
+
+Renkler logodan alındı: işaretin grisi ve şeridin şeftalisi. Hepsi
+`site.config.ts` → `colors` içinde; `__root.tsx` bunları `:root` değişkenlerine
+basar, `styles.css`'teki aynı değerler yalnızca yedektir.
+
+| Token | Değer | Nerede | Krem zeminde |
+| --- | --- | --- | --- |
+| `primary` | `#5F6060` | buton zemini, çizgiler, odak halkası | 5.79:1 |
+| `primaryHover` | `#4A4B4B` | buton hover'ı (açılmaz, koyulaşır) | — |
+| `accent` | `#FABB98` | **yalnız dekor**: panel çerçevesi, doku | 1.53:1 |
+| `accentStrong` | `#9A5A37` | şeftali tonunda **metin**: vurgu başlığı, üst etiket | 4.96:1 |
+| `accentSoft` | `#FDF1EA` | yumuşak yüzey, outline/ghost hover zemini | — |
+| `mutedForeground` | `#6A6762` | ikincil metin | 5.17:1 |
+
+> **Kural:** `accent` (#FABB98) asla metin rengi değildir — krem zeminde 1.53:1.
+> Şeftali tonunda yazı gerekiyorsa `accentStrong` kullanılır. `accent` bir
+> zemin olarak kullanılırsa üstüne gelen yazı `--accent-foreground` ile koyu
+> nötre düşer, beyaza değil.
 
 ## Blog
 
@@ -126,8 +146,7 @@ laminasyonu, saç spa, kuaför ve epilasyon sayfalarında hâlâ stok görsel va
 gerçek kare geldiğinde `site.config.ts` içindeki `image` alanını değiştirmek
 yeterli.
 
-**Config:** `geo` (koordinatlar), `mapEmbedUrl` (harita gömme adresi),
-`colors` (şu an nötr palet — logo renkleriyle uyumlanması ayrı karar).
+**Config:** `geo` (koordinatlar), `mapEmbedUrl` (harita gömme adresi).
 
 **Kurucu biyografisi:** sayfada yalnızca ad ve unvan var — doğrulanmamış bilgi
 yazılmadı. Bilgi teyit edilince hem biyografi eklenebilir hem de blog

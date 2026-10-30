@@ -39,7 +39,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/hizmetler"
-                  className="text-sm text-primary transition-colors hover:text-primary/80"
+                  className="text-sm text-primary transition-colors hover:text-primary-hover"
                 >
                   Tüm hizmetler
                 </Link>

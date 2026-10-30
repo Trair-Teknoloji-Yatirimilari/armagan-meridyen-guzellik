@@ -78,36 +78,68 @@ export const siteConfig = {
     primaryLine: "Armağan Meridyen",
     /** Metin logonun alt satırı (iki yanında dekoratif çizgi) */
     secondaryLine: "Güzellik",
-    /** Gerçek logo — saydam PNG'den üretilmiş WebP, 1x ve 2x */
+    /**
+     * YATAY KİLİT — header. Vektör logodan (armaganlogo.pdf) işaret ve yazı
+     * ayrıştırılıp işaret solda / yazı sağda yeniden dizildi. Harfler orijinal
+     * çizimin eğrileri; yazı fontla yeniden yazılmadı.
+     */
+    yatay: {
+      src: "/logo/armagan-logo-yatay-268.webp",
+      src2x: "/logo/armagan-logo-yatay-536.webp",
+      width: 268,
+      height: 56,
+    },
+    /** Yalnız işaret — yatay kilidin sığmadığı dar ekranlar için */
+    isaret: {
+      src: "/logo/armagan-isaret-56.webp",
+      src2x: "/logo/armagan-isaret-111.webp",
+      width: 56,
+      height: 56,
+    },
+    /**
+     * KARE/DİKEY logo — footer ve JSON-LD. JSON-LD'de bilinçli olarak bu
+     * kalıyor: Google kareye yakın oranı tercih ediyor.
+     */
     src: "/logo/armagan-logo-240.webp" as string | null,
     src2x: "/logo/armagan-logo-480.webp",
     /** Gerçek piksel ölçüsü (saydam kenar boşluğu kırpılmış hâli) */
     width: 240,
     height: 221,
-    alt: "Armağan Meridyen Güzellik logosu",
+    alt: "Armağan Meridyen Güzellik",
   },
 
   /* ---------------- Renkler ----------------
-   * Nötr bir başlangıç paleti. Marka rengi belirlenince yalnızca burası
-   * değişir; :root değişkenleri __root.tsx tarafından buradan basılır,
-   * OG görseli de aynı değerlerden üretilir.
-   * TODO: marka paleti netleşince güncellenecek.
+   * Palet logodan alınmıştır: işaretin grisi #585A5B ve şeridin şeftalisi
+   * #F9B08B. :root değişkenleri __root.tsx tarafından buradan basılır, OG
+   * görseli de aynı değerlerden üretilir.
+   *
+   * KURAL — şeftali (accent) ASLA metin rengi değildir: krem zeminde 1.53:1.
+   * Şeftali tonunda yazı gerekiyorsa accentStrong kullanılır (4.96:1).
    */
   colors: {
-    background: "oklch(0.975 0.004 85)",
-    foreground: "oklch(0.26 0.012 75)",
-    card: "oklch(0.995 0.002 85)",
-    muted: "oklch(0.94 0.006 85)",
-    mutedForeground: "oklch(0.50 0.012 75)",
-    border: "oklch(0.88 0.008 85 / 75%)",
-    primary: "oklch(0.52 0.028 70)",
-    primaryForeground: "oklch(0.985 0.003 85)",
-    accent: "oklch(0.66 0.035 70)",
-    /** Markalı panellerin çerçeve ve doku rengi */
-    gold: "oklch(0.74 0.06 82)",
-    /** Başlık vurgularında kullanılan degrade */
-    gradientFrom: "oklch(0.58 0.032 72)",
-    gradientTo: "oklch(0.40 0.024 68)",
+    /** Krem zemin — bu turda değişmedi */
+    background: "#F7F5F1",
+    /** Gövde metni: koyu nötr, zeminde 13.1:1 */
+    foreground: "#2D2A26",
+    card: "#FCFBF9",
+    muted: "#EFECE7",
+    /** İkincil metin — AA için koyulaştırıldı (eski değer 4.21:1 kalıyordu) */
+    mutedForeground: "#6A6762",
+    border: "#E3DED6",
+    /** Logonun grisi: buton zemini, çizgiler, odak halkası */
+    primary: "#5F6060",
+    /** Buton hover'ı — açılmaz, koyulaşır */
+    primaryHover: "#4A4B4B",
+    primaryForeground: "#FFFFFF",
+    /** Logonun şeftalisi — YALNIZCA dekoratif (çerçeve, doku, yüzey) */
+    accent: "#FABB98",
+    /** Şeftali ailesinin metin tonu — vurgu başlıkları ve üst etiket */
+    accentStrong: "#9A5A37",
+    /** Şeftalinin en açık hâli — bölüm zeminleri, hover yüzeyi */
+    accentSoft: "#FDF1EA",
+    /** Başlık vurgularında kullanılan degrade — iki ucu da AA geçer */
+    gradientFrom: "#9A5A37",
+    gradientTo: "#7E4529",
   },
 
   /* ---------------- Adres ---------------- */
@@ -210,7 +242,8 @@ export const siteConfig = {
     business: "Armağan Meridyen Güzellik",
     /** Sağ alttaki sabit WhatsApp butonuyla çakışmasın diye balon yukarı alınır */
     offset: "88",
-    color: "#586060",
+    /** Site paletinin primary'si — balon da logo grisinde */
+    color: "#5F6060",
   },
 
   /* ---------------- Özellik bayrakları ---------------- */

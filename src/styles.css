@@ -19,6 +19,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -26,6 +27,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -41,28 +44,31 @@
 :root {
   --radius: 0.5rem;
 
-  --background: oklch(0.975 0.004 85);
-  --foreground: oklch(0.26 0.012 75);
-  --card: oklch(0.995 0.002 85);
+  --background: #f7f5f1;
+  --foreground: #2d2a26;
+  --card: #fcfbf9;
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.52 0.028 70);
-  --primary-foreground: oklch(0.985 0.003 85);
-  --secondary: oklch(0.94 0.006 85);
+  --primary: #5f6060;
+  --primary-hover: #4a4b4b;
+  --primary-foreground: #ffffff;
+  --secondary: #efece7;
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.94 0.006 85);
-  --muted-foreground: oklch(0.50 0.012 75);
-  --accent: oklch(0.66 0.035 70);
-  --gold: oklch(0.74 0.06 82);
-  --accent-foreground: var(--primary-foreground);
+  --muted: #efece7;
+  --muted-foreground: #6a6762;
+  /* Şeftali: dekoratif. Üzerine yazı gelirse koyu nötr olur, beyaz DEĞİL. */
+  --accent: #fabb98;
+  --accent-foreground: var(--foreground);
+  --accent-strong: #9a5a37;
+  --accent-soft: #fdf1ea;
   --destructive: oklch(0.58 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.008 85 / 75%);
-  --input: oklch(0.90 0.008 85);
+  --border: #e3ded6;
+  --input: #e3ded6;
   --ring: var(--primary);
 
-  --gradient-brand: linear-gradient(135deg, oklch(0.58 0.032 72), oklch(0.40 0.024 68));
+  --gradient-brand: linear-gradient(135deg, #9a5a37, #7e4529);
   --shadow-soft: 0 20px 60px -24px oklch(0.30 0.02 75 / 0.22);
   --shadow-elegant: 0 40px 80px -30px oklch(0.30 0.02 75 / 0.22);
 }
@@ -98,17 +104,19 @@
   }
 }
 
-/* ---- Markalı panel (fotoğraf gelene kadar) ---- */
+/* ---- Markalı panel (fotoğraf gelene kadar) ----
+ * Çerçeve ve doku logonun şeftali tonu (--accent). Yalnızca dekor;
+ * bu yüzeylerde metin yoktur. */
 .brand-panel {
   background:
-    radial-gradient(130% 100% at 50% 0%, color-mix(in oklab, var(--gold) 12%, transparent), transparent 68%),
+    radial-gradient(130% 100% at 50% 0%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 68%),
     var(--card);
 }
 .brand-panel::before {
   content: "";
   position: absolute;
   inset: 0.625rem;
-  border: 1px solid color-mix(in oklab, var(--gold) 50%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
   pointer-events: none;
 }
 .brand-panel::after {
@@ -117,7 +125,7 @@
   inset: 0;
   background-image: repeating-linear-gradient(
     45deg,
-    color-mix(in oklab, var(--gold) 9%, transparent) 0 1px,
+    color-mix(in oklab, var(--accent) 9%, transparent) 0 1px,
     transparent 1px 16px
   );
   pointer-events: none;

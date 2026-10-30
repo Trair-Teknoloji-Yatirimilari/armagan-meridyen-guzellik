@@ -12,7 +12,27 @@ import { beautySalonJsonLd, pageHead } from "@/lib/seo";
 /** Config'teki palet :root değişkenlerine buradan basılır — renk tek yerden değişir. */
 function brandCss(): string {
   const c = siteConfig.colors;
-  return `:root{--background:${c.background};--foreground:${c.foreground};--card:${c.card};--muted:${c.muted};--secondary:${c.muted};--muted-foreground:${c.mutedForeground};--border:${c.border};--primary:${c.primary};--primary-foreground:${c.primaryForeground};--accent:${c.accent};--gold:${c.gold};--gradient-brand:linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo});}`;
+  const pairs: Record<string, string> = {
+    "--background": c.background,
+    "--foreground": c.foreground,
+    "--card": c.card,
+    "--muted": c.muted,
+    "--secondary": c.muted,
+    "--muted-foreground": c.mutedForeground,
+    "--border": c.border,
+    "--input": c.border,
+    "--primary": c.primary,
+    "--primary-hover": c.primaryHover,
+    "--primary-foreground": c.primaryForeground,
+    "--accent": c.accent,
+    "--accent-strong": c.accentStrong,
+    "--accent-soft": c.accentSoft,
+    "--gradient-brand": `linear-gradient(135deg, ${c.gradientFrom}, ${c.gradientTo})`,
+  };
+  const body = Object.entries(pairs)
+    .map(([k, v]) => `${k}:${v}`)
+    .join(";");
+  return `:root{${body};}`;
 }
 
 function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
@@ -32,7 +52,7 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-sm text-primary-foreground hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-sm text-primary-foreground hover:bg-primary-hover"
           >
             Tekrar dene
           </button>
@@ -60,7 +80,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#f7f5f1" },
+      { name: "theme-color", content: siteConfig.colors.background },
       ...defaultHead.meta,
     ],
     links: [
