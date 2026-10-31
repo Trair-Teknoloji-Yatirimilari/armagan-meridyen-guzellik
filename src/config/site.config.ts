@@ -158,6 +158,7 @@ export const siteConfig = {
   geo: null as { latitude: number; longitude: number } | null,
 
   /* ---------------- İletişim ---------------- */
+  /** ARAMA hattı. WhatsApp ayrı bir numara — aşağıdaki `whatsapp` bloğuna bakın. */
   phone: {
     /** Ekranda görünen biçim */
     display: "+90 532 470 09 84",
@@ -167,9 +168,16 @@ export const siteConfig = {
 
   email: "info@armaganmeridyenguzellik.com",
 
+  /**
+   * WhatsApp AYRI BİR HAT. Arama hattı (phone) ile aynı numara değil —
+   * WhatsApp'a asistan bakıyor, telefon salonun arama hattı. İkisi sitede
+   * bilerek ayrı satırlarda gösteriliyor; karıştırılmamalı.
+   */
   whatsapp: {
     /** wa.me numarası — başında + ve boşluk yok */
-    number: "905324700984",
+    number: "905307700984",
+    /** Ekranda görünen biçim */
+    display: "+90 530 770 09 84",
     /** Butonlara tıklayınca açılan hazır mesaj */
     defaultMessage: "Merhaba, bilgi ve randevu almak istiyorum.",
   },

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Instagram, Mail, MapPin, Phone, Star } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Star } from "lucide-react";
 
 import { BrandMark } from "@/components/BrandMark";
 import { blogEnabled, blogPath } from "@/lib/blog";
@@ -12,6 +12,7 @@ import {
   reviewUrl,
   servicePath,
   siteConfig,
+  whatsappLink,
 } from "@/config/site.config";
 
 export function SiteFooter() {
@@ -66,7 +67,27 @@ export function SiteFooter() {
               className="flex items-center gap-3 text-sm text-foreground/80 transition-colors hover:text-primary"
             >
               <Phone className="h-4 w-4 text-primary" strokeWidth={1.5} aria-hidden="true" />
-              {siteConfig.phone.display}
+              <span>
+                {siteConfig.phone.display}
+                <span className="block text-xs text-muted-foreground">Arama</span>
+              </span>
+            </a>
+            {/* WhatsApp ayrı hat — arama numarasıyla aynı değil. */}
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-sm text-foreground/80 transition-colors hover:text-primary"
+            >
+              <MessageCircle
+                className="h-4 w-4 shrink-0 text-primary"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+              <span>
+                {siteConfig.whatsapp.display}
+                <span className="block text-xs text-muted-foreground">WhatsApp</span>
+              </span>
             </a>
             <a
               href={`mailto:${siteConfig.email}`}

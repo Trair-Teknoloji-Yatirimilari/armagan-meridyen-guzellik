@@ -119,9 +119,9 @@ export function ContactForm() {
       </p>
 
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Bu form bilgilerinizi hiçbir sunucuya göndermez; yazdıklarınızı {siteConfig.phone.display}{" "}
-        numaralı WhatsApp hattımıza mesaj taslağı olarak taşır. Göndermeden önce mesajı kendiniz
-        görüp değiştirebilirsiniz.
+        Bu form bilgilerinizi hiçbir sunucuya göndermez; yazdıklarınızı{" "}
+        {siteConfig.whatsapp.display} numaralı WhatsApp hattımıza mesaj taslağı olarak taşır.
+        Göndermeden önce mesajı kendiniz görüp değiştirebilirsiniz.
       </p>
     </form>
   );

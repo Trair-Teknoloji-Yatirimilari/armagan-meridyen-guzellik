@@ -88,8 +88,8 @@ function AboutPage() {
             <p>
               Randevu, siz salondan çıkınca bitmiyor. Her uygulamanın sonunda evde nelere dikkat
               etmeniz gerektiğini tek tek anlatıyor, isterseniz WhatsApp'tan yazılı olarak da
-              gönderiyoruz. Aradan zaman geçtikten sonra aklınıza bir soru takılırsa aynı numaradan
-              yazabilirsiniz.
+              gönderiyoruz. Aradan zaman geçtikten sonra aklınıza bir soru takılırsa WhatsApp
+              hattımızdan yazabilirsiniz.
             </p>
 
             <h2>Fiyatları neden burada yazmıyoruz</h2>

@@ -73,7 +73,11 @@ export function pageHead({ title, description, path, image, imageAlt }: PageHead
 
 /** Sitenin her sayfasında basılan işletme şeması. */
 export function beautySalonJsonLd() {
-  const sameAs = [instagramUrl()].filter((x): x is string => Boolean(x));
+  // wa.me adresi sameAs'e giriyor: Google'ın işletmeyle ilişkilendirdiği
+  // resmî kanallardan biri. Hazır mesaj parametresi olmadan, sade biçimde.
+  const sameAs = [instagramUrl(), `https://wa.me/${siteConfig.whatsapp.number}`].filter(
+    (x): x is string => Boolean(x),
+  );
   const a = siteConfig.address;
 
   return {
@@ -85,8 +89,26 @@ export function beautySalonJsonLd() {
     url: SITE_URL,
     image: OG_IMAGE,
     logo: siteUrl(siteConfig.logo.src ?? "/og-image.png"),
+    // telephone = ARAMA hattı. WhatsApp ayrı bir numara ve aşağıda
+    // contactPoint olarak veriliyor; ikisi bilerek farklı.
     telephone: siteConfig.phone.display,
     email: siteConfig.email,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        telephone: siteConfig.phone.display,
+        availableLanguage: "Turkish",
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "reservations",
+        name: "WhatsApp",
+        telephone: siteConfig.whatsapp.display,
+        url: `https://wa.me/${siteConfig.whatsapp.number}`,
+        availableLanguage: "Turkish",
+      },
+    ],
     founder: {
       "@type": "Person",
       name: siteConfig.founder.name,

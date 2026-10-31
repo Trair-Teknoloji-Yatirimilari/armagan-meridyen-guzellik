@@ -11,6 +11,7 @@ import {
   mapsSearchLink,
   reviewUrl,
   siteConfig,
+  whatsappLink,
 } from "@/config/site.config";
 import { pageHead } from "@/lib/seo";
 
@@ -75,8 +76,10 @@ function ContactPage() {
                   >
                     {siteConfig.phone.display}
                   </a>
+                  <span className="block text-sm text-muted-foreground">Arama hattı</span>
                 </dd>
               </div>
+              {/* WhatsApp ayrı bir hat — arama numarasıyla aynı değil. */}
               <div className="flex items-start gap-3">
                 <dt className="sr-only">WhatsApp</dt>
                 <MessageCircle
@@ -84,8 +87,18 @@ function ContactPage() {
                   strokeWidth={1.5}
                   aria-hidden="true"
                 />
-                <dd className="text-foreground/85">
-                  Aynı numaradan WhatsApp ile de yazabilirsiniz.
+                <dd>
+                  <a
+                    href={whatsappLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground/85 underline-offset-4 hover:underline"
+                  >
+                    {siteConfig.whatsapp.display}
+                  </a>
+                  <span className="block text-sm text-muted-foreground">
+                    Yalnızca WhatsApp — mesajlarınızı buradan yanıtlıyoruz
+                  </span>
                 </dd>
               </div>
               <div className="flex items-start gap-3">
