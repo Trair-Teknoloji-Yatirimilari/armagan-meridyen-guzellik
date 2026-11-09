@@ -5,6 +5,9 @@ date: "2026-11-09"
 updated: "2026-11-09"
 category: "Lazer Epilasyon"
 relatedServices: ["epilasyon", "cilt-bakimi"]
+image: "/images/blog/lazer-epilasyon-kac-seans-surer-1600.webp"
+imageAlt: "Lazer epilasyon uygulaması"
+imageCredit: "Unsplash / Farhad Ibrahimzade"
 draft: false
 faq:
   - q: "Lazer epilasyon kaç seans sürer?"

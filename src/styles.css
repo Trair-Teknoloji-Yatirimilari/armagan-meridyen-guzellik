@@ -362,3 +362,59 @@
 .page-content h2 {
   scroll-margin-top: 6rem;
 }
+
+/* ---- Blog gövdesi ----
+ * page-content üzerine binen okuma katmanı: biraz daha büyük punto, daha
+ * geniş satır aralığı, başlıklarda vurgu rengi. Hizmet sayfaları sade
+ * page-content'te kalır. */
+.blog-content {
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.75;
+}
+@media (min-width: 768px) {
+  .blog-content {
+    font-size: 1.125rem; /* 18px */
+  }
+}
+.blog-content h2 {
+  color: var(--accent-strong);
+  font-size: 1.75rem;
+  margin: 2.2em 0 0.5em;
+}
+.blog-content h3 {
+  font-size: 1.3rem;
+  margin: 1.8em 0 0.4em;
+}
+.blog-content a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.blog-content li::marker {
+  color: var(--accent-strong);
+}
+.blog-content table {
+  font-size: 1rem;
+}
+
+/* ---- SSS akordiyonu (details/summary) ----
+ * JavaScript gerektirmiyor ve cevaplar her zaman DOM'da — FAQPage şemasıyla
+ * birebir eşleşiyor. */
+.sss-ogesi > summary {
+  cursor: pointer;
+  list-style: none;
+}
+.sss-ogesi > summary::-webkit-details-marker {
+  display: none;
+}
+.sss-ogesi > summary .sss-ok {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sss-ogesi[open] > summary .sss-ok {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sss-ogesi > summary .sss-ok {
+    transition: none;
+  }
+}

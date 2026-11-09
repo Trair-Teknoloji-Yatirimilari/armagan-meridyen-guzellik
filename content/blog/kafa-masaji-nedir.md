@@ -5,8 +5,9 @@ date: "2026-10-29"
 updated: "2026-10-29"
 category: "Masaj"
 relatedServices: ["kafa-masaji", "meridyen-masaji", "sac-spa"]
-image: "/images/hizmetler/kafa-masaji-sariyer-1600.webp"
-imageAlt: "Kafa masajı uygulaması – örnek görsel"
+image: "/images/blog/kafa-masaji-nedir-971.webp"
+imageAlt: "Kafa masajı uygulaması"
+imageCredit: "Armağan Meridyen Güzellik"
 draft: false
 faq:
   - q: "Kafa masajı ne kadar sürer?"

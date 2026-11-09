@@ -5,8 +5,9 @@ date: "2026-10-29"
 updated: "2026-10-29"
 category: "Kirpik ve Kaş"
 relatedServices: ["kirpik-lifting", "ipek-kirpik", "kas-laminasyonu"]
-image: "/images/hizmetler/kirpik-lifting-sariyer-1600.webp"
-imageAlt: "İpek kirpik uygulaması – örnek görsel"
+image: "/images/blog/kirpik-lifting-mi-ipek-kirpik-mi-1600.webp"
+imageAlt: "Doğal kirpiklerin yakın çekimi"
+imageCredit: "Unsplash / Cyprien Da Silva"
 draft: false
 faq:
   - q: "Kirpik lifting ne kadar kalıcıdır?"

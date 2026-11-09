@@ -57,6 +57,42 @@ gömülü font ya da raster yok.
 
 ---
 
+## Blog kapakları
+
+Her yazının kapağı `public/images/blog/<slug>-<genişlik>.webp`. Oran **16:10**,
+merkezden kırpım, kalite 80, metadata temizlendi. **Büyütme yok** — bu yüzden
+salonun kendi karelerinden üretilenler 1600'e çıkmıyor (kaynak 1080 piksel
+genişliğinde). 800 basamağı yalnızca en büyük sürüm 900 pikselden genişse
+üretiliyor; `src/lib/blog.ts` srcset'i aynı kurala göre kuruyor.
+
+| Yazı | Dosya | Kaynak | Kredi |
+| --- | --- | --- | --- |
+| kafa-masaji-nedir | `-971`, `-800` | işletmenin tanıtım videosu (`kafa-masaji-head-spa.jpg`) | Armağan Meridyen Güzellik |
+| protez-tirnak-ne-kadar-dayanir | `-843` | işletmenin tanıtım videosu (`tirnak-uygulamasi.jpg`) | Armağan Meridyen Güzellik |
+| kirpik-lifting-mi-ipek-kirpik-mi | `-1600`, `-800` | Unsplash `lrC3LSnlyW8` | Unsplash / Cyprien Da Silva |
+| lazer-epilasyon-kac-seans-surer | `-1600`, `-800` | Unsplash `szpFxaqS658` | Unsplash / Farhad Ibrahimzade |
+| ipek-kirpik-ne-kadar-dayanir | `-1600`, `-800` | Unsplash `sRSRuxkOuzI` | Unsplash / Hayley Kim Studios |
+| kas-laminasyonu-nedir | — | **kapak yok**, yer tutucu gösteriliyor | — |
+
+Unsplash kapaklarının alt metni genel tutuldu ("İpek kirpik uygulaması") ve
+kapağın altında "Görsel: Unsplash / &lt;ad&gt;" notu basılıyor; salonun kendi
+çekimi gibi sunulmuyor.
+
+**`protez-tirnak` kırpım notu:** kare 1080x607 ve tırnak uygulaması sol
+tarafta. Merkezden 16:10 kırpım müşterinin saçını öne çıkarıyordu; bu yüzden
+yatayda %2–80 aralığı alındı. Sonuç 843 piksel, 800'e yakın olduğu için ikinci
+bir dosya üretilmedi.
+
+**`kas-laminasyonu-nedir` neden kapaksız:** Unsplash'te ücretsiz lisanslı,
+aydınlık, kaş odaklı yakın çekim bulunamadı — uygun olanlar Unsplash+
+aboneliğine kilitli. Değerlendirilip elenen adaylar: `MyeBX9azc4E` ve
+`t4KX_UZeHEM` (premium), `otYarkxbZzo` (siyah-beyaz, paletle uyumsuz),
+`U88HKDGynE4` (kaş değil, kirpik uygulaması). Yanlış yönlendiren bir görsel
+koymak yerine yer tutucu tercih edildi. Frontmatter'a `image` eklendiği anda
+sayfa kendiliğinden gerçek görsele geçer.
+
+---
+
 ## Stok görseller (Unsplash)
 
 Altı hizmet sayfasında hâlâ stok görsel var. Unsplash Lisansı ticari kullanıma

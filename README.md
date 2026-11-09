@@ -78,7 +78,19 @@ basar, `styles.css`'teki aynı değerler yalnızca yedektir.
 
 İçerik: `content/blog/<slug>.md`. Frontmatter alanları: `title`, `description`
 (≤155 karakter), `date`, `updated`, `category`, `relatedServices` (hizmet
-slug'ları), `faq` (q/a listesi), `image`, `imageAlt`, `draft`.
+slug'ları), `faq` (q/a listesi), `image`, `imageAlt`, `imageCredit`, `draft`.
+
+**Kapak görseli:** `image` tek bir yol alır; dosya adının sonundaki
+`-<genişlik>.webp` en büyük sürümdür ve srcset buradan türetilir (800 basamağı
+yalnızca en büyük sürüm 900 pikselden genişse). Oran 16:10, ölçüler `width` /
+`height` olarak basılır — CLS 0. `image` yoksa krem zeminli, kategori adını
+gösteren yer tutucu çıkar. `imageCredit` doluysa kapağın altına küçük bir
+"Görsel: …" notu eklenir.
+
+`category` değerleri `/blog` sayfasındaki filtre çiplerini **kendiliğinden**
+üretir — elle tutulan ikinci bir liste yok. Filtre yalnızca istemci tarafında
+çalışır, `?kategori=` ile paylaşılabilir, JavaScript kapalıyken tüm yazılar
+görünür kalır.
 
 **Görünürlük kuralı:** `draft: false` olan yazı sayısı 0 ise blog yokmuş gibi
 davranılır — menüde ve footer'da görünmez, sitemap'e girmez, `/blog` üretilmez

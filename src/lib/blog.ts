@@ -28,7 +28,21 @@ export type BlogPost = {
   /** İlgili hizmet slug'ları — iki yönlü iç bağlantı için */
   relatedServices: string[];
   faq: BlogFaq[];
-  image?: { src: string; alt: string };
+  /**
+   * Kapak görseli. `widths`, dosya adındaki en büyük genişlikten türetilir —
+   * frontmatter'da ayrı bir alan tutulmuyor (bkz. kapakGorseli).
+   */
+  image?: {
+    /** En büyük sürümün yolu — srcset'in `src` yedeği */
+    src: string;
+    alt: string;
+    /** "Armağan Meridyen Güzellik" ya da "Unsplash / <fotoğrafçı>" */
+    credit?: string;
+    widths: number[];
+    /** En büyük sürümün gerçek ölçüsü — CLS 0 için */
+    width: number;
+    height: number;
+  };
   draft: boolean;
   /** Markdown'dan üretilmiş gövde HTML'i */
   html: string;
@@ -159,6 +173,37 @@ const files = import.meta.glob("/content/blog/*.md", {
   eager: true,
 }) as Record<string, string>;
 
+/** Kapak görsellerinin sabit en-boy oranı (16:10). */
+export const KAPAK_ORANI = 1.6;
+
+/**
+ * Frontmatter'daki tek `image` yolundan srcset verisini türetir.
+ *
+ * Dosya adı "-<genişlik>.webp" ile bitiyor; bu en büyük sürümdür. 800
+ * basamağı yalnızca en büyük sürüm 900 pikselden genişse eklenir — salonun
+ * kendi kareleri 1080 piksel kaynaktan geldiği ve BÜYÜTÜLMEDİĞİ için bazı
+ * kapaklar 843 piksel gibi değerlerde kalıyor; orada ikinci bir dosya
+ * üretmek anlamsız olurdu. Üretim betiği de aynı kuralı uyguluyor.
+ */
+function kapakGorseli(
+  src: string,
+  alt: string,
+  credit: string,
+): NonNullable<BlogPost["image"]> | undefined {
+  const m = /-(\d+)\.webp$/.exec(src);
+  if (!m) return undefined;
+  const enBuyuk = Number(m[1]);
+  const widths = enBuyuk >= 900 ? [800, enBuyuk] : [enBuyuk];
+  return {
+    src,
+    alt,
+    credit: credit || undefined,
+    widths,
+    width: enBuyuk,
+    height: Math.round(enBuyuk / KAPAK_ORANI),
+  };
+}
+
 function parseFile(path: string, raw: string): BlogPost {
   const slug = path.split("/").pop()!.replace(/\.md$/, "");
   const { data, body } = splitFrontmatter(raw);
@@ -175,7 +220,11 @@ function parseFile(path: string, raw: string): BlogPost {
     relatedServices: asStringArray(data.relatedServices),
     faq: asFaq(data.faq),
     image: imageSrc
-      ? { src: imageSrc, alt: asString(data.imageAlt, asString(data.title)) }
+      ? kapakGorseli(
+          imageSrc,
+          asString(data.imageAlt, asString(data.title)),
+          asString(data.imageCredit),
+        )
       : undefined,
     draft: data.draft === true,
     html,

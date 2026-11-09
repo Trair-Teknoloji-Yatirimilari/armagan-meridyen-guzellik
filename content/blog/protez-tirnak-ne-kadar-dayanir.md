@@ -5,6 +5,9 @@ date: "2026-11-01"
 updated: "2026-11-01"
 category: "Tırnak"
 relatedServices: ["tirnak-bakimi-protez-tirnak", "manikur-pedikur"]
+image: "/images/blog/protez-tirnak-ne-kadar-dayanir-843.webp"
+imageAlt: "Protez tırnak uygulaması"
+imageCredit: "Armağan Meridyen Güzellik"
 draft: false
 faq:
   - q: "Protez tırnak dolgusu ne sıklıkla yapılmalı?"

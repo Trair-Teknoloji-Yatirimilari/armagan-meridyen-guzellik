@@ -43,12 +43,27 @@ export type PageHeadInput = {
   path: string;
   image?: string;
   imageAlt?: string;
+  /** Paylaşım görselinin gerçek ölçüsü. Verilmezse OG kartının 1200x630'u. */
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 /** Her sayfanın ortak head() gövdesi: title, description, canonical, OG. */
-export function pageHead({ title, description, path, image, imageAlt }: PageHeadInput) {
+export function pageHead({
+  title,
+  description,
+  path,
+  image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
+}: PageHeadInput) {
   const url = siteUrl(path);
   const img = image ?? OG_IMAGE;
+  // Ölçü yalnızca görselle BİRLİKTE geçilmeli; biri verilip diğeri
+  // verilmezse OG kartının ölçüsünü yazmak yanlış olurdu.
+  const en = image && imageWidth ? imageWidth : 1200;
+  const boy = image && imageHeight ? imageHeight : 630;
   return {
     meta: [
       { title },
@@ -60,8 +75,8 @@ export function pageHead({ title, description, path, image, imageAlt }: PageHead
       { property: "og:site_name", content: siteConfig.name },
       { property: "og:locale", content: "tr_TR" },
       { property: "og:image", content: img },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:width", content: String(en) },
+      { property: "og:image:height", content: String(boy) },
       { property: "og:image:alt", content: imageAlt ?? siteConfig.name },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: img },
@@ -244,6 +259,8 @@ export function blogPostHead(post: BlogPost) {
     path,
     image,
     imageAlt: post.image?.alt ?? post.title,
+    imageWidth: post.image?.width,
+    imageHeight: post.image?.height,
   });
 
   const scripts = [

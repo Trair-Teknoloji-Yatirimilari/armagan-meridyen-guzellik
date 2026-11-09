@@ -5,6 +5,9 @@ date: "2026-11-09"
 updated: "2026-11-09"
 category: "Kirpik ve Kaş"
 relatedServices: ["ipek-kirpik", "kirpik-lifting", "kas-laminasyonu"]
+image: "/images/blog/ipek-kirpik-ne-kadar-dayanir-1600.webp"
+imageAlt: "İpek kirpik uygulaması"
+imageCredit: "Unsplash / Hayley Kim Studios"
 draft: false
 faq:
   - q: "İpek kirpik ne sıklıkla tamamlanmalı?"
