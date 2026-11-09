@@ -89,6 +89,35 @@ function asFaq(value: unknown): BlogFaq[] {
     .filter((f) => f.q && f.a);
 }
 
+/**
+ * HTML varlıklarını çözer.
+ *
+ * marked'in `parseInline` çıktısı kaçırılmış HTML'dir ("Sarıyer&#x27;de").
+ * Bu metin başlığın kendisinde HTML olarak basıldığı için doğru görünür, ama
+ * içindekiler listesinde React metin düğümü olarak render ediliyor ve ikinci
+ * kez kaçırılıp ekranda "Sarıyer&#39;de" olarak çıkıyordu.
+ */
+function decodeEntities(s: string): string {
+  const named: Record<string, string> = {
+    amp: "&",
+    lt: "<",
+    gt: ">",
+    quot: '"',
+    apos: "'",
+    nbsp: " ",
+  };
+  return s.replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (tam, kod: string) => {
+    if (kod[0] === "#") {
+      const n =
+        kod[1] === "x" || kod[1] === "X"
+          ? Number.parseInt(kod.slice(2), 16)
+          : Number.parseInt(kod.slice(1), 10);
+      return Number.isFinite(n) ? String.fromCodePoint(n) : tam;
+    }
+    return named[kod.toLowerCase()] ?? tam;
+  });
+}
+
 /** Markdown → HTML; H2'lere id ekler ve içindekiler listesini toplar. */
 function renderMarkdown(body: string): { html: string; toc: { id: string; text: string }[] } {
   const toc: { id: string; text: string }[] = [];
@@ -96,7 +125,9 @@ function renderMarkdown(body: string): { html: string; toc: { id: string; text: 
 
   renderer.heading = function heading({ tokens, depth }) {
     const text = this.parser.parseInline(tokens);
-    const plain = text.replace(/<[^>]+>/g, "");
+    // Etiketler atılır, varlıklar çözülür: hem id hem de içindekiler metni
+    // gerçek karakterlerden üretilsin.
+    const plain = decodeEntities(text.replace(/<[^>]+>/g, ""));
     if (depth === 2) {
       const id = slugifyHeading(plain);
       toc.push({ id, text: plain });

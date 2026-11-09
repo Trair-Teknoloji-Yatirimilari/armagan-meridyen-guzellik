@@ -33,6 +33,17 @@ export type Service = {
   navLabel: string;
   /** H1'de kullanılan hizmet adı — başlık "<Hizmet> Sarıyer" olarak kurulur */
   name: string;
+  /**
+   * <title>'ın marka öncesi kısmı. Verilmezse "<name> <ilçe>" kullanılır.
+   * 60 karakter sınırı yine merkezî olarak uygulanır: sığmazsa marka adı
+   * kısa biçime düşer.
+   */
+  titleBase?: string;
+  /**
+   * Service şemasındaki `serviceType`. Verilmezse navLabel kullanılır —
+   * menüdeki etiket ile şemadaki tür farklı olacaksa burası doldurulur.
+   */
+  serviceType?: string;
   /** false ise sayfa üretilmez, menüde ve sitemap'te görünmez */
   enabled: boolean;
   /** İmza uygulaması: ana sayfada ayrı bölümde öne çıkar */
@@ -891,9 +902,10 @@ export const services: Service[] = [
     slug: "kuafor",
     navLabel: "Kuaför",
     name: "Kuaför",
+    titleBase: "Kuaför Sarıyer · Zekeriyaköy",
     enabled: true,
     description:
-      "Zekeriyaköy, Sarıyer'de kuaför: saç kesimi, fön, boya, röfle ve balyaj, keratin bakımı, özel gün saçı. Randevu için WhatsApp.",
+      "Sarıyer ve Zekeriyaköy'de kuaför: saç kesimi, fön, boya, röfle ve balyaj, keratin bakımı, özel gün saçı. Her gün 10:00–19:00, WhatsApp'tan randevu.",
     summary: "Kesimden föne, boyadan özel gün saçına kadar saçla ilgili her işin tek adresi.",
     image: {
       base: "/images/hizmetler/kuafor-sariyer",
@@ -907,16 +919,16 @@ export const services: Service[] = [
         t: "p",
         text: "Kuaför bölümünde saçla ilgili işlerin tamamını bir arada yapıyoruz: kesim, fön ve şekillendirme, boya, röfle ve balyaj, keratin ve bakım uygulamaları, özel günler için topuz ve maşa. Hepsinde aynı sırayı izliyoruz — önce konuşuyor, sonra başlıyoruz.",
       },
-      { t: "h2", text: "Hizmetler" },
+      { t: "h2", text: "Kuaför hizmetlerimiz" },
       {
         t: "ul",
         items: [
-          "<strong>Saç kesimi</strong> — saç tipinize ve günlük bakım alışkanlığınıza göre",
-          "<strong>Fön ve şekillendirme</strong> — günlük kullanım ya da özel bir program için",
-          "<strong>Saç boyama</strong> — dip boyası ya da baştan renk değişimi",
-          "<strong>Röfle / balyaj</strong> — saç boyunca ton geçişi",
-          "<strong>Keratin ve saç bakımı</strong> — saçın o günkü durumuna göre seçilen bakım",
-          "<strong>Özel gün saçı</strong> — topuz, maşa ve toplama modeller",
+          "<strong>Saç kesimi:</strong> Yüz şeklinize ve saç yapınıza uygun kesim; kısa bir ön görüşmeyle istediğiniz görünümü netleştiriyoruz.",
+          "<strong>Fön ve şekillendirme:</strong> Günlük kullanım ya da özel gün için düz, dalgalı veya hacimli fön.",
+          "<strong>Saç boyama:</strong> Tek renk boya ve dip boya; boya öncesi saç ve saçlı deri durumunuzu değerlendiriyoruz.",
+          "<strong>Röfle ve balyaj:</strong> Daha doğal geçişli açık tonlar için balyaj, belirgin açıklık için röfle; saç sağlığınıza uygun olanı birlikte seçiyoruz.",
+          "<strong>Keratin ve saç bakımı:</strong> Kabaran, yıpranmış saçlar için bakım uygulamaları.",
+          "<strong>Özel gün saçı:</strong> Topuz, maşa ve özel gün hazırlıkları; düğün ve nişan için deneme randevusu planlanabilir.",
         ],
       },
       { t: "h2", text: "Nasıl ilerler?" },
@@ -942,7 +954,7 @@ export const services: Service[] = [
       { t: "h2", text: "Saç bakımıyla birlikte" },
       {
         t: "p",
-        text: 'Saçlı deriyi dinlendirmek isterseniz kuaför randevusunu <a href="/hizmetler/sac-spa">saç spa</a> ile birleştirebiliriz. Ense ve omuz hattında gerginlik varsa <a href="/hizmetler/kafa-masaji">kafa masajı</a> aynı güne eklenebilir; ikisini birden düşünüyorsanız randevuyu önceden planlamamız gerekiyor.',
+        text: 'Kuaför hizmetini <a href="/hizmetler/sac-spa">saç spa</a> ve <a href="/hizmetler/kafa-masaji">kafa masajı</a> ile birleştirerek aynı randevuda bakımlı bir saç ve rahatlatıcı bir mola planlayabilirsiniz.',
       },
     ],
     note: "Kimyasal işlemler kozmetik uygulamalardır. Saç ya da saçlı deriyle ilgili tıbbi bir şikâyetiniz varsa önce bir hekime danışmanızı öneriyoruz.",
@@ -958,6 +970,10 @@ export const services: Service[] = [
       {
         q: "Özel gün saçı için ne kadar önceden randevu almalıyım?",
         a: "Topuz ve toplama modeller için randevuyu mümkün olduğunca erken almanızı öneriyoruz; düğün ve nişan dönemlerinde saatler hızlı doluyor. Provalı çalışmak isterseniz bunu da baştan söyleyin, iki ayrı randevu planlıyoruz. WhatsApp'tan yazdığınızda o haftanın boş saatlerini paylaşıyoruz.",
+      },
+      {
+        q: "Röfle mi balyaj mı?",
+        a: "Balyaj daha yumuşak ve doğal geçişler verir; röfle daha belirgin ve düzenli açıklık sağlar. Saç renginize ve bakım alışkanlığınıza göre birlikte karar veriyoruz.",
       },
     ],
   },
@@ -1024,15 +1040,18 @@ export const services: Service[] = [
   },
   {
     slug: "epilasyon",
-    navLabel: "Epilasyon",
-    name: "Epilasyon",
+    navLabel: "Lazer Epilasyon",
+    name: "Lazer Epilasyon",
+    /** Şemadaki tür, menü etiketinden farklı yazılıyor */
+    serviceType: "Lazer epilasyon",
+    titleBase: "Lazer Epilasyon Sarıyer · Zekeriyaköy",
     enabled: true,
     description:
-      "Sarıyer'de epilasyon randevusu. Bölge seçimi, hijyen ve işlem sonrası bakım için WhatsApp'tan bilgi alabilirsiniz.",
-    summary: "Bölge seçiminden işlem sonrası bakıma kadar baştan konuşulan bir randevu.",
+      "Sarıyer ve Zekeriyaköy'de lazer epilasyon: kıl ve cilt yapınıza göre seans planı, ön görüşme ve bakım önerileri. Her gün 10:00–19:00. WhatsApp'tan randevu.",
+    summary: "Kıl ve cilt yapınıza göre çıkarılan seans planıyla ilerleyen uygulama.",
     image: {
       base: "/images/hizmetler/epilasyon-sariyer",
-      alt: "Epilasyon uygulaması – örnek görsel",
+      alt: "Sarıyer'de lazer epilasyon uygulaması",
       widths: [800, 1600],
       width: 1600,
       height: 900,
@@ -1040,42 +1059,55 @@ export const services: Service[] = [
     blocks: [
       {
         t: "p",
-        text: "Epilasyonda randevuyu baştan netleştirmeyi tercih ediyoruz: hangi bölgeler, nasıl bir sıra ve işlem sonrası nelere dikkat edileceği. Cildinizde hassasiyet varsa bunu baştan konuşuyor, uygulamayı ona göre planlıyoruz.",
+        text: "Lazer epilasyon, istenmeyen kıllarda uzun süreli ve belirgin azalma sağlamayı amaçlayan bir uygulamadır. Salonumuzda her lazer epilasyon sürecine kısa bir ön görüşmeyle başlıyor; kıl renginize, cilt tonunuza ve uygulanacak bölgeye göre size özel bir seans planı çıkarıyoruz.",
       },
-      { t: "h2", text: "Randevu nasıl ilerliyor?" },
+      { t: "h2", text: "Nasıl ilerler?" },
       {
         t: "ul",
         items: [
-          "<strong>Bölge seçimi.</strong> Hangi bölgelerin yapılacağını ve sırayı birlikte belirliyoruz.",
-          "<strong>Hazırlık.</strong> Hijyene özen gösterilen, her randevu için hazırlanmış bir alanda çalışıyoruz.",
-          "<strong>Uygulama.</strong> Belirlenen sıra izleniyor; rahatsızlık hissederseniz ara veriliyor.",
-          "<strong>Sonrası.</strong> Cilt sakinleştiriliyor ve işlem sonrası bakım önerileri anlatılıyor.",
+          "<strong>Ön görüşme.</strong> Cilt ve kıl yapınızı değerlendirir, kullandığınız ilaçları ve hassasiyetlerinizi konuşuruz.",
+          "<strong>Hazırlık.</strong> Bölge temizlenir; seanstan bir gün önce tıraş edilmiş olması yeterlidir.",
+          "<strong>Uygulama.</strong> Lazer, bölgeye ve cilt tipinize uygun ayarlarla uygulanır.",
+          "<strong>Sonrası.</strong> Bölge rahatlatılır; bakım önerilerini size iletiriz.",
         ],
       },
-      { t: "h2", text: "Kimler için uygun?" },
+      { t: "h2", text: "Seans sayısı ve aralık" },
+      {
+        t: "p",
+        text: 'Çoğu kişi için ortalama 6–8 seans planlanır. Lazer yalnızca aktif büyüme evresindeki kılları etkilediği için seanslar arasında bekleme yapılır: yüzde genellikle 4–6 hafta, vücut bölgelerinde 6–8 hafta. Ayrıntılar için <a href="/blog/lazer-epilasyon-kac-seans-surer">\u201cLazer Epilasyon Kaç Seans Sürer?\u201d</a> yazımıza bakabilirsiniz.',
+      },
+      { t: "h2", text: "Uygulanan bölgeler" },
+      {
+        t: "p",
+        text: "Yüz (üst dudak, çene), koltuk altı, kol, bacak, bikini bölgesi, sırt ve diğer bölgeler. Hangi bölgelerin uygun olduğunu ön görüşmede birlikte belirliyoruz.",
+      },
+      { t: "h2", text: "Bilmeniz gerekenler" },
       {
         t: "ul",
         items: [
-          "Düzenli bir bakım programı oturtmak isteyenler",
-          "Evde yapmaktan memnun kalmayanlar",
-          "Belirli bir bölge için düzenli randevu arayanlar",
-          "İşlem sonrası bakım konusunda yönlendirme isteyenler",
+          "Seans öncesi ve sonrası haftalarda güneşlenme, solaryum ve bronzlaştırıcı ürün kullanmayın.",
+          "Seanslar arasında ağda, cımbız veya epilatör kullanmayın; yalnızca tıraş yapın.",
+          "Hamilelik, emzirme, bölgede aktif enfeksiyon/yara, cildi ışığa duyarlı yapan ilaç kullanımı ve dövmeli bölgelerde uygulama yapılmaz; gerektiğinde önce hekiminize danışın.",
+          "Çok açık renkli, gri veya beyaz kıllarda lazerin etkisi sınırlıdır.",
         ],
       },
     ],
-    note: "Cildinizde açık yara, güneş yanığı ya da yeni yapılmış bir cilt uygulaması varsa randevuyu ertelememiz gerekebilir. Bilinen bir cilt rahatsızlığınız varsa önce hekiminize danışın.",
     faqs: [
       {
-        q: "İşlem sonrası nelere dikkat etmeliyim?",
-        a: "İlk saatlerde sıcak su, sauna ve güneş temasından kaçınmanızı öneriyoruz; cilt bu aşamada hassas oluyor. Sıkı kıyafet yerine rahat olanı tercih etmek de iyi geliyor. Randevu sonunda bakım önerilerini tek tek anlatıyor, istediğinizde WhatsApp'tan yazılı olarak da gönderiyoruz. Notları yazılı göndermemizi isterseniz söylemeniz yeterli.",
+        q: "Lazer epilasyon acıtır mı?",
+        a: "Çoğu kişi uygulamayı lastik çarpmasına benzer kısa bir sıcaklık hissi olarak tarif eder. Hassasiyet bölgeye ve kişiye göre değişir; seans boyunca rahatınızı kontrol ediyoruz.",
       },
       {
-        q: "Hijyen konusunda nasıl çalışıyorsunuz?",
-        a: "Hijyene özen gösteriyor, her randevuya hazırlanmış bir alanla başlıyoruz. Uygulama öncesinde ve sonrasında neler yaptığımızı sormaktan çekinmeyin; anlatmaktan memnun oluruz. Salona geldiğinizde çalışma alanını kendiniz de görebilirsiniz. Merak ettiğiniz bir ayrıntı olursa randevu sırasında sorun; açık açık konuşmayı her zaman tercih ediyoruz.",
+        q: "Kaç seans gerekir?",
+        a: "Ortalama 6–8 seans planlanır; bölge, kıl rengi, cilt tonu ve hormonal etkenlere göre değişebilir.",
       },
       {
-        q: "Hangi bölgeleri yaptırabilirim?",
-        a: "Hangi bölgeleri istediğinizi randevu almadan önce WhatsApp'tan yazmanız en pratiği. Böylece size ayıracağımız süreyi doğru planlıyor ve geldiğinizde beklemeden başlıyoruz. Bölge sayısı değiştiğinde süre de değiştiği için bunu baştan konuşmayı tercih ediyoruz. Bölge listesini randevudan sonra değiştirmek isterseniz haber vermeniz yeterli, planı güncelliyoruz.",
+        q: "Seanstan sonra güneşe çıkabilir miyim?",
+        a: "Seans sonrası günlerde doğrudan güneşten ve solaryumdan kaçının; dışarı çıkarken yüksek korumalı güneş kremi kullanın.",
+      },
+      {
+        q: "Lazer epilasyon kalıcı mı?",
+        a: "Amaç kıllarda uzun süreli ve belirgin azalmadır; kalan kıllar genellikle daha ince ve açık renkli çıkar. Her kılın ömür boyu yok olacağı garanti edilemez, zamanla hatırlatma seansı gerekebilir.",
       },
     ],
   },
@@ -1117,7 +1149,7 @@ export function servicePath(slug: string): string {
  * burada garanti edilir.
  */
 export function serviceTitle(service: Service): string {
-  const base = `${service.name} ${siteConfig.address.addressLocality} | `;
+  const base = `${service.titleBase ?? `${service.name} ${siteConfig.address.addressLocality}`} | `;
   const full = base + siteConfig.name;
   return full.length <= 60 ? full : base + siteConfig.shortName;
 }

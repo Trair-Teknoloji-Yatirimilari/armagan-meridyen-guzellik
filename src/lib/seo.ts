@@ -180,7 +180,7 @@ export function serviceHead(service: Service) {
         name: `${service.name} ${siteConfig.address.addressLocality}`,
         description: service.description,
         url,
-        serviceType: service.navLabel,
+        serviceType: service.serviceType ?? service.navLabel,
         areaServed: { "@type": "City", name: siteConfig.address.addressRegion },
         provider: { "@id": BUSINESS_ID },
       }),

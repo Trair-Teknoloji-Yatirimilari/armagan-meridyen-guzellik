@@ -99,6 +99,13 @@ davranılır — menüde ve footer'da görünmez, sitemap'e girmez, `/blog` üre
 > `deploy.sh` doğrulama eşikleri kaynaktan türetilir: enabled hizmet sayısı +
 > `draft:false` yazı sayısı.
 
+## llms.txt
+
+`public/llms.txt` — dil modellerinin siteyi özetlerken kullanması için elle
+tutulan düz metin özet: işletme tanımı, iletişim, hizmet ve yazı listesi.
+**Otomatik üretilmiyor;** yeni hizmet ya da yazı eklendiğinde bu dosyadaki
+liste de elle güncellenmeli. `robots.txt` ile engellenmez.
+
 ## Sırlar
 
 Gerçek değerler yalnızca `.env` dosyasında tutulur; depoya girmez. Örnek için
