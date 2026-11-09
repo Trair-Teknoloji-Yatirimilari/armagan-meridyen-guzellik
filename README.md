@@ -137,6 +137,46 @@ Kaynak sayfa: `/og-card` (robots.txt üzerinden taramaya kapatılmıştır) — 
 zemin üstünde ortalanmış gerçek logo. Favicon ve uygulama ikonları
 `armagan-ikon-512.png`'den üretildi; `brand:assets` onları **ezmez**.
 
+## Görsel adlarındaki hash
+
+`public/images` altındaki her dosyanın yanında **içerik hash'li bir kopyası**
+duruyor (`kuafor-sariyer-800.a1b2c3d4.webp`) ve HTML yalnızca hash'li adı
+gösteriyor.
+
+**Neden:** görseller `Cache-Control: immutable, max-age=31536000` ile
+sunuluyor. Bir görseli aynı adla değiştirdiğinizde Cloudflare ve tarayıcılar
+eski kopyayı bir yıl boyunca vermeye devam ediyor — 9 Kas 2026'da kaş görseli
+değiştirildiğinde tam olarak bu yaşandı (origin yeni dosyayı veriyordu,
+Cloudflare eskisini `HIT` olarak servis ediyordu). Ada içerik hash'i girince
+içerik değişince adres de değişiyor ve önbellek kendiliğinden geçersizleşiyor.
+
+```sh
+npm run gorsel:hash    # build ve dev öncesi otomatik de çalışır (prebuild/predev)
+```
+
+| | |
+| --- | --- |
+| Üretici | `scripts/gorsel-hash.mjs` |
+| Eşleme tablosu | `src/generated/gorsel-manifest.json` (depoya girer) |
+| Çözümleyici | `src/lib/gorsel.ts` → `hashliGorsel("/images/…")` |
+
+Kurallar:
+
+- **Veride yine yalnızca kök ad durur** (`base: "kuafor-sariyer"`). Hash'li adı
+  yalnızca çözümleyici katman bilir.
+- Blog kapaklarında hash **veri katmanında** çözülür (`src/lib/blog.ts`), çünkü
+  bileşende çözülseydi hash'siz yol hidrasyon verisine düz metin olarak düşerdi.
+- **Eski adlar silinmez** — Google Görseller'in indekslediği adresler 404
+  vermesin diye diskte kalır, sadece artık referans verilmez.
+- Betik fikirlidir: içerik değişmediyse hiçbir şey yazmaz, bu yüzden sunucuda
+  build sırasında çalışsa bile git durumunu kirletmez.
+- `npm run build` sonunda **hash'siz bir `/images` referansı kalırsa build
+  başarısız olur.**
+
+Yeni görsel eklerken: dosyayı `public/images/<klasör>/` altına koyun, kodda
+hash'siz mantıksal yolla gösterin (`/images/blog/x-1200.webp`), gerisini
+`prebuild` halleder.
+
 ## Görseller
 
 İki kaynak var: **işletmenin kendi tanıtım videosundan alınan kareler**

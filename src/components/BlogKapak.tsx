@@ -9,11 +9,6 @@ import { KAPAK_ORANI, type BlogPost } from "@/lib/blog";
  * eklendiği anda kendiliğinden gerçek görsele geçer.
  */
 
-/** Dosya yolundaki "-<genişlik>.webp" ekini verilen genişlikle değiştirir. */
-function genislikYolu(src: string, genislik: number): string {
-  return src.replace(/-\d+\.webp$/, `-${genislik}.webp`);
-}
-
 export function BlogKapak({
   post,
   sizes,
@@ -50,7 +45,7 @@ export function BlogKapak({
     );
   }
 
-  const srcSet = image.widths.map((w) => `${genislikYolu(image.src, w)} ${w}w`).join(", ");
+  const srcSet = image.kaynaklar.map((k) => `${k.url} ${k.w}w`).join(", ");
 
   return (
     <img

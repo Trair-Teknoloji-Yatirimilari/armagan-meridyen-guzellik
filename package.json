@@ -12,7 +12,10 @@
     "brand:assets": "node scripts/generate-brand-assets.mjs",
     "check:ga-izi": "node scripts/ga-izi-tara.mjs",
     "check:duplicate": "node scripts/duplicate-tara.mjs",
-    "postbuild": "node scripts/static-postbuild.mjs"
+    "postbuild": "node scripts/static-postbuild.mjs",
+    "gorsel:hash": "node scripts/gorsel-hash.mjs",
+    "prebuild": "node scripts/gorsel-hash.mjs",
+    "predev": "node scripts/gorsel-hash.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

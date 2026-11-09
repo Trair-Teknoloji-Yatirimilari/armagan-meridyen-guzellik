@@ -6,6 +6,7 @@ import { ServiceImage } from "@/components/ServiceImage";
 import { TanitimVideosu } from "@/components/TanitimVideosu";
 import { siteConfig } from "@/config/site.config";
 import { videoJsonLd } from "@/components/TanitimVideosu";
+import { hashliGorsel } from "@/lib/gorsel";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/hakkimizda")({
@@ -111,8 +112,11 @@ function AboutPage() {
             <figure className="m-0">
               <div className="aspect-4/5 overflow-hidden rounded-sm border border-border/60">
                 <img
-                  src="/images/kurucu/armagan-baysal-480.webp"
-                  srcSet="/images/kurucu/armagan-baysal-480.webp 480w, /images/kurucu/armagan-baysal-800.webp 800w"
+                  src={hashliGorsel("/images/kurucu/armagan-baysal-480.webp")}
+                  srcSet={[
+                    `${hashliGorsel("/images/kurucu/armagan-baysal-480.webp")} 480w`,
+                    `${hashliGorsel("/images/kurucu/armagan-baysal-800.webp")} 800w`,
+                  ].join(", ")}
                   sizes="(min-width: 640px) 200px, 100vw"
                   alt={`${founder.name} — ${founder.jobTitle}`}
                   width={800}

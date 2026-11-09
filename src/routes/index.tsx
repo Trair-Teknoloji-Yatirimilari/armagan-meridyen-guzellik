@@ -21,6 +21,7 @@ import {
   siteConfig,
 } from "@/config/site.config";
 import { videoJsonLd } from "@/components/TanitimVideosu";
+import { hashliGorsel } from "@/lib/gorsel";
 import { pageHead } from "@/lib/seo";
 
 const HOME_FAQ = [
@@ -75,9 +76,11 @@ export const Route = createFileRoute("/")({
       {
         rel: "preload",
         as: "image",
-        href: "/images/salon/dis-cephe-1080.webp",
-        imageSrcSet:
-          "/images/salon/dis-cephe-720.webp 720w, /images/salon/dis-cephe-1080.webp 1080w",
+        href: hashliGorsel("/images/salon/dis-cephe-1080.webp"),
+        imageSrcSet: [
+          `${hashliGorsel("/images/salon/dis-cephe-720.webp")} 720w`,
+          `${hashliGorsel("/images/salon/dis-cephe-1080.webp")} 1080w`,
+        ].join(", "),
         imageSizes: "(min-width: 1024px) 40vw, 100vw",
         fetchPriority: "high",
       },

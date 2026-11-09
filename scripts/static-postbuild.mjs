@@ -99,6 +99,33 @@ if (eksikGorseller.size) {
 }
 console.log("[static-postbuild] gösterilen tüm yerel görseller mevcut");
 
+// 6) /images altındaki her referans içerik hash'i taşımalı.
+//
+// Görseller `immutable` ve bir yıllık ömürle sunuluyor; aynı adla
+// değiştirilen bir dosyayı Cloudflare ve tarayıcılar eski hâliyle vermeye
+// devam ediyor (9 Kas 2026'da kaş görselinde yaşandı). Hash'li ad bunu
+// kökten çözüyor — burada hash'siz bir referans kaçmadığı doğrulanıyor.
+const HASHLI_AD = /\.[0-9a-f]{8}\.(webp|jpg|jpeg|png|svg)$/;
+const hashsizlar = new Set();
+for (const f of files.filter((f) => f.endsWith(".html"))) {
+  const html = readFileSync(f, "utf8");
+  for (const m of html.matchAll(GORSEL_YOLU)) {
+    const ham = m[1] ?? m[2];
+    for (const parca of ham.split(",")) {
+      const yol = parca.trim().split(/\s+/)[0];
+      if (!/^\/images\//.test(yol)) continue;
+      if (!HASHLI_AD.test(yol)) hashsizlar.add(`${yol}  (${relative(OUT, f)})`);
+    }
+  }
+}
+if (hashsizlar.size) {
+  fail(
+    "hash'siz /images referansı var — önbellek eski kopyayı verir:\n  " +
+      [...hashsizlar].join("\n  "),
+  );
+}
+console.log("[static-postbuild] /images referanslarının tamamı hash'li");
+
 const totalBytes = files.reduce((sum, f) => sum + statSync(f).size, 0);
 console.log(
   `[static-postbuild] ${files.length} dosya, ${(totalBytes / 1024 / 1024).toFixed(2)} MB — ${OUT}`,

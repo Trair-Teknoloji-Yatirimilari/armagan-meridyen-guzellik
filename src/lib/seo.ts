@@ -6,6 +6,7 @@
  */
 
 import { blogPath, postLastmod, type BlogPost } from "@/lib/blog";
+import { hashliGorsel } from "@/lib/gorsel";
 import {
   SITE_URL,
   addressLine,
@@ -128,7 +129,7 @@ export function beautySalonJsonLd() {
       "@type": "Person",
       name: siteConfig.founder.name,
       jobTitle: siteConfig.founder.jobTitle,
-      image: siteUrl(siteConfig.founder.image),
+      image: siteUrl(hashliGorsel(siteConfig.founder.image)),
     },
     address: {
       "@type": "PostalAddress",

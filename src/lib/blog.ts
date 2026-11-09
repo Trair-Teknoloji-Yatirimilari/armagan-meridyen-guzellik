@@ -11,6 +11,7 @@
  */
 
 import { load as parseYaml } from "js-yaml";
+import { hashliGorsel } from "@/lib/gorsel";
 import { marked } from "marked";
 
 export type BlogFaq = { q: string; a: string };
@@ -33,16 +34,17 @@ export type BlogPost = {
    * frontmatter'da ayrı bir alan tutulmuyor (bkz. kapakGorseli).
    */
   image?: {
-    /** En büyük sürümün yolu — srcset'in `src` yedeği */
+    /** En büyük sürümün HASH'Lİ yolu — srcset'in `src` yedeği */
     src: string;
+    /** srcset kaynakları: genişlik -> hash'li yol */
+    kaynaklar: { w: number; url: string }[];
     alt: string;
     /** "Armağan Meridyen Güzellik" ya da "Unsplash / <fotoğrafçı>" */
     credit?: string;
-    widths: number[];
     /** En büyük sürümün gerçek ölçüsü — CLS 0 için */
     width: number;
     height: number;
-    /** Paylaşım görseli: 1200x630 JPEG (og:image / twitter:image) */
+    /** Paylaşım görseli: 1200x630 JPEG, hash'li (og:image / twitter:image) */
     og: string;
   };
   draft: boolean;
@@ -204,16 +206,23 @@ function kapakGorseli(
   // yakın olanlar hem gereksiz hem de üretilmiyor (srcset'te var olmayan
   // dosyayı göstermek 404 demek olurdu).
   const widths = [...BASAMAKLAR.filter((w) => w < enBuyuk / 1.12), enBuyuk];
+  // Hash ÇÖZÜMÜ BURADA yapılıyor, bileşende değil: aksi hâlde hash'siz yol
+  // hidrasyon verisine düz metin olarak düşüyor ve hem taranabilir hem de
+  // önbellekte eskiyebilir bir adres olarak ortada kalıyor.
+  const kaynaklar = widths.map((w) => ({
+    w,
+    url: hashliGorsel(src.replace(/-\d+\.webp$/, `-${w}.webp`)),
+  }));
   return {
-    src,
+    src: hashliGorsel(src),
+    kaynaklar,
     alt,
     credit: credit || undefined,
-    widths,
     width: enBuyuk,
     height: Math.round(enBuyuk / KAPAK_ORANI),
     // Paylaşım görseli ayrı bir dosya: WhatsApp ve birçok önizleme WebP'yi
     // açmıyor, bu yüzden 1200x630 JPEG üretiliyor.
-    og: src.replace(/-\d+\.webp$/, "-og.jpg"),
+    og: hashliGorsel(src.replace(/-\d+\.webp$/, "-og.jpg")),
   };
 }
 

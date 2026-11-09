@@ -1,4 +1,5 @@
 import { GORSEL_KOKU, VARSAYILAN_GORSEL_KLASORU, type ServiceImageRef } from "@/config/site.config";
+import { hashliGorsel } from "@/lib/gorsel";
 
 /**
  * Duyarlı <img>.
@@ -29,7 +30,7 @@ export function ServiceImage({
 }) {
   const widths = [...image.widths].sort((a, b) => a - b);
   const klasor = image.klasor ?? VARSAYILAN_GORSEL_KLASORU;
-  const yol = (w: number) => `${GORSEL_KOKU}/${klasor}/${image.base}-${w}.webp`;
+  const yol = (w: number) => hashliGorsel(`${GORSEL_KOKU}/${klasor}/${image.base}-${w}.webp`);
   const srcSet = widths.map((w) => `${yol(w)} ${w}w`).join(", ");
 
   return (
