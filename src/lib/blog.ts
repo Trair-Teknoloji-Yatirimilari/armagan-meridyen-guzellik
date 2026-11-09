@@ -42,6 +42,8 @@ export type BlogPost = {
     /** En büyük sürümün gerçek ölçüsü — CLS 0 için */
     width: number;
     height: number;
+    /** Paylaşım görseli: 1200x630 JPEG (og:image / twitter:image) */
+    og: string;
   };
   draft: boolean;
   /** Markdown'dan üretilmiş gövde HTML'i */
@@ -176,14 +178,18 @@ const files = import.meta.glob("/content/blog/*.md", {
 /** Kapak görsellerinin sabit en-boy oranı (16:10). */
 export const KAPAK_ORANI = 1.6;
 
+/** Üretilen WebP basamakları. Kaynaktan BÜYÜTME yapılmaz. */
+const BASAMAKLAR = [800, 1200, 1600];
+
 /**
  * Frontmatter'daki tek `image` yolundan srcset verisini türetir.
  *
- * Dosya adı "-<genişlik>.webp" ile bitiyor; bu en büyük sürümdür. 800
- * basamağı yalnızca en büyük sürüm 900 pikselden genişse eklenir — salonun
- * kendi kareleri 1080 piksel kaynaktan geldiği ve BÜYÜTÜLMEDİĞİ için bazı
- * kapaklar 843 piksel gibi değerlerde kalıyor; orada ikinci bir dosya
- * üretmek anlamsız olurdu. Üretim betiği de aynı kuralı uyguluyor.
+ * Dosya adı "-<genişlik>.webp" ile bitiyor; bu en büyük sürümdür. Basamaklar
+ * ondan küçük olanlarla sınırlanır — salonun kendi kareleri 1080 piksel
+ * kaynaktan geldiği ve BÜYÜTÜLMEDİĞİ için bazı kapaklar 843/971 pikselde
+ * kalıyor. En büyük sürüm, en yakın basamaktan belirgin biçimde (>%12)
+ * genişse listeye ayrıca eklenir; değilse ikinci bir dosya üretmek
+ * anlamsız olurdu. Üretim betiği de aynı kuralı uyguluyor.
  */
 function kapakGorseli(
   src: string,
@@ -193,7 +199,11 @@ function kapakGorseli(
   const m = /-(\d+)\.webp$/.exec(src);
   if (!m) return undefined;
   const enBuyuk = Number(m[1]);
-  const widths = enBuyuk >= 900 ? [800, enBuyuk] : [enBuyuk];
+  // En büyük sürüm HER ZAMAN listede: dosya adındaki genişlik diskteki tek
+  // kesin dosyadır. Ara basamaklar ona %12'den fazla uzaksa eklenir; daha
+  // yakın olanlar hem gereksiz hem de üretilmiyor (srcset'te var olmayan
+  // dosyayı göstermek 404 demek olurdu).
+  const widths = [...BASAMAKLAR.filter((w) => w < enBuyuk / 1.12), enBuyuk];
   return {
     src,
     alt,
@@ -201,6 +211,9 @@ function kapakGorseli(
     widths,
     width: enBuyuk,
     height: Math.round(enBuyuk / KAPAK_ORANI),
+    // Paylaşım görseli ayrı bir dosya: WhatsApp ve birçok önizleme WebP'yi
+    // açmıyor, bu yüzden 1200x630 JPEG üretiliyor.
+    og: src.replace(/-\d+\.webp$/, "-og.jpg"),
   };
 }
 

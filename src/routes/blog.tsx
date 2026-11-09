@@ -112,15 +112,14 @@ function BlogListPage() {
           </nav>
 
           <ul className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-            {gorunen.map((post, i) => {
-              // En yeni yazı masaüstünde iki sütun genişliğinde öne çıkar.
-              const oneCikan = i === 0 && gorunen.length >= 3;
-              return (
-                <li key={post.slug} className={oneCikan ? "lg:col-span-2" : undefined}>
-                  <YaziKarti post={post} oneCikan={oneCikan} oncelikli={i < 3} />
-                </li>
-              );
-            })}
+            {gorunen.map((post, i) => (
+              <li key={post.slug}>
+                {/* İlk üç kart ekranın üstünde: tembel yüklenmiyor. Yüksek
+                    öncelik YALNIZCA ilkinde — birden fazlası LCP adayını
+                    geciktiriyor. */}
+                <YaziKarti post={post} erken={i < 3} oncelikli={i === 0} />
+              </li>
+            ))}
           </ul>
 
           {gorunen.length === 0 && (
@@ -134,34 +133,25 @@ function BlogListPage() {
 
 function YaziKarti({
   post,
-  oneCikan,
+  erken,
   oncelikli,
 }: {
   post: BlogPost;
-  oneCikan: boolean;
+  erken: boolean;
   oncelikli: boolean;
 }) {
   return (
     <Link
       to={blogPath(post.slug)}
-      className={`group flex h-full flex-col overflow-hidden rounded-lg border border-border/70 bg-card transition-shadow duration-300 hover:shadow-elegant motion-reduce:transition-none ${
-        // Öne çıkan kart masaüstünde iki sütuna yayıldığı için görseli de iki
-        // kat yüksek olurdu ve yanındaki normal kartın gövdesinde kocaman bir
-        // boşluk bırakırdı. Bu yüzden lg'de yatay düzene geçiyor: görsel solda,
-        // metin sağda — yüksekliği normal kartla aynı kalıyor.
-        oneCikan ? "lg:flex-row" : ""
-      }`}
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border/70 bg-card transition-shadow duration-300 hover:shadow-elegant motion-reduce:transition-none"
     >
-      <div className={`relative overflow-hidden ${oneCikan ? "lg:w-1/2 lg:shrink-0" : ""}`}>
-        <div className={`aspect-[16/10] w-full ${oneCikan ? "lg:h-full lg:aspect-auto" : ""}`}>
+      <div className="relative overflow-hidden">
+        <div className="aspect-[16/10] w-full">
           <BlogKapak
             post={post}
+            erken={erken}
             oncelikli={oncelikli}
-            sizes={
-              oneCikan
-                ? "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                : "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-            }
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
             className="transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transform-none motion-reduce:transition-none"
           />
         </div>
@@ -173,11 +163,7 @@ function YaziKarti({
             {post.category}
           </span>
         )}
-        <h2
-          className={`mt-3 font-display leading-snug ${oneCikan ? "text-2xl md:text-3xl" : "text-xl"}`}
-        >
-          {post.title}
-        </h2>
+        <h2 className="mt-3 font-display text-xl leading-snug">{post.title}</h2>
         <p className="mt-3 line-clamp-3 leading-relaxed text-foreground/70">{post.description}</p>
 
         <div className="mt-auto pt-5">

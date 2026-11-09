@@ -38,7 +38,8 @@ function AboutPage() {
           <div className="mt-10 aspect-16/9 overflow-hidden rounded-sm shadow-elegant">
             <ServiceImage
               image={{
-                base: "/images/salon/salon-ici",
+                base: "salon-ici",
+                klasor: "salon",
                 alt: "Armağan Meridyen Güzellik salonunun içi",
                 widths: [720, 1080],
                 width: 1080,

@@ -136,7 +136,8 @@ function HomePage() {
           <div className="hero-reveal aspect-4/3 min-w-0 overflow-hidden rounded-sm shadow-elegant lg:aspect-4/5">
             <ServiceImage
               image={{
-                base: "/images/salon/dis-cephe",
+                base: "dis-cephe",
+                klasor: "salon",
                 alt: "Armağan Meridyen Güzellik salonunun dış cephesi ve vitrini",
                 widths: [720, 1080],
                 width: 1080,
@@ -201,7 +202,8 @@ function HomePage() {
           <div className="aspect-16/9 overflow-hidden rounded-sm">
             <ServiceImage
               image={{
-                base: "/images/salon/salon-ici",
+                base: "salon-ici",
+                klasor: "salon",
                 alt: "Armağan Meridyen Güzellik salonunun içi",
                 widths: [720, 1080],
                 width: 1080,

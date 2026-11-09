@@ -17,13 +17,20 @@ function genislikYolu(src: string, genislik: number): string {
 export function BlogKapak({
   post,
   sizes,
+  erken = false,
   oncelikli = false,
   className = "",
 }: {
   post: BlogPost;
   /** Tarayıcıya gösterim genişliğini bildirir (srcset seçimi için) */
   sizes: string;
-  /** Liste sayfasında ilk kartlar ve yazı hero'su eager yüklenir */
+  /** Ekranın üstündeki görseller: tembel yüklenmez */
+  erken?: boolean;
+  /**
+   * fetchpriority="high". SAYFADA YALNIZCA BİR görselde olmalı — birden fazla
+   * "yüksek" öncelik, önceliklendirmenin kendisini anlamsızlaştırıyor ve LCP
+   * adayını geciktiriyor.
+   */
   oncelikli?: boolean;
   className?: string;
 }) {
@@ -54,7 +61,7 @@ export function BlogKapak({
       width={image.width}
       height={image.height}
       className={`h-full w-full object-cover ${className}`}
-      loading={oncelikli ? "eager" : "lazy"}
+      loading={erken || oncelikli ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={oncelikli ? "high" : "auto"}
     />

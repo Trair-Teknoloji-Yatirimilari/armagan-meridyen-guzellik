@@ -10,7 +10,7 @@
  * `npm run build` sonrası npm tarafından otomatik çalıştırılır (postbuild).
  */
 
-import { copyFileSync, existsSync, readdirSync, rmSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const OUT = ".output/public";
@@ -55,6 +55,49 @@ if (forbidden.length) fail(`çıktıda olmaması gereken dosyalar:\n  ${forbidde
 const required = ["index.html", "404.html", "robots.txt", "sitemap.xml"];
 const missing = required.filter((f) => !existsSync(join(OUT, f)));
 if (missing.length) fail(`çıktıda eksik dosyalar: ${missing.join(", ")}`);
+
+// 4) Uzantısız /images yolları.
+//
+// Görsel verisinde tam yol tutulursa hidrasyon payload'ına düz metin olarak
+// düşüyor ("/images/hizmetler/kuafor-sariyer"); Google bunu adres sanıp
+// tarıyor ve Search Console'da 404 birikiyordu. Görsel yolları artık
+// bileşende kuruluyor — bu denetim geri kaymayı build'de yakalar.
+const UZANTISIZ_GORSEL = /"\/images\/[A-Za-z0-9/_-]+"/g;
+const kirliler = [];
+for (const f of files.filter((f) => f.endsWith(".html"))) {
+  const eslesmeler = readFileSync(f, "utf8").match(UZANTISIZ_GORSEL);
+  if (eslesmeler) kirliler.push(`${relative(OUT, f)}: ${[...new Set(eslesmeler)].join(", ")}`);
+}
+if (kirliler.length) {
+  fail(
+    `çıktıda uzantısız /images yolu var (Google bunları tarayıp 404 üretiyor):\n  ${kirliler.join("\n  ")}`,
+  );
+}
+console.log("[static-postbuild] uzantısız /images yolu yok");
+
+// 5) src ve srcset'te gösterilen yerel görseller gerçekten var mı?
+//
+// srcset basamakları kodda türetiliyor; üretilmemiş bir basamağı göstermek
+// tarayıcıya 404 yükletir ve görsel kırık çıkar — ekrana bakmadan fark
+// edilmeyen bir hata. Burada her yol diske karşı doğrulanıyor.
+const GORSEL_YOLU =
+  /(?:src|srcSet|href)="([^"]+)"|(\/images\/[^\s",]+\.(?:webp|jpg|jpeg|png|svg))/g;
+const eksikGorseller = new Set();
+for (const f of files.filter((f) => f.endsWith(".html"))) {
+  const html = readFileSync(f, "utf8");
+  for (const m of html.matchAll(GORSEL_YOLU)) {
+    const ham = m[1] ?? m[2];
+    for (const parca of ham.split(",")) {
+      const yol = parca.trim().split(/\s+/)[0];
+      if (!/^\/(images|logo|video)\//.test(yol)) continue;
+      if (!existsSync(join(OUT, yol))) eksikGorseller.add(`${yol}  (${relative(OUT, f)})`);
+    }
+  }
+}
+if (eksikGorseller.size) {
+  fail(`HTML'de gösterilen ama çıktıda olmayan görseller:\n  ${[...eksikGorseller].join("\n  ")}`);
+}
+console.log("[static-postbuild] gösterilen tüm yerel görseller mevcut");
 
 const totalBytes = files.reduce((sum, f) => sum + statSync(f).size, 0);
 console.log(

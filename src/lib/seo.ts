@@ -251,7 +251,9 @@ export function blogListHead() {
 export function blogPostHead(post: BlogPost) {
   const path = blogPath(post.slug);
   const url = siteUrl(path);
-  const image = post.image ? siteUrl(post.image.src) : OG_IMAGE;
+  // Paylaşım görseli WebP değil JPEG: WhatsApp başta olmak üzere birçok
+  // önizleme istemcisi WebP'yi çözemiyor ve kart görselsiz kalıyordu.
+  const image = post.image ? siteUrl(post.image.og) : OG_IMAGE;
 
   const head = pageHead({
     title: post.title.length <= 60 ? post.title : `${post.title.slice(0, 57)}…`,
@@ -259,8 +261,9 @@ export function blogPostHead(post: BlogPost) {
     path,
     image,
     imageAlt: post.image?.alt ?? post.title,
-    imageWidth: post.image?.width,
-    imageHeight: post.image?.height,
+    // OG kartı her zaman 1200x630 üretiliyor (kapağın kendi ölçüsü değil).
+    imageWidth: post.image ? 1200 : undefined,
+    imageHeight: post.image ? 630 : undefined,
   });
 
   const scripts = [

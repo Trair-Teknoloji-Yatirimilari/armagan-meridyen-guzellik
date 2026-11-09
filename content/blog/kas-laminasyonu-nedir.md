@@ -5,6 +5,9 @@ date: "2026-11-01"
 updated: "2026-11-01"
 category: "Kirpik ve Kaş"
 relatedServices: ["kas-laminasyonu", "kirpik-lifting", "ipek-kirpik"]
+image: "/images/blog/kas-laminasyonu-nedir-1200.webp"
+imageAlt: "Taranmış, dolgun kaşın yakın çekimi"
+imageCredit: "Unsplash / takwa abdo"
 draft: false
 faq:
   - q: "Kaş laminasyonu ne kadar kalıcıdır?"

@@ -57,6 +57,12 @@ export function ServicePage({ service }: { service: Service }) {
               <BrandPanel title={`${service.name} ${city}`} />
             )}
           </div>
+          {/* Stok görsellerde kaynak notu — salonun kendi çekimi gibi sunulmuyor. */}
+          {service.image?.credit && (
+            <p className="mt-2 text-right text-xs text-muted-foreground">
+              Görsel: {service.image.credit}
+            </p>
+          )}
 
           <div className="mt-10">
             <CtaRow message={waMessage} />

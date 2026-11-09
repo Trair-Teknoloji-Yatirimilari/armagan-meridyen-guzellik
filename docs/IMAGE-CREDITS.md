@@ -62,34 +62,53 @@ gömülü font ya da raster yok.
 Her yazının kapağı `public/images/blog/<slug>-<genişlik>.webp`. Oran **16:10**,
 merkezden kırpım, kalite 80, metadata temizlendi. **Büyütme yok** — bu yüzden
 salonun kendi karelerinden üretilenler 1600'e çıkmıyor (kaynak 1080 piksel
-genişliğinde). 800 basamağı yalnızca en büyük sürüm 900 pikselden genişse
-üretiliyor; `src/lib/blog.ts` srcset'i aynı kurala göre kuruyor.
+genişliğinde).
 
-| Yazı | Dosya | Kaynak | Kredi |
+Basamaklar 800 / 1200 / 1600. Dosya adındaki genişlik en büyük sürümdür ve
+srcset'te her zaman yer alır; ara basamaklardan ona %12'den yakın olanlar
+atlanır (örn. 843 için yalnızca 843 üretilir). `src/lib/blog.ts` aynı kuralı
+uygular, `scripts/static-postbuild.mjs` ise srcset'te gösterilen her dosyanın
+diskte gerçekten bulunduğunu build sırasında doğrular.
+
+| Yazı | Genişlikler | Kaynak | Kredi |
 | --- | --- | --- | --- |
-| kafa-masaji-nedir | `-971`, `-800` | işletmenin tanıtım videosu (`kafa-masaji-head-spa.jpg`) | Armağan Meridyen Güzellik |
-| protez-tirnak-ne-kadar-dayanir | `-843` | işletmenin tanıtım videosu (`tirnak-uygulamasi.jpg`) | Armağan Meridyen Güzellik |
-| kirpik-lifting-mi-ipek-kirpik-mi | `-1600`, `-800` | Unsplash `lrC3LSnlyW8` | Unsplash / Cyprien Da Silva |
-| lazer-epilasyon-kac-seans-surer | `-1600`, `-800` | Unsplash `szpFxaqS658` | Unsplash / Farhad Ibrahimzade |
-| ipek-kirpik-ne-kadar-dayanir | `-1600`, `-800` | Unsplash `sRSRuxkOuzI` | Unsplash / Hayley Kim Studios |
-| kas-laminasyonu-nedir | — | **kapak yok**, yer tutucu gösteriliyor | — |
+| kafa-masaji-nedir | 800, 971 | işletmenin tanıtım videosu (`kafa-masaji-head-spa.jpg`) | Armağan Meridyen Güzellik |
+| protez-tirnak-ne-kadar-dayanir | 843 | işletmenin tanıtım videosu (`tirnak-uygulamasi.jpg`) | Armağan Meridyen Güzellik |
+| kirpik-lifting-mi-ipek-kirpik-mi | 800, 1200, 1600 | Unsplash `GEct9d7zgos` | Unsplash / Milky Way Lashes |
+| kas-laminasyonu-nedir | 800, 1200 | Unsplash `2IK78QZhkfo` | Unsplash / takwa abdo |
+| lazer-epilasyon-kac-seans-surer | 800, 1200, 1600 | Unsplash `szpFxaqS658` | Unsplash / Farhad Ibrahimzade |
+| ipek-kirpik-ne-kadar-dayanir | 800, 1200, 1600 | Unsplash `sRSRuxkOuzI` | Unsplash / Hayley Kim Studios |
+
+Her yazı için ayrıca **`<slug>-og.jpg` (1200x630, ≤250 KB)** üretiliyor:
+`og:image` ve `twitter:image` bunu gösteriyor. WebP değil JPEG, çünkü WhatsApp
+başta olmak üzere birçok önizleme istemcisi WebP'yi çözemiyor ve kart görselsiz
+kalıyordu. OG kareleri kapakla aynı odak noktasından, ORİJİNAL kaynaktan
+üretiliyor (kapağın küçültülmüş hâlinden değil).
 
 Unsplash kapaklarının alt metni genel tutuldu ("İpek kirpik uygulaması") ve
 kapağın altında "Görsel: Unsplash / &lt;ad&gt;" notu basılıyor; salonun kendi
 çekimi gibi sunulmuyor.
 
+**`kas-laminasyonu` kare değişimi (9 Kas 2026):** önceki stok görsel eldivenli
+ellerin kaşa iğne/pigment kalemi uyguladığını gösteriyordu — bu microblading'dir
+ve hem hizmet sayfasının hem yazının "cilde pigment uygulanmaz, iğne
+kullanılmaz" ifadesiyle çelişiyordu. Yerine `2IK78QZhkfo` (takwa abdo) geldi:
+taranmış, dolgun kaşın yakın çekimi, araç yok. **Aynı kare iki yerde, iki ayrı
+kırpımla** kullanılıyor — hizmet sayfasında 16:9, blog kapağında 16:10 ve daha
+geniş çerçeve. Her iki yerde de altında "Görsel: Unsplash / takwa abdo" notu var.
+
+**`kirpik-lifting-mi-ipek-kirpik-mi` kare değişimi (9 Kas 2026):** önceki kare
+(`lrC3LSnlyW8`) damarları görünen bir göz bebeği makrosuydu, klinik duruyordu.
+Yerine `GEct9d7zgos` (Milky Way Lashes) geldi: kıvrımı belirgin kirpiklerin
+sıcak tonlu yakın çekimi. İpek kirpik kapağından (`sRSRuxkOuzI`, cımbızla
+uygulama) belirgin biçimde farklı.
+
 **`protez-tirnak` kırpım notu:** kare 1080x607 ve tırnak uygulaması sol
 tarafta. Merkezden 16:10 kırpım müşterinin saçını öne çıkarıyordu; bu yüzden
-yatayda %2–80 aralığı alındı. Sonuç 843 piksel, 800'e yakın olduğu için ikinci
-bir dosya üretilmedi.
-
-**`kas-laminasyonu-nedir` neden kapaksız:** Unsplash'te ücretsiz lisanslı,
-aydınlık, kaş odaklı yakın çekim bulunamadı — uygun olanlar Unsplash+
-aboneliğine kilitli. Değerlendirilip elenen adaylar: `MyeBX9azc4E` ve
-`t4KX_UZeHEM` (premium), `otYarkxbZzo` (siyah-beyaz, paletle uyumsuz),
-`U88HKDGynE4` (kaş değil, kirpik uygulaması). Yanlış yönlendiren bir görsel
-koymak yerine yer tutucu tercih edildi. Frontmatter'a `image` eklendiği anda
-sayfa kendiliğinden gerçek görsele geçer.
+yatayda %2–80 aralığı alındı. Sonuç 843 piksel; 800 basamağına çok yakın
+olduğu için ikinci bir WebP üretilmedi. OG kartı (1200x630) bu kaydan 1,42 kat
+büyütülerek üretildi — paylaşım görselinin ölçüsü sabit olduğu için
+kaçınılmazdı; sayfadaki kapakta büyütme YOK.
 
 ---
 
@@ -103,7 +122,7 @@ izin verir ve atıf zorunlu değildir; kayıt olarak tutuluyor.
 | --- | --- | --- | --- | --- | --- |
 | `kirpik-lifting-sariyer` | `kA74I2XMiSQ` | https://unsplash.com/photos/kA74I2XMiSQ | Victor Sirbu | 2026-10-28 | /hizmetler/ipek-kirpik — **takas edildi** |
 | `ipek-kirpik-sariyer` | `-9UpJoyA3Ag` | https://unsplash.com/photos/-9UpJoyA3Ag | Ahmed Rajgoli Shoaib Shakeel | 2026-10-28 | /hizmetler/kirpik-lifting — **takas edildi** |
-| `kas-laminasyonu-sariyer` | `x0r5YvOJFCg` | https://unsplash.com/photos/x0r5YvOJFCg | Sum Sum | 2026-10-28 | /hizmetler/kas-laminasyonu |
+| `kas-laminasyonu-sariyer` | `2IK78QZhkfo` | https://unsplash.com/photos/2IK78QZhkfo | takwa abdo | 2026-11-09 | /hizmetler/kas-laminasyonu — **değiştirildi**, aşağıdaki nota bakın |
 | `sac-spa-sariyer` | `Md_DhaFsnCQ` | https://unsplash.com/photos/Md_DhaFsnCQ | Lindsay Cash | 2026-10-28 | /hizmetler/sac-spa |
 | `kuafor-sariyer` | `MmDO1-ezCE4` | https://unsplash.com/photos/MmDO1-ezCE4 | Jenna Oslin | 2026-10-29 | /hizmetler/kuafor |
 | `epilasyon-sariyer` | `cZQetI50v7Q` | https://unsplash.com/photos/cZQetI50v7Q | Sum Sum | 2026-10-28 | /hizmetler/epilasyon |
@@ -126,6 +145,8 @@ laminasyon mu başka bir kaş işlemi mi görselden kesin anlaşılmıyor.
 | `tirnak-uygulamasi-sariyer`, `manikur-sariyer`, `pedikur-sariyer`, `cilt-bakimi-sariyer`, `kafa-masaji-sariyer`, `meridyen-masaji-sariyer`, `solaryum-sariyer`, `ems-sariyer` | Yerlerini işletmenin kendi kareleri aldı |
 | İki hizmetin stok görselleri | 29 Eki 2026'da o hizmetler listeden tamamen çıkarıldı; adları git geçmişinde |
 | `protez-tirnak-sariyer` (`r-Ej0NQmFlQ`) | İstek üzerine silinmişti |
+| `x0r5YvOJFCg` (Sum Sum) — eski kaş görseli | İğne/pigment kalemi gösteriyordu; sayfa metniyle çelişiyordu (9 Kas 2026) |
+| `lrC3LSnlyW8` (Cyprien Da Silva) — eski kirpik lifting kapağı | Damarlı göz makrosu, klinik duruyordu (9 Kas 2026) |
 
 Bir hizmete gerçek fotoğraf geldiğinde `site.config.ts` içindeki `image`
 alanını yeni dosyaya çevirmek yeterli; sayfa kendiliğinden geçer.

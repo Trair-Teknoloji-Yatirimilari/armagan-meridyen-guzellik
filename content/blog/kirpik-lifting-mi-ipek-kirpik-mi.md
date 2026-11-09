@@ -6,8 +6,8 @@ updated: "2026-10-29"
 category: "Kirpik ve Kaş"
 relatedServices: ["kirpik-lifting", "ipek-kirpik", "kas-laminasyonu"]
 image: "/images/blog/kirpik-lifting-mi-ipek-kirpik-mi-1600.webp"
-imageAlt: "Doğal kirpiklerin yakın çekimi"
-imageCredit: "Unsplash / Cyprien Da Silva"
+imageAlt: "Kıvrımı belirgin doğal kirpiklerin yakın çekimi"
+imageCredit: "Unsplash / Milky Way Lashes"
 draft: false
 faq:
   - q: "Kirpik lifting ne kadar kalıcıdır?"

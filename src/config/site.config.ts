@@ -13,9 +13,26 @@ export type ServiceFaq = { q: string; a: string };
 export type ServiceBlock =
   { t: "h2"; text: string } | { t: "p"; text: string } | { t: "ul"; items: string[] };
 
+/** Görsellerin kök dizini. Tam yol ServiceImage içinde kurulur. */
+export const GORSEL_KOKU = "/images";
+/** `klasor` verilmediğinde kullanılan varsayılan. */
+export const VARSAYILAN_GORSEL_KLASORU = "hizmetler";
+
 export type ServiceImageRef = {
-  /** public altındaki yol, boy eki olmadan — "-<genişlik>.webp" eklenir */
+  /**
+   * Dosyanın KÖK ADI — klasör ve uzantı YOK, örn. "kuafor-sariyer".
+   *
+   * NEDEN: tam yol burada dursaydı hidrasyon verisinde düz bir metin olarak
+   * görünüyordu ("/images/hizmetler/kuafor-sariyer") ve Google bunu adres
+   * sanıp tarayarak 404 üretiyordu. Tam yol artık ServiceImage içinde
+   * kuruluyor; scripts/static-postbuild.mjs çıktıda uzantısız /images
+   * metni kalmadığını doğruluyor.
+   */
   base: string;
+  /** `/images` altındaki klasör. Verilmezse "hizmetler". */
+  klasor?: string;
+  /** Stok görsellerde kaynak notu, örn. "Unsplash / takwa abdo" */
+  credit?: string;
   alt: string;
   /** Üretilmiş genişlikler (srcset bundan kurulur). Kaynaktan büyütme yapılmaz. */
   widths: number[];
@@ -292,7 +309,7 @@ export const services: Service[] = [
     summary:
       "Tırnağın kendi yapısına bakıp, günlük hayatınıza uyan bir boy ve forma birlikte karar veriyoruz.",
     image: {
-      base: "/images/hizmetler/tirnak-uygulamasi-gercek",
+      base: "tirnak-uygulamasi-gercek",
       alt: "Armağan Meridyen Güzellik'te tırnak uygulaması",
       widths: [720, 1080],
       width: 1080,
@@ -354,7 +371,7 @@ export const services: Service[] = [
       "Sarıyer'de manikür ve pedikür randevusu. El ve ayak bakımı, tırnak eti düzeni ve nemlendirme için WhatsApp'tan yazabilirsiniz.",
     summary: "El ve ayağın bakımını acele etmeden yapan, klasik ve sade bir randevu.",
     image: {
-      base: "/images/hizmetler/manikur-pedikur-gercek",
+      base: "manikur-pedikur-gercek",
       alt: "Armağan Meridyen Güzellik'te manikür ve pedikür istasyonu",
       widths: [720, 1080],
       width: 1080,
@@ -412,7 +429,7 @@ export const services: Service[] = [
       "Sarıyer'de kirpik lifting uygulaması. Kendi kirpiğinizin duruşunu değiştiren işlem için randevu ve bilgi WhatsApp üzerinden alınabilir.",
     summary: "Yeni kirpik eklemeden, kendi kirpiğinizin duruşunu değiştiren sade bir uygulama.",
     image: {
-      base: "/images/hizmetler/ipek-kirpik-sariyer",
+      base: "ipek-kirpik-sariyer",
       alt: "Kirpik lifting uygulaması – örnek görsel",
       widths: [800, 1600],
       width: 1600,
@@ -473,7 +490,7 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde ipek kirpik uygulaması. Yoğunluk ve boy tercihini konuşmak için WhatsApp'tan ön görüşme yapabilirsiniz.",
     summary: "Kirpiklere tek tek eklenen tellerle, istediğiniz yoğunlukta bir bakış.",
     image: {
-      base: "/images/hizmetler/kirpik-lifting-sariyer",
+      base: "kirpik-lifting-sariyer",
       alt: "İpek kirpik uygulaması – örnek görsel",
       widths: [800, 1600],
       width: 1600,
@@ -534,8 +551,9 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde kaş laminasyonu. Kaş kıllarının yönünü toparlayan uygulama için randevu WhatsApp'tan alınabilir.",
     summary: "Dağınık uzayan kaş kıllarını tek yöne toplayan, dolgun bir görünüm veren uygulama.",
     image: {
-      base: "/images/hizmetler/kas-laminasyonu-sariyer",
-      alt: "Kaş laminasyonu uygulaması – örnek görsel",
+      base: "kas-laminasyonu-sariyer",
+      alt: "Taranmış, dolgun kaşın yakın çekimi",
+      credit: "Unsplash / takwa abdo",
       widths: [800, 1600],
       width: 1600,
       height: 900,
@@ -594,7 +612,7 @@ export const services: Service[] = [
       "Sarıyer'de cilt bakımı randevusu. Cildinizi dinleyerek planlanan temizlik ve bakım adımları için WhatsApp'tan yazabilirsiniz.",
     summary: "Cildinize zaman ayırmak: temizlik, nemlendirme ve size uygun bir ev rutini.",
     image: {
-      base: "/images/hizmetler/cilt-bakimi-gercek",
+      base: "cilt-bakimi-gercek",
       alt: "Armağan Meridyen Güzellik'te cilt bakımı cihazı",
       widths: [720, 1080],
       width: 1080,
@@ -658,7 +676,7 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde kafa masajı. Saçlı deri ve ense bölgesine uygulanan rahatlatıcı seans için WhatsApp'tan randevu alabilirsiniz.",
     summary: "Saçlı deri, ense ve omuz hattına uygulanan, rahatlamaya yönelik bir seans.",
     image: {
-      base: "/images/hizmetler/kafa-masaji-gercek",
+      base: "kafa-masaji-gercek",
       alt: "Armağan Meridyen Güzellik'te kafa masajı (head spa)",
       widths: [720, 1080],
       width: 1080,
@@ -726,7 +744,7 @@ export const services: Service[] = [
     summary:
       "Geleneksel meridyen hatları boyunca ilerleyen, baştan sona rahatlamaya yönelik bir seans.",
     image: {
-      base: "/images/hizmetler/meridyen-masaji-gercek",
+      base: "meridyen-masaji-gercek",
       alt: "Armağan Meridyen Güzellik'te meridyen masajı",
       widths: [720, 1080],
       width: 1080,
@@ -788,7 +806,7 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde solaryum. Seans süresi uzman tarafından belirlenir, koruyucu gözlük zorunludur. Bilgi için WhatsApp.",
     summary: "Seans süresinin uzman tarafından belirlendiği, kurallı bir kullanım.",
     image: {
-      base: "/images/hizmetler/solaryum-gercek",
+      base: "solaryum-gercek",
       alt: "Armağan Meridyen Güzellik'te solaryum kabini",
       widths: [720, 1080],
       width: 1080,
@@ -848,7 +866,7 @@ export const services: Service[] = [
     summary: "Uygunluğun ön görüşmede değerlendirildiği, kurallı bir seans.",
     // Elinizdeki stok görsel EMS cihazını göstermiyor; salondan gerçek fotoğraf
     image: {
-      base: "/images/hizmetler/ems-gercek",
+      base: "ems-gercek",
       alt: "Armağan Meridyen Güzellik'te EMS Five Star cihazı",
       widths: [720, 1080],
       width: 1080,
@@ -908,7 +926,7 @@ export const services: Service[] = [
       "Sarıyer ve Zekeriyaköy'de kuaför: saç kesimi, fön, boya, röfle ve balyaj, keratin bakımı, özel gün saçı. Her gün 10:00–19:00, WhatsApp'tan randevu.",
     summary: "Kesimden föne, boyadan özel gün saçına kadar saçla ilgili her işin tek adresi.",
     image: {
-      base: "/images/hizmetler/kuafor-sariyer",
+      base: "kuafor-sariyer",
       alt: "Kuaförde fırçayla saç şekillendirme – örnek görsel",
       widths: [800, 1600],
       width: 1600,
@@ -986,7 +1004,7 @@ export const services: Service[] = [
       "Sarıyer Kilyos Caddesi'nde saç spa. Saçlı deri temizliği, bakım ve rahatlatıcı masajla ilerleyen seans için WhatsApp.",
     summary: "Saçlı deri temizliği, bakım maskesi ve rahatlatıcı bir masajla ilerleyen seans.",
     image: {
-      base: "/images/hizmetler/sac-spa-sariyer",
+      base: "sac-spa-sariyer",
       alt: "Saç spa uygulaması – örnek görsel",
       widths: [800, 1600],
       width: 1600,
@@ -1050,7 +1068,7 @@ export const services: Service[] = [
       "Sarıyer ve Zekeriyaköy'de lazer epilasyon: kıl ve cilt yapınıza göre seans planı, ön görüşme ve bakım önerileri. Her gün 10:00–19:00. WhatsApp'tan randevu.",
     summary: "Kıl ve cilt yapınıza göre çıkarılan seans planıyla ilerleyen uygulama.",
     image: {
-      base: "/images/hizmetler/epilasyon-sariyer",
+      base: "epilasyon-sariyer",
       alt: "Sarıyer'de lazer epilasyon uygulaması",
       widths: [800, 1600],
       width: 1600,
